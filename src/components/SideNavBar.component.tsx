@@ -1,0 +1,250 @@
+import { Flex, Text } from "@chakra-ui/react";
+import { Link } from "react-router-dom";
+import { cloneElement, useState } from "react";
+import { AiOutlineHome, AiOutlineIdcard, AiOutlineTeam } from "react-icons/ai";
+import { BiSearch } from "react-icons/bi";
+import { RiUserSettingsLine } from "react-icons/ri";
+import { IoMdArrowDropdown, IoMdArrowDropleft } from "react-icons/io";
+import {
+  MdOutlineLogout,
+  MdOutlineMoreHoriz,
+  MdOutlineSettings,
+  MdPersonOutline,
+} from "react-icons/md";
+
+const Group = ({ name, icon, children }: any) => {
+  const [isOpen, setOpen] = useState(false);
+
+  return (
+    <>
+      <Flex
+        onClick={() => setOpen(!isOpen)}
+        w="100%"
+        justifyContent="space-between"
+        alignItems="center"
+        _hover={{ bg: "gray.900", shadow: "lg" }}
+        p="2"
+        pl="4"
+        rounded="md"
+        cursor="pointer"
+        m="auto"
+        mb={"2"}
+        className="group"
+        shadow="md"
+        bg={isOpen ? "gray.900" : ""}
+      >
+        <Flex gap="3.5">
+          {cloneElement(icon, {
+            className: isOpen
+              ? `text-2xl text-gray-600 text-white`
+              : `text-2xl text-gray-600 group-hover:text-white`,
+          })}
+          <Text
+            color={isOpen ? "#fff" : "gray.800"}
+            fontWeight="semibold"
+            className="group-hover:text-white"
+          >
+            {name}
+          </Text>
+        </Flex>
+        {isOpen ? (
+          <IoMdArrowDropleft className="text-white" />
+        ) : (
+          <IoMdArrowDropdown
+            className={isOpen ? "text-white" : "group-hover:text-white"}
+          />
+        )}
+      </Flex>
+      {isOpen && children}
+      {isOpen && <Flex w="100%" h="8px" />}
+    </>
+  );
+};
+
+interface itemInterface {
+  href: string;
+  name: string;
+  icon: JSX.Element;
+  isGroupItem?: boolean;
+}
+
+const Item = ({ href, name, icon, isGroupItem = false }: itemInterface) => {
+  return (
+    <Link to={href}>
+      <Flex
+        w="100%"
+        justify="start"
+        alignItems="center"
+        gap="3.5"
+        _hover={{ bg: "gray.900", shadow: "lg" }}
+        p="2"
+        pl={isGroupItem ? "8" : "4"}
+        rounded="md"
+        cursor="pointer"
+        m="auto"
+        mb="2"
+        className="group"
+      >
+        {cloneElement(icon, {
+          className: `text-2xl text-gray-600 group-hover:text-white`,
+        })}
+        <Text
+          color="gray.800"
+          fontWeight="semibold"
+          className="group-hover:text-white"
+          textOverflow="ellipsis"
+          whiteSpace="nowrap"
+          overflow="hidden"
+        >
+          {name}
+        </Text>
+      </Flex>
+    </Link>
+  );
+};
+
+const SideNavBar = () => {
+  return (
+    <Flex
+      p="6"
+      w="230px"
+      h="100vh"
+      position="absolute"
+      bg="white"
+      zIndex="overlay"
+      boxShadow="lg"
+      overflowY="auto"
+      css={{
+        "&::-webkit-scrollbar": {
+          width: "0px",
+        },
+        "&::-webkit-scrollbar-track": {
+          width: "0px",
+        },
+      }}
+    >
+      <Flex direction="column" justify="start" alignItems="center" w="100%">
+        {/* title */}
+        <Link to="/">
+          <Text
+            align="center"
+            cursor="pointer"
+            fontWeight="bold"
+            color="#6f374e"
+            pb="4"
+            className="border-b border-gray-100 w-full"
+          >
+            SysLamarck
+          </Text>
+        </Link>
+        {/* pages */}
+        <Flex
+          w="100%"
+          direction="column"
+          my="4"
+          pb="4"
+          className="border-b border-gray-100"
+        >
+          <Group name="Cadastro" icon={<AiOutlineIdcard />}>
+            <Item
+              href="/locadorRegister"
+              name="Locador"
+              icon={<MdPersonOutline />}
+              isGroupItem={true}
+            />
+            <Item
+              href="/imovelRegister"
+              name="Imóvel"
+              icon={<AiOutlineHome />}
+              isGroupItem={true}
+            />
+            <Item
+              href="/locatarioRegister"
+              name="Locatário"
+              icon={<AiOutlineTeam />}
+              isGroupItem={true}
+            />
+            <Item
+              href="/userRegister"
+              name="Usuário"
+              icon={<RiUserSettingsLine />}
+              isGroupItem={true}
+            />
+          </Group>
+
+          <Group name="Consultas" icon={<BiSearch />}>
+            <Item
+              href="/locadorSearch"
+              name="Locador"
+              icon={<MdPersonOutline />}
+              isGroupItem={true}
+            />
+            <Item
+              href="/imovelSearch"
+              name="Imóvel"
+              icon={<AiOutlineHome />}
+              isGroupItem={true}
+            />
+            <Item
+              href="/locatarioSearch"
+              name="Locatário"
+              icon={<AiOutlineTeam />}
+              isGroupItem={true}
+            />
+            <Item
+              href="/userSearch"
+              name="Usuário"
+              icon={<RiUserSettingsLine />}
+              isGroupItem={true}
+            />
+          </Group>
+        </Flex>
+        {/* settings */}
+        <Flex
+          w="100%"
+          direction="column"
+          my="4"
+          pb="4"
+          className=" border-b border-gray-100"
+        >
+          <Item
+            href="/settings"
+            icon={<MdOutlineSettings />}
+            name="Configurações"
+            isGroupItem={false}
+          />
+
+          <Item href="/more" icon={<MdOutlineMoreHoriz />} name="Mais" />
+        </Flex>
+        {/* logout */}
+        <Flex my="4" w="100%">
+          <Flex
+            w="100%"
+            onClick={(): any => {}}
+            mb="2"
+            justify="start"
+            alignItems="center"
+            gap="4"
+            p="2"
+            pl="5"
+            rounded="md"
+            cursor="pointer"
+            _hover={{ shadow: "lg", m: "auto" }}
+            className="border border-gray-200  hover:bg-gray-900 group"
+          >
+            <MdOutlineLogout className="text-2xl text-gray-600 group-hover:text-white " />
+            <Text
+              color="gray.800"
+              fontWeight="semibold"
+              className="group-hover:text-white"
+            >
+              Sair
+            </Text>
+          </Flex>
+        </Flex>
+      </Flex>
+    </Flex>
+  );
+};
+
+export default SideNavBar;

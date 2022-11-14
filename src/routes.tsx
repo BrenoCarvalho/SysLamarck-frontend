@@ -1,16 +1,15 @@
-import React from "react";
 import {
   BrowserRouter,
   Routes as RoutesComponent,
   Route,
 } from "react-router-dom";
-import Dashboard from "./pages/dashboard";
+import Home from "./pages/home";
 
 const Routes = () => {
   return (
     <BrowserRouter>
       <RoutesComponent>
-        <Route path="/" element={<Dashboard />} />
+        <Route path="/" element={<Home />} />
       </RoutesComponent>
     </BrowserRouter>
   );
