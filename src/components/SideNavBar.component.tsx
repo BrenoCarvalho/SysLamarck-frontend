@@ -109,7 +109,7 @@ const SideNavBar = () => {
       p="6"
       w="230px"
       h="100vh"
-      position="absolute"
+      position="fixed"
       bg="white"
       zIndex="overlay"
       boxShadow="lg"
