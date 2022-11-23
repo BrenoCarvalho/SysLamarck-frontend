@@ -87,14 +87,13 @@ const ImovelRegister = () => {
             <FormControl alignItems="center" w="20%" ml="6">
               <FormLabel
                 fontSize="sm"
-                htmlFor="dimob-declaration"
                 textOverflow="ellipsis"
                 whiteSpace="nowrap"
                 overflow="hidden"
               >
                 DIMOB declarado
               </FormLabel>
-              <Switch id="dimobDeclared" size="lg" mt="3" />
+              <Switch id="dimobDeclared" size="lg" />
             </FormControl>
           </Flex>
           {/* Row 3 */}
