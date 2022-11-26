@@ -7,15 +7,14 @@ import {
   Switch,
   Text,
 } from "@chakra-ui/react";
+import { useState } from "react";
 
-const Guarantor = ({
-  spouse,
-  setSpouse,
-  immobileBail,
-  setImmobileBail,
-}: any) => {
+const Guarantor = () => {
+  const [spouse, setSpouse] = useState(false);
+  const [immobileBail, setImmobileBail] = useState(false);
+
   return (
-    <>
+    <Flex w="100%" h="100%" direction="column">
       {/* Row 2 */}
       <Flex mt="6" w="100%">
         <FormControl w="100%">
@@ -238,7 +237,7 @@ const Guarantor = ({
           </Flex>
         </>
       ) : null}
-    </>
+    </Flex>
   );
 };
 

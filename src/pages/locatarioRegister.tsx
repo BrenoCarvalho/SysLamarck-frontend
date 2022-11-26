@@ -25,13 +25,7 @@ const LocatarioRegister = () => {
   let [residentsLenght, setResidentsLenght] = useState<number[]>([]);
 
   const [bailType, setBailType] = useState("1");
-  const [spouse, setSpouse] = useState(false);
-  const [immobileBail, setImmobileBail] = useState(false);
-
   const [additionalGuarantor, setAdditionalGuarantor] = useState(false);
-
-  const [additionalSpouse, setAdditionalSpouse] = useState(false);
-  const [additionalImmobileBail, setAdditionalImmobileBail] = useState(false);
 
   return (
     <Page title="Cadastro de Locatário" direction="column">
@@ -465,12 +459,7 @@ const LocatarioRegister = () => {
           </Flex>
           {bailType === "1" ? (
             <>
-              <Guarantor
-                spouse={spouse}
-                setSpouse={setSpouse}
-                immobileBail={immobileBail}
-                setImmobileBail={setImmobileBail}
-              />
+              <Guarantor />
               <Flex mt="6" w="100%">
                 <FormControl alignItems="center" w="100%">
                   <FormLabel fontSize="sm">Fiador adicional</FormLabel>
@@ -483,14 +472,7 @@ const LocatarioRegister = () => {
                   />
                 </FormControl>
               </Flex>
-              {additionalGuarantor ? (
-                <Guarantor
-                  spouse={additionalSpouse}
-                  setSpouse={setAdditionalSpouse}
-                  immobileBail={additionalImmobileBail}
-                  setImmobileBail={setAdditionalImmobileBail}
-                />
-              ) : null}
+              {additionalGuarantor ? <Guarantor /> : null}
             </>
           ) : null}
 
