@@ -147,25 +147,25 @@ const SideNavBar = () => {
         >
           <Group name="Cadastro" icon={<AiOutlineIdcard />}>
             <Item
-              href="/locadorRegister"
+              href="/cadastro/locador"
               name="Locador"
               icon={<MdPersonOutline />}
               isGroupItem={true}
             />
             <Item
-              href="/imovelRegister"
+              href="/cadastro/imovel"
               name="Imóvel"
               icon={<AiOutlineHome />}
               isGroupItem={true}
             />
             <Item
-              href="/locatarioRegister"
+              href="/cadastro/locatario"
               name="Locatário"
               icon={<AiOutlineTeam />}
               isGroupItem={true}
             />
             <Item
-              href="/userRegister"
+              href="/cadastro/usuario"
               name="Usuário"
               icon={<RiUserSettingsLine />}
               isGroupItem={true}
