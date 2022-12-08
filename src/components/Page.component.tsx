@@ -11,7 +11,7 @@ function Page({ children, title, ...props }: any): JSX.Element {
             {title}
           </Text>
           <Divider />
-          <Flex w="100%" h="100%" {...props}>
+          <Flex w="100%" h="100%" {...props} paddingY="6">
             {children}
           </Flex>
         </Flex>
