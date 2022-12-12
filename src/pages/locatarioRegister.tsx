@@ -17,7 +17,8 @@ import Guarantor from "../components/Forms/Guarantor.component";
 import Page from "../components/Page.component";
 
 const LocatarioRegister = () => {
-  let [residentsLenght, setResidentsLenght] = useState<number[]>([]);
+  const [additionalRenter, setAdditionalRenter] = useState(false);
+  const [residentsLenght, setResidentsLenght] = useState<number[]>([]);
 
   const [bailType, setBailType] = useState("1");
   const [additionalGuarantor, setAdditionalGuarantor] = useState(false);
@@ -44,6 +45,16 @@ const LocatarioRegister = () => {
           gap="7"
         >
           <PersonalData />
+          <Flex w="100%">
+            <FormControl alignItems="center" w="100%">
+              <FormLabel fontSize="sm">Locatário adicional</FormLabel>
+              <Switch
+                onChange={() => setAdditionalRenter(!additionalRenter)}
+                value={+additionalRenter}
+              />
+            </FormControl>
+          </Flex>
+          {additionalRenter ? <PersonalData /> : null}
           <Divider />
           <Flex direction="column">
             <Flex w="100%">
