@@ -6,9 +6,14 @@ import {
   Input as ChakraInput,
 } from "@chakra-ui/react";
 
-const Input = ({ title, placeholder = title, ...props }: any) => {
+const Input = ({
+  title,
+  width = "100%",
+  placeholder = title,
+  ...props
+}: any) => {
   return (
-    <FormControl w="100%" {...props}>
+    <FormControl w={width}>
       <FormLabel
         fontSize="sm"
         textOverflow="ellipsis"
@@ -17,7 +22,7 @@ const Input = ({ title, placeholder = title, ...props }: any) => {
       >
         {title}
       </FormLabel>
-      <ChakraInput placeholder={placeholder} />
+      <ChakraInput placeholder={placeholder} {...props} />
     </FormControl>
   );
 };
@@ -26,17 +31,37 @@ const BankData = ({
   fieldList = [1, 2, 3, 4, 5],
   showHeader = true,
   headerTitle = "Dados bancários",
+  componentNames = {},
+  handleChange,
 }: {
   fieldList?: number[];
   showHeader?: boolean;
   headerTitle?: string;
+  componentNames?: any;
+  handleChange?: any;
 }) => {
   const fields = [
-    <Input title="Banco" />, // 1
-    <Input title="Tipo de conta" />, // 2
-    <Input title="Agência" />, // 3
-    <Input title="Nº da conta" />, // 4
-    <Input title="Remessa de pagamento" />, // 5
+    <Input title="Banco" name={componentNames.bank} onChange={handleChange} />, // 1
+    <Input
+      title="Tipo de conta"
+      name={componentNames.accountType}
+      onChange={handleChange}
+    />, // 2
+    <Input
+      title="Agência"
+      name={componentNames.agency}
+      onChange={handleChange}
+    />, // 3
+    <Input
+      title="Nº da conta"
+      name={componentNames.accountNumber}
+      onChange={handleChange}
+    />, // 4
+    <Input
+      title="Remessa de pagamento"
+      name={componentNames.paymentRemittance}
+      onChange={handleChange}
+    />, // 5
   ];
 
   return (

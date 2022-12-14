@@ -14,9 +14,13 @@ import {
 const Locator = ({
   showHeader = true,
   headerTitle = "Dados do locador",
+  componentNames = {},
+  handleChange,
 }: {
   showHeader?: boolean;
   headerTitle?: string;
+  componentNames?: any;
+  handleChange?: any;
 }) => {
   return (
     <FormControl>
@@ -30,7 +34,12 @@ const Locator = ({
       <Flex gap="6">
         <FormControl w="40%">
           <FormLabel fontSize="sm">Código do locador</FormLabel>
-          <NumberInput min={1} max={500}>
+          <NumberInput
+            min={1}
+            max={500}
+            name={componentNames.locatorCode}
+            onChange={handleChange(componentNames.locatorCode)}
+          >
             <NumberInputField />
             <NumberInputStepper>
               <NumberIncrementStepper />
@@ -40,7 +49,11 @@ const Locator = ({
         </FormControl>
         <FormControl w="100%">
           <FormLabel fontSize="sm">Prestação de Serviço</FormLabel>
-          <Select placeholder="Selecionar">
+          <Select
+            placeholder="Selecionar"
+            name={componentNames.provisionService}
+            onChange={handleChange}
+          >
             <option>Leomar</option>
             <option>Glaucia</option>
             <option>Luiza</option>

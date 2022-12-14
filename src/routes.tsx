@@ -4,7 +4,7 @@ import {
   Route,
 } from "react-router-dom";
 import Home from "./pages/home";
-import LocadorRegister from "./pages/locadorRegister";
+import LocatorRegister from "./pages/locatorRegister";
 import ImmobileRegister from "./pages/immobileRegister";
 import LocatarioRegister from "./pages/locatarioRegister";
 
@@ -13,7 +13,7 @@ const Routes = () => {
     <BrowserRouter>
       <RoutesComponent>
         <Route path="/" element={<Home />} />
-        <Route path="/cadastro/locador" element={<LocadorRegister />} />
+        <Route path="/cadastro/locador" element={<LocatorRegister />} />
         <Route path="/cadastro/imovel" element={<ImmobileRegister />} />
         <Route path="/cadastro/locatario" element={<LocatarioRegister />} />
       </RoutesComponent>

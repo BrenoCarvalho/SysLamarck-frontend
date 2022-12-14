@@ -6,9 +6,14 @@ import {
   Input as ChakraInput,
 } from "@chakra-ui/react";
 
-const Input = ({ title, placeholder = title, ...props }: any) => {
+const Input = ({
+  title,
+  width = "100%",
+  placeholder = title,
+  ...props
+}: any) => {
   return (
-    <FormControl w="100%" {...props}>
+    <FormControl w={width}>
       <FormLabel
         fontSize="sm"
         textOverflow="ellipsis"
@@ -17,7 +22,7 @@ const Input = ({ title, placeholder = title, ...props }: any) => {
       >
         {title}
       </FormLabel>
-      <ChakraInput placeholder={placeholder} />
+      <ChakraInput placeholder={placeholder} {...props} />
     </FormControl>
   );
 };
@@ -26,17 +31,39 @@ const ResidentialData = ({
   fieldList = [1, 2, 3, 4, 5],
   showHeader = true,
   headerTitle = "Dados residenciais",
+  componentNames = {},
+  handleChange,
 }: {
   fieldList?: number[];
   showHeader?: boolean;
   headerTitle?: string;
+  componentNames?: any;
+  handleChange?: any;
 }) => {
   const fields = [
-    <Input title="CEP" w="40%" />, // 1
-    <Input title="Cidade" />, // 2
-    <Input title="Bairro" />, // 3
-    <Input title="Logradouro" placeholder="Nº do imóvel" />, // 4
-    <Input title="Descrição do Imóvel" />, // 5
+    <Input
+      title="CEP"
+      width="40%"
+      name={componentNames.cep}
+      onChange={handleChange}
+    />, // 1
+    <Input title="Cidade" name={componentNames.city} onChange={handleChange} />, // 2
+    <Input
+      title="Bairro"
+      name={componentNames.district}
+      onChange={handleChange}
+    />, // 3
+    <Input
+      title="Logradouro"
+      placeholder="Nº do imóvel"
+      name={componentNames.propertyNumber}
+      onChange={handleChange}
+    />, // 4
+    <Input
+      title="Descrição do Imóvel"
+      name={componentNames.immobileDescription}
+      onChange={handleChange}
+    />, // 5
   ];
 
   return (
