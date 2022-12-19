@@ -15,7 +15,7 @@ const Guarantor = () => {
 
       <Flex w="100%">
         <FormControl alignItems="center" mr="6">
-          <FormLabel fontSize="sm">Cônjugue</FormLabel>
+          <FormLabel fontSize="sm">Cônjuge</FormLabel>
           <Switch onChange={() => setSpouse(!spouse)} value={+spouse} />
         </FormControl>
         <FormControl alignItems="center">
