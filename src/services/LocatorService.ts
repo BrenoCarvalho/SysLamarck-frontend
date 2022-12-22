@@ -1,7 +1,7 @@
 import axios from "axios";
 
 class LocatorService {
-  baseUrl = process.env.REACT_APP_API_URL;
+  baseUrl = "http://15.229.12.196:8000";
 
   async create(data: any) {
     console.log(this.baseUrl);
