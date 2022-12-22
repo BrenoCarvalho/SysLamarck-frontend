@@ -174,7 +174,7 @@ const SideNavBar = () => {
 
           <Group name="Consultas" icon={<BiSearch />}>
             <Item
-              href="/locadorSearch"
+              href="/consulta/locador"
               name="Locador"
               icon={<MdPersonOutline />}
               isGroupItem={true}

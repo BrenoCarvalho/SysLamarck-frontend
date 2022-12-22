@@ -7,6 +7,8 @@ import ResidentialData from "../components/Forms/Basics/ResidentialData.componen
 import Page from "../components/Page.component";
 import LocatorService from "../services/LocatorService";
 import Alert from "../components/Modals/Alert.component";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 
 const componentNames = {
   locator: {
@@ -40,7 +42,12 @@ const componentNames = {
   },
 };
 
-const LocatorRegister = ({ service }: { service: LocatorService }) => {
+const LocatorEdit = ({ service }: { service: LocatorService }) => {
+  const params = useParams();
+  const navigate = useNavigate();
+
+  const [initialValues, setInitialValues] = useState<any>();
+
   const {
     isOpen: sucessDialogIsOpen,
     onOpen: sucessDialogOnOpen,
@@ -53,60 +60,27 @@ const LocatorRegister = ({ service }: { service: LocatorService }) => {
     onClose: errorDialogOnClose,
   } = useDisclosure();
 
-  // const initialValues = {
-  //   provisionService: null,
-  //   fullName: null,
-  //   birthDate: null,
-  //   rg: null,
-  //   cpf: null,
-  //   nationality: null,
-  //   maritalStatus: null,
-  //   profession: null,
-  //   email: null,
-  //   contact1: null,
-  //   contact2: null,
-  //   cep: null,
-  //   city: null,
-  //   district: null,
-  //   propertyNumber: null,
-  //   bank: null,
-  //   accountType: null,
-  //   agency: null,
-  //   accountNumber: null,
-  //   paymentRemittance: null,
-  // };
-
-  const initialValues = {
-    provisionService: "Leomar",
-    fullName: "Breno de Carvalho Belarmino",
-    birthDate: "2005-02-22",
-    rg: "579088984",
-    cpf: "54708474890",
-    nationality: "Lorena",
-    maritalStatus: "Solteiro",
-    profession: "Engenheiro de Software",
-    email: "contato@brenocarvalho.com",
-    contact1: "12981734151",
-    contact2: null,
-    cep: "12606400",
-    city: "Lorena",
-    district: "São Paulo",
-    propertyNumber: "633",
-    bank: "Inter",
-    accountType: "Corrente",
-    agency: "0000",
-    accountNumber: "000000",
-    paymentRemittance: "O mesmo",
-  };
+  useEffect(() => {
+    if (!initialValues) {
+      service.get(Number(params.id)).then((result) => {
+        if (result) {
+          setInitialValues(result);
+        } else {
+          navigate("/cadastro/locador");
+        }
+      });
+    }
+  }, []);
 
   return (
-    <Page title="Cadastro de Locador" direction="column">
+    <Page title="Editar Locador" direction="column">
       {/* Form */}
       <Formik
         initialValues={initialValues}
+        enableReinitialize={true}
         onSubmit={(values) => {
           service
-            .create(values)
+            .update(values.locatorCode, values)
             .then(() => {
               sucessDialogOnOpen();
             })
@@ -168,7 +142,7 @@ const LocatorRegister = ({ service }: { service: LocatorService }) => {
                 {/* Submit button */}
                 <Flex w="100%" justifyContent="flex-end">
                   <Button type="submit" w={150}>
-                    Adicionar
+                    Salvar
                   </Button>
                 </Flex>
               </Flex>
@@ -178,20 +152,23 @@ const LocatorRegister = ({ service }: { service: LocatorService }) => {
       </Formik>
 
       <Alert
-        onClose={sucessDialogOnClose}
+        onClose={() => {
+          sucessDialogOnClose();
+          navigate("/consulta/locador");
+        }}
         isOpen={sucessDialogIsOpen}
         title="Sucesso!"
-        message={"Locatário adicionado com sucesso."}
+        message={"Locatário editado com sucesso."}
       />
 
       <Alert
         onClose={errorDialogOnClose}
         isOpen={errorDialogIsOpen}
         title="Erro!"
-        message="Falha ao adicionar locatário, verifique os campos e tente novamente."
+        message="Falha ao editar locatário, verifique os campos e tente novamente."
       />
     </Page>
   );
 };
 
-export default LocatorRegister;
+export default LocatorEdit;

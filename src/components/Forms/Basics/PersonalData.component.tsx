@@ -49,69 +49,81 @@ const PersonalData = ({
   headerTitle = "Dados pessoais",
   componentNames = {},
   handleChange,
+  values,
 }: {
   fieldList?: number[];
   showHeader?: boolean;
   headerTitle?: string;
   componentNames?: any;
   handleChange?: any;
+  values?: any;
 }) => {
   const fields = [
     <Input
       title="Nome completo"
       name={componentNames.fullName}
       onChange={handleChange}
+      value={values?.fullName}
     />, // 1
     <InputDate
       title="Data de nascimento"
       width="40%"
       name={componentNames.birthDate}
       onChange={handleChange}
+      value={values?.birthDate}
     />, // 2
     <Input
       title="RG"
       name={componentNames.rg}
       onChange={handleChange}
       type="number"
+      value={values?.rg}
     />, // 3
     <Input
       title="CPF"
       name={componentNames.cpf}
       onChange={handleChange}
       type="number"
+      value={values?.cpf}
     />, // 4
     <Input
       title="Nacionalidade"
       name={componentNames.nationality}
       onChange={handleChange}
+      value={values?.nationality}
     />, // 5
     <Input
       title="Estado Civil"
       name={componentNames.maritalStatus}
       onChange={handleChange}
+      value={values?.maritalStatus}
     />, // 6
     <Input
       title="Profissão"
       name={componentNames.profession}
       onChange={handleChange}
+      value={values?.profession}
     />, // 7
     <Input
       title="E-mail"
       name={componentNames.email}
       onChange={handleChange}
       type="email"
+      value={values?.email}
     />, // 8
     <Input
       title="Contato 1"
       name={componentNames.contact1}
       onChange={handleChange}
       type="number"
+      value={values?.contact1}
     />, // 9
     <Input
       title="Contato 2"
       name={componentNames.contact2}
       onChange={handleChange}
       type="number"
+      value={values?.contact2}
     />, // 10
   ];
 

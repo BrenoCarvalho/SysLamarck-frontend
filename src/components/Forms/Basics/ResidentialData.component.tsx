@@ -33,12 +33,14 @@ const ResidentialData = ({
   headerTitle = "Dados residenciais",
   componentNames = {},
   handleChange,
+  values,
 }: {
   fieldList?: number[];
   showHeader?: boolean;
   headerTitle?: string;
   componentNames?: any;
   handleChange?: any;
+  values?: any;
 }) => {
   const fields = [
     <Input
@@ -46,23 +48,32 @@ const ResidentialData = ({
       width="40%"
       name={componentNames.cep}
       onChange={handleChange}
+      value={values?.cep}
     />, // 1
-    <Input title="Cidade" name={componentNames.city} onChange={handleChange} />, // 2
+    <Input
+      title="Cidade"
+      name={componentNames.city}
+      onChange={handleChange}
+      value={values?.city}
+    />, // 2
     <Input
       title="Bairro"
       name={componentNames.district}
       onChange={handleChange}
+      value={values?.district}
     />, // 3
     <Input
       title="Logradouro"
       placeholder="Nº do imóvel"
       name={componentNames.propertyNumber}
       onChange={handleChange}
+      value={values?.propertyNumber}
     />, // 4
     <Input
       title="Descrição do Imóvel"
       name={componentNames.immobileDescription}
       onChange={handleChange}
+      value={values?.immobileDescription}
     />, // 5
   ];
 
