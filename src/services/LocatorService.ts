@@ -1,9 +1,10 @@
 import axios from "axios";
 
 class LocatorService {
-  baseUrl = process.env.API_URL;
+  baseUrl = process.env.REACT_APP_API_URL;
 
   async create(data: any) {
+    console.log(this.baseUrl);
     return axios({
       url: `${this.baseUrl}/locator`,
       method: "POST",

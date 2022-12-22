@@ -3,11 +3,6 @@ import {
   Flex,
   FormControl,
   FormLabel,
-  NumberDecrementStepper,
-  NumberIncrementStepper,
-  NumberInput,
-  NumberInputField,
-  NumberInputStepper,
   Select,
 } from "@chakra-ui/react";
 
