@@ -76,14 +76,12 @@ const PersonalData = ({
       title="RG"
       name={componentNames.rg}
       onChange={handleChange}
-      type="number"
       value={values?.rg}
     />, // 3
     <Input
       title="CPF"
       name={componentNames.cpf}
       onChange={handleChange}
-      type="number"
       value={values?.cpf}
     />, // 4
     <Input
@@ -115,14 +113,12 @@ const PersonalData = ({
       title="Contato 1"
       name={componentNames.contact1}
       onChange={handleChange}
-      type="number"
       value={values?.contact1}
     />, // 9
     <Input
       title="Contato 2"
       name={componentNames.contact2}
       onChange={handleChange}
-      type="number"
       value={values?.contact2}
     />, // 10
   ];
