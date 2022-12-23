@@ -27,7 +27,7 @@ const componentNames = {
   },
   residentialData: {
     cep: "cep",
-    address: "propertyNumber",
+    address: "address",
     city: "city",
     district: "district",
   },
