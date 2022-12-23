@@ -63,11 +63,10 @@ const ResidentialData = ({
       value={values?.district}
     />, // 3
     <Input
-      title="Logradouro"
-      placeholder="Nº do imóvel"
-      name={componentNames.propertyNumber}
+      title="Endereço"
+      name={componentNames.address}
       onChange={handleChange}
-      value={values?.propertyNumber}
+      value={values?.address}
     />, // 4
     <Input
       title="Descrição do Imóvel"

@@ -2,6 +2,7 @@ import axios from "axios";
 
 class LocatorService {
   baseUrl = "http://15.229.12.196:8000";
+  // baseUrl = "http://localhost:8000";
 
   async create(data: any) {
     console.log(this.baseUrl);

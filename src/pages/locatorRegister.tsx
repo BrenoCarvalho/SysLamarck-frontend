@@ -27,9 +27,9 @@ const componentNames = {
   },
   residentialData: {
     cep: "cep",
+    address: "propertyNumber",
     city: "city",
     district: "district",
-    propertyNumber: "propertyNumber",
   },
   bankData: {
     bank: "bank",
@@ -91,7 +91,7 @@ const LocatorRegister = ({ service }: { service: LocatorService }) => {
     cep: "12606400",
     city: "Lorena",
     district: "São Paulo",
-    propertyNumber: "633",
+    address: "Rua Tenente Manoel Barbosa, 633",
     bank: "Inter",
     accountType: "Corrente",
     agency: "0000",
