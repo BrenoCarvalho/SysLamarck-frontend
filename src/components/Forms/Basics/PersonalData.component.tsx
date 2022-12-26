@@ -5,6 +5,7 @@ import {
   FormLabel,
   Input as ChakraInput,
 } from "@chakra-ui/react";
+import InputMask from "react-input-mask";
 
 const Input = ({ title, placeholder = title, ...props }: any) => {
   return (
@@ -17,7 +18,7 @@ const Input = ({ title, placeholder = title, ...props }: any) => {
       >
         {title}
       </FormLabel>
-      <ChakraInput placeholder={placeholder} {...props} />
+      <ChakraInput as={InputMask} placeholder={placeholder} {...props} />
     </FormControl>
   );
 };
@@ -77,12 +78,16 @@ const PersonalData = ({
       name={componentNames.rg}
       onChange={handleChange}
       value={values?.rg}
+      mask="**.***.***-*"
+      maskChar={null}
     />, // 3
     <Input
       title="CPF"
       name={componentNames.cpf}
       onChange={handleChange}
       value={values?.cpf}
+      mask="***.***.***-**"
+      maskChar={null}
     />, // 4
     <Input
       title="Nacionalidade"
@@ -114,12 +119,16 @@ const PersonalData = ({
       name={componentNames.contact1}
       onChange={handleChange}
       value={values?.contact1}
+      mask={values?.contact1?.length <= 12 ? "** ****-*****" : "** *****-****"}
+      maskChar={null}
     />, // 9
     <Input
       title="Contato 2"
       name={componentNames.contact2}
       onChange={handleChange}
       value={values?.contact2}
+      mask={values?.contact2?.length <= 12 ? "** ****-*****" : "** *****-****"}
+      maskChar={null}
     />, // 10
   ];
 

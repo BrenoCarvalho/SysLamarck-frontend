@@ -5,6 +5,7 @@ import {
   FormLabel,
   Input as ChakraInput,
 } from "@chakra-ui/react";
+import InputMask from "react-input-mask";
 
 const Input = ({
   title,
@@ -22,7 +23,7 @@ const Input = ({
       >
         {title}
       </FormLabel>
-      <ChakraInput placeholder={placeholder} {...props} />
+      <ChakraInput as={InputMask} placeholder={placeholder} {...props} />
     </FormControl>
   );
 };
@@ -49,6 +50,8 @@ const ResidentialData = ({
       name={componentNames.cep}
       onChange={handleChange}
       value={values?.cep}
+      mask="*****-***"
+      maskChar={null}
     />, // 1
     <Input
       title="Cidade"

@@ -87,7 +87,7 @@ const LocatorRegister = ({ service }: { service: LocatorService }) => {
     profession: "Engenheiro de Software",
     email: "contato@brenocarvalho.com",
     contact1: "12981734151",
-    contact2: null,
+    contact2: "12991469130",
     cep: "12606400",
     city: "Lorena",
     district: "São Paulo",
