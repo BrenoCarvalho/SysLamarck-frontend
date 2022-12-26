@@ -11,6 +11,8 @@ import {
   MdOutlineSettings,
   MdPersonOutline,
 } from "react-icons/md";
+import { useContext } from "react";
+import { Context } from "../context/AuthContext";
 
 const Group = ({ name, icon, children }: any) => {
   const [isOpen, setOpen] = useState(false);
@@ -104,6 +106,8 @@ const Item = ({ href, name, icon, isGroupItem = false }: itemInterface) => {
 };
 
 const SideNavBar = () => {
+  const { handleLogout } = useContext(Context);
+
   return (
     <Flex
       p="6"
@@ -220,7 +224,7 @@ const SideNavBar = () => {
         <Flex my="4" w="100%">
           <Flex
             w="100%"
-            onClick={(): any => {}}
+            onClick={handleLogout}
             mb="2"
             justify="start"
             alignItems="center"

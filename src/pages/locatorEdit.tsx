@@ -42,7 +42,7 @@ const componentNames = {
   },
 };
 
-const LocatorEdit = ({ service }: { service: LocatorService }) => {
+const LocatorEdit = () => {
   const params = useParams();
   const navigate = useNavigate();
 
@@ -62,7 +62,7 @@ const LocatorEdit = ({ service }: { service: LocatorService }) => {
 
   useEffect(() => {
     if (!initialValues) {
-      service.get(Number(params.id)).then((result) => {
+      LocatorService.get(Number(params.id)).then((result) => {
         if (result) {
           setInitialValues(result);
         } else {
@@ -70,7 +70,7 @@ const LocatorEdit = ({ service }: { service: LocatorService }) => {
         }
       });
     }
-  }, [initialValues, navigate, params.id, service]);
+  }, [initialValues, navigate, params.id]);
 
   return (
     <Page title="Editar Locador" direction="column">
@@ -79,8 +79,7 @@ const LocatorEdit = ({ service }: { service: LocatorService }) => {
         initialValues={initialValues}
         enableReinitialize={true}
         onSubmit={(values) => {
-          service
-            .update(values.locatorCode, values)
+          LocatorService.update(values.locatorCode, values)
             .then(() => {
               sucessDialogOnOpen();
             })

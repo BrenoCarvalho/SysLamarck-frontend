@@ -1,87 +1,56 @@
-import axios from "axios";
+import api from "../api";
 
-class LocatorService {
-  baseUrl = "http://15.229.15.44:8000";
-  // baseUrl = "http://localhost:8000";
-
-  async create(data: any) {
-    console.log(this.baseUrl);
-    return axios({
-      url: `${this.baseUrl}/locator`,
-      method: "POST",
-      timeout: 5000,
-      data: data,
-      headers: {
-        Accept: "application/json",
-      },
-    })
+const LocatorService = {
+  create: async (data: any) => {
+    return api
+      .post("/locator", data)
       .then((response) => {
         return Promise.resolve(response);
       })
       .catch((error) => {
         return Promise.reject(error);
       });
-  }
-
-  async update(id: number, data: any) {
-    return axios({
-      url: `${this.baseUrl}/locator/${id}`,
-      method: "PUT",
-      timeout: 5000,
-      data: data,
-      headers: {
-        Accept: "application/json",
-      },
-    })
+  },
+  update: async (id: number, data: any) => {
+    return api
+      .put(`/locator/${id}`, data)
       .then((response) => {
         return Promise.resolve(response);
       })
       .catch((error) => {
         return Promise.reject(error);
       });
-  }
-
-  async getData(): Promise<[]> {
-    return axios({
-      url: `${this.baseUrl}/locator`,
-      method: "GET",
-      timeout: 5000,
-    })
+  },
+  getData: async (): Promise<[]> => {
+    return api
+      .get("/locator")
       .then((response) => {
         return Promise.resolve(response.data);
       })
       .catch((error) => {
         return Promise.reject(error);
       });
-  }
-
-  async get(id: number): Promise<any> {
-    return axios({
-      url: `${this.baseUrl}/locator/${id}`,
-      method: "GET",
-      timeout: 5000,
-    })
+  },
+  get: async (id: number): Promise<any> => {
+    return api
+      .get(`/locator/${id}`)
       .then((response) => {
         return Promise.resolve(response.data);
       })
       .catch((error) => {
         return Promise.reject(error);
       });
-  }
-
-  async delete(id: number) {
-    return axios({
-      url: `${this.baseUrl}/locator/${id}`,
-      method: "DELETE",
-      timeout: 5000,
-    })
+  },
+  delete: async (id: number) => {
+    return api
+      .delete(`/locator/${id}`)
       .then((response) => {
         return Promise.resolve(response.data);
       })
       .catch((error) => {
         return Promise.reject(error);
       });
-  }
-}
+  },
+};
 
 export default LocatorService;

@@ -43,11 +43,9 @@ const columnDefs = [
 ];
 
 const LocatorTable = ({
-  service,
   setSelected,
   deleteCallback,
 }: {
-  service: LocatorService;
   setSelected: any;
   deleteCallback?: any;
 }) => {
@@ -55,7 +53,7 @@ const LocatorTable = ({
   const gridRef = useRef<any>(null);
 
   const onGridReady = async () => {
-    setData(await service.getData());
+    setData(await LocatorService.getData());
   };
 
   const onSelectionChanged = useCallback(() => {

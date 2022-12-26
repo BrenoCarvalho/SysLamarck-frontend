@@ -8,29 +8,40 @@ import LocatorRegister from "./pages/locatorRegister";
 import ImmobileRegister from "./pages/immobileRegister";
 import LocatarioRegister from "./pages/locatarioRegister";
 import LocatorSearch from "./pages/locatorSearch";
-import LocatorService from "./services/LocatorService";
 import LocatorEdit from "./pages/locatorEdit";
+import Login from "./pages/login";
+import { Context } from "./context/AuthContext";
+import { useContext } from "react";
+
+const Private = ({ Item }: any) => {
+  const { authenticated } = useContext(Context);
+  return authenticated ? <Item /> : <Login />;
+};
 
 const Routes = () => {
-  const locatorService = new LocatorService();
-
   return (
     <BrowserRouter>
       <RoutesComponent>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Private Item={Home} />} />
         <Route
           path="/cadastro/locador"
-          element={<LocatorRegister service={locatorService} />}
+          element={<Private Item={LocatorRegister} />}
         />
-        <Route path="/cadastro/imovel" element={<ImmobileRegister />} />
-        <Route path="/cadastro/locatario" element={<LocatarioRegister />} />
+        <Route
+          path="/cadastro/imovel"
+          element={<Private Item={ImmobileRegister} />}
+        />
+        <Route
+          path="/cadastro/locatario"
+          element={<Private Item={LocatarioRegister} />}
+        />
         <Route
           path="/consulta/locador"
-          element={<LocatorSearch service={locatorService} />}
+          element={<Private Item={LocatorSearch} />}
         />
         <Route
           path="/editar/locador/:id"
-          element={<LocatorEdit service={locatorService} />}
+          element={<Private Item={LocatorEdit} />}
         />
       </RoutesComponent>
     </BrowserRouter>

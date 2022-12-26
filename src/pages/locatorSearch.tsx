@@ -10,7 +10,7 @@ import Alert from "../components/Modals/Alert.component";
 import { useNavigate } from "react-router-dom";
 import LocatorVisualizationModal from "../components/Modals/Visualization/LocatorVisualizationModal.component";
 
-const LocatorSearch = ({ service }: { service: LocatorService }) => {
+const LocatorSearch = () => {
   const navigate = useNavigate();
 
   const {
@@ -34,7 +34,7 @@ const LocatorSearch = ({ service }: { service: LocatorService }) => {
   const [selected, setSelected] = useState<any>();
 
   const deleteLocator = async () => {
-    const response = await service.delete(selected.locatorCode);
+    const response = await LocatorService.delete(selected.locatorCode);
     if (response === 1) {
       successDeletedDialogOnOpen();
     }
@@ -59,7 +59,6 @@ const LocatorSearch = ({ service }: { service: LocatorService }) => {
         gap="1"
       >
         <LocatorTable
-          service={service}
           setSelected={setSelected}
           deleteCallback={successDeletedDialogIsOpen}
         />
@@ -136,7 +135,6 @@ const LocatorSearch = ({ service }: { service: LocatorService }) => {
         onClose={visualizationModalDialogOnClose}
         isOpen={visualizationModalDialogIsOpen}
         locatorSelected={selected}
-        service={service}
       />
     </Page>
   );

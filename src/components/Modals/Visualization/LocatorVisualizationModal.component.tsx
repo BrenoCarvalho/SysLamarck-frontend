@@ -18,19 +18,20 @@ import {
   phoneFormatter,
   cepFormatter,
 } from "../../../services/Formatters";
+import LocatorService from "../../../services/LocatorService";
 
 const LocatorVisualizationModal = ({
   onClose,
   isOpen,
   locatorSelected,
-  service,
 }: any) => {
   const [data, setData] = useState<any>(null);
 
   useEffect(() => {
     if (isOpen) {
       const loadData = async () => {
-        const locator = await service.get(locatorSelected?.locatorCode);
+        const locator = await LocatorService.get(locatorSelected?.locatorCode);
+        console.log(locator);
         setData([
           ["Código", locator?.locatorCode],
           ["Nome Completo", locator?.fullName],
@@ -56,7 +57,7 @@ const LocatorVisualizationModal = ({
       };
       loadData();
     }
-  }, [isOpen, locatorSelected?.locatorCode, service]);
+  }, [isOpen, locatorSelected?.locatorCode]);
 
   return (
     <Modal onClose={onClose} isOpen={isOpen} scrollBehavior="inside" isCentered>

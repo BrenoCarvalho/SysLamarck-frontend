@@ -40,7 +40,7 @@ const componentNames = {
   },
 };
 
-const LocatorRegister = ({ service }: { service: LocatorService }) => {
+const LocatorRegister = () => {
   const {
     isOpen: sucessDialogIsOpen,
     onOpen: sucessDialogOnOpen,
@@ -105,8 +105,7 @@ const LocatorRegister = ({ service }: { service: LocatorService }) => {
       <Formik
         initialValues={initialValues}
         onSubmit={(values) => {
-          service
-            .create(values)
+          LocatorService.create(values)
             .then(() => {
               sucessDialogOnOpen();
             })
