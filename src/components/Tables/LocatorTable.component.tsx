@@ -2,6 +2,11 @@ import { Flex } from "@chakra-ui/react";
 import { AgGridReact } from "ag-grid-react";
 import LocatorService from "../../services/LocatorService";
 import { useCallback, useEffect, useRef, useState } from "react";
+import {
+  cpfFormatter,
+  dateFormatter,
+  rgFormatter,
+} from "../../services/Formatters";
 
 const defaultColumnData = {
   flex: 1,
@@ -9,19 +14,6 @@ const defaultColumnData = {
   resizable: true,
   filter: true,
   sortable: true,
-};
-
-const dateFormatter = ({ value }: { value: any }) => {
-  const splited_date = value.split("-");
-  return `${splited_date[2]}/${splited_date[1]}/${splited_date[0]}`;
-};
-
-const cpfFormatter = ({ value }: { value: any }) => {
-  return value.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
-};
-
-const rgFormatter = ({ value }: { value: any }) => {
-  return value.replace(/(\d{2})(\d{3})(\d{3})(\d{1})/, "$1.$2.$3-$4");
 };
 
 const columnDefs = [
@@ -62,7 +54,7 @@ const LocatorTable = ({
   const [data, setData] = useState([]);
   const gridRef = useRef<any>(null);
 
-  const onGridReady = async (params: any) => {
+  const onGridReady = async () => {
     setData(await service.getData());
   };
 

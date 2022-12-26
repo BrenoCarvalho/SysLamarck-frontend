@@ -8,6 +8,7 @@ import ConfirmDelete from "../components/Modals/ConfirmDelete.component";
 import { useState } from "react";
 import Alert from "../components/Modals/Alert.component";
 import { useNavigate } from "react-router-dom";
+import LocatorVisualizationModal from "../components/Modals/Visualization/LocatorVisualizationModal.component";
 
 const LocatorSearch = ({ service }: { service: LocatorService }) => {
   const navigate = useNavigate();
@@ -22,6 +23,12 @@ const LocatorSearch = ({ service }: { service: LocatorService }) => {
     isOpen: successDeletedDialogIsOpen,
     onOpen: successDeletedDialogOnOpen,
     onClose: successDeletedDialogOnClose,
+  } = useDisclosure();
+
+  const {
+    isOpen: visualizationModalDialogIsOpen,
+    onOpen: visualizationModalDialogOnOpen,
+    onClose: visualizationModalDialogOnClose,
   } = useDisclosure();
 
   const [selected, setSelected] = useState<any>();
@@ -56,24 +63,42 @@ const LocatorSearch = ({ service }: { service: LocatorService }) => {
           setSelected={setSelected}
           deleteCallback={successDeletedDialogIsOpen}
         />
-        <Flex justifyContent="right" padding="2">
-          <Button
-            mt={2}
-            mr={2}
-            w={150}
-            _hover={{ color: "red.700" }}
-            variant="unstyled"
-            shadow="md"
-            onClick={
-              selected
-                ? onOpenConfirmDelete
-                : () => {
-                    console.log("Selecione algum locatário");
-                  }
-            }
-          >
-            Remover
-          </Button>
+        <Flex justifyContent="space-between" padding="2">
+          <Flex>
+            <Button
+              mt={2}
+              mr={2}
+              w={150}
+              _hover={{ color: "red.700" }}
+              variant="unstyled"
+              shadow="md"
+              onClick={
+                selected
+                  ? onOpenConfirmDelete
+                  : () => {
+                      console.log("Selecione algum locatário");
+                    }
+              }
+            >
+              Remover
+            </Button>
+            <Button
+              mt={2}
+              w={150}
+              bg="gray.800"
+              color="#fff"
+              _hover={{ backgroundColor: "gray.900" }}
+              onClick={
+                selected
+                  ? () => navigate(`/editar/locador/${selected.locatorCode}`)
+                  : () => {
+                      console.log("Selecione algum locatário");
+                    }
+              }
+            >
+              Editar
+            </Button>
+          </Flex>
           <Button
             mt={2}
             w={150}
@@ -82,13 +107,13 @@ const LocatorSearch = ({ service }: { service: LocatorService }) => {
             _hover={{ backgroundColor: "gray.900" }}
             onClick={
               selected
-                ? () => navigate(`/editar/locador/${selected.locatorCode}`)
+                ? () => visualizationModalDialogOnOpen()
                 : () => {
                     console.log("Selecione algum locatário");
                   }
             }
           >
-            Editar
+            Visualizar
           </Button>
         </Flex>
       </Flex>
@@ -105,6 +130,13 @@ const LocatorSearch = ({ service }: { service: LocatorService }) => {
         isOpen={successDeletedDialogIsOpen}
         title="Sucesso!"
         message="Locatário deletado com sucesso."
+      />
+
+      <LocatorVisualizationModal
+        onClose={visualizationModalDialogOnClose}
+        isOpen={visualizationModalDialogIsOpen}
+        locatorSelected={selected}
+        service={service}
       />
     </Page>
   );

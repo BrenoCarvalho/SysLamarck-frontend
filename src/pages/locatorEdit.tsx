@@ -70,7 +70,7 @@ const LocatorEdit = ({ service }: { service: LocatorService }) => {
         }
       });
     }
-  }, []);
+  }, [initialValues, navigate, params.id, service]);
 
   return (
     <Page title="Editar Locador" direction="column">
