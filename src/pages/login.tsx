@@ -48,7 +48,7 @@ const Login = () => {
           Acesse a plataforma SysLamarck
         </Text>
         <Input
-          placeholder="Username"
+          placeholder="Usuário"
           value={username}
           onChange={(e) => [setUsername(e.target.value), setError("")]}
         />
