@@ -2,11 +2,7 @@ import { Flex } from "@chakra-ui/react";
 import { AgGridReact } from "ag-grid-react";
 import LocatorService from "../../services/LocatorService";
 import { useCallback, useEffect, useRef, useState } from "react";
-import {
-  cpfFormatter,
-  dateFormatter,
-  rgFormatter,
-} from "../../services/Formatters";
+import { cpfFormatter, dateFormatter } from "../../services/Formatters";
 
 const defaultColumnData = {
   flex: 1,
@@ -28,9 +24,9 @@ const columnDefs = [
   { field: "email", headerName: "Email" },
   {
     field: "cpf",
-    headerName: "CPF",
+    headerName: "CPF / CNPJ",
     flex: 0,
-    width: 140,
+    width: 160,
     valueFormatter: cpfFormatter,
   },
   {
@@ -38,7 +34,6 @@ const columnDefs = [
     headerName: "RG",
     flex: 0,
     width: 140,
-    valueFormatter: rgFormatter,
   },
 ];
 

@@ -13,7 +13,6 @@ import {
 import { useEffect, useState } from "react";
 import {
   cpfFormatter,
-  rgFormatter,
   dateFormatter,
   phoneFormatter,
   cepFormatter,
@@ -31,13 +30,13 @@ const LocatorVisualizationModal = ({
     if (isOpen) {
       const loadData = async () => {
         const locator = await LocatorService.get(locatorSelected?.locatorCode);
-        console.log(locator);
+
         setData([
           ["Código", locator?.locatorCode],
           ["Nome Completo", locator?.fullName],
           ["Prestação de serviço", locator?.provisionService],
           ["Data de nascimento", dateFormatter({ value: locator?.birthDate })],
-          ["RG", rgFormatter({ value: locator?.rg })],
+          ["RG", locator?.rg],
           ["CPF", cpfFormatter({ value: locator?.cpf })],
           ["Nacionalidade", locator?.nationality],
           ["Estado civil", locator?.maritalStatus],

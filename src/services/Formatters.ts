@@ -4,12 +4,20 @@ const dateFormatter = ({ value }: { value: any }) => {
 };
 
 const cpfFormatter = ({ value }: { value: any }) => {
-  return value?.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
+  if (value.indexOf(".") === -1) {
+    if (value?.length <= 11) {
+      return value?.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
+    } else {
+      return value?.replace(/(\d{2})(\d{3})(\d{4})(\d{2})/, "$1.$2.$3/$4-");
+    }
+  }
+
+  return value;
 };
 
-const rgFormatter = ({ value }: { value: any }) => {
-  return value?.replace(/(\d{2})(\d{3})(\d{3})(\d{1})/, "$1.$2.$3-$4");
-};
+// const rgFormatter = ({ value }: { value: any }) => {
+//   return value?.replace(/(\d{2})(\d{3})(\d{3})(\d{1})/, "$1.$2.$3-$4");
+// };
 
 const phoneFormatter = ({ value }: { value: any }) => {
   return value?.replace(
@@ -22,10 +30,4 @@ const cepFormatter = ({ value }: { value: any }) => {
   return value?.replace(value?.length <= 8 ? /(\d{5})/ : /(\d{6})/, "$1-");
 };
 
-export {
-  dateFormatter,
-  cpfFormatter,
-  rgFormatter,
-  phoneFormatter,
-  cepFormatter,
-};
+export { dateFormatter, cpfFormatter, phoneFormatter, cepFormatter };

@@ -78,15 +78,17 @@ const PersonalData = ({
       name={componentNames.rg}
       onChange={handleChange}
       value={values?.rg}
-      mask="**.***.***-*"
+      mask=""
       maskChar={null}
     />, // 3
     <Input
-      title="CPF"
+      title="CPF / CNPJ"
       name={componentNames.cpf}
       onChange={handleChange}
       value={values?.cpf}
-      mask="***.***.***-**"
+      mask={
+        values?.cpf?.length <= 14 ? "***.***.***-*****" : "**.***.***/****-**"
+      }
       maskChar={null}
     />, // 4
     <Input

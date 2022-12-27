@@ -26,22 +26,6 @@ const Input = ({ title, placeholder = title, ...props }: any) => {
   );
 };
 
-const InputDate = ({ title, ...props }: any) => {
-  return (
-    <FormControl w="100%" {...props}>
-      <FormLabel
-        fontSize="sm"
-        textOverflow="ellipsis"
-        whiteSpace="nowrap"
-        overflow="hidden"
-      >
-        {title}
-      </FormLabel>
-      <ChakraInput placeholder="Selecione a data" size="md" type="date" />
-    </FormControl>
-  );
-};
-
 const RentOrSale = ({
   showHeader = true,
   headerTitle = "Dados para aluguel/venda",
@@ -54,19 +38,12 @@ const RentOrSale = ({
   const fields = [
     <Input title="Taxa de locação" />, // 1
     <Input title="Taxa de administração" />, // 2
-    <Input title="Índice" />, // 3
-    <Input title="Reajuste" />, // 4
-    <Input title="Valor Integral" />, // 5
-    <Input title="Valor locação" />, // 6
-    <Input title="Valor de venda" />, // 7
-    <Input title="Duração do contrato" />, // 8
-    <InputDate title="Data de vencimento do contrato" />, // 9
-    <InputDate title="Data de início do contrato" />, // 10
-    <InputDate title="Data de término do contrato" />, // 11
-    <InputDate title="Data de vencimento do pagamento" />, // 12
+    <Input title="Valor Integral" />, // 3
+    <Input title="Valor locação" />, // 4
+    <Input title="Valor de venda" />, // 5
   ];
 
-  const fieldListModes = [[1, 2, 3, 4, 5, 6], [7], [1, 2, 3, 4, 5, 6, 7]];
+  const fieldListModes = [[1, 2, 3, 4], [5], [1, 2, 3, 4, 5]];
 
   return (
     <FormControl>
