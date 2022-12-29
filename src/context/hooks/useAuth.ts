@@ -15,7 +15,7 @@ export default function useAuth() {
   //   api.get("/").then(() => {
   //     setAuthenticated(true);
   //   });
-  // }, []);
+  // }, []); .
 
   async function handleLogin(data: any) {
     return api
