@@ -62,20 +62,20 @@ const PersonalData = ({
   const fields = [
     <Input
       title="Nome completo"
-      name={componentNames.fullName}
+      name={componentNames?.fullName}
       onChange={handleChange}
       value={values?.fullName}
     />, // 1
     <InputDate
       title="Data de nascimento"
       width="40%"
-      name={componentNames.birthDate}
+      name={componentNames?.birthDate}
       onChange={handleChange}
       value={values?.birthDate}
     />, // 2
     <Input
       title="RG"
-      name={componentNames.rg}
+      name={componentNames?.rg}
       onChange={handleChange}
       value={values?.rg}
       mask=""
@@ -83,7 +83,7 @@ const PersonalData = ({
     />, // 3
     <Input
       title="CPF / CNPJ"
-      name={componentNames.cpf}
+      name={componentNames?.cpf}
       onChange={handleChange}
       value={values?.cpf}
       mask={
@@ -93,32 +93,32 @@ const PersonalData = ({
     />, // 4
     <Input
       title="Nacionalidade"
-      name={componentNames.nationality}
+      name={componentNames?.nationality}
       onChange={handleChange}
       value={values?.nationality}
     />, // 5
     <Input
       title="Estado Civil"
-      name={componentNames.maritalStatus}
+      name={componentNames?.maritalStatus}
       onChange={handleChange}
       value={values?.maritalStatus}
     />, // 6
     <Input
       title="Profissão"
-      name={componentNames.profession}
+      name={componentNames?.profession}
       onChange={handleChange}
       value={values?.profession}
     />, // 7
     <Input
       title="E-mail"
-      name={componentNames.email}
+      name={componentNames?.email}
       onChange={handleChange}
       type="email"
       value={values?.email}
     />, // 8
     <Input
       title="Contato 1"
-      name={componentNames.contact1}
+      name={componentNames?.contact1}
       onChange={handleChange}
       value={values?.contact1}
       mask={values?.contact1?.length <= 12 ? "** ****-*****" : "** *****-****"}
@@ -126,7 +126,7 @@ const PersonalData = ({
     />, // 9
     <Input
       title="Contato 2"
-      name={componentNames.contact2}
+      name={componentNames?.contact2}
       onChange={handleChange}
       value={values?.contact2}
       mask={values?.contact2?.length <= 12 ? "** ****-*****" : "** *****-****"}

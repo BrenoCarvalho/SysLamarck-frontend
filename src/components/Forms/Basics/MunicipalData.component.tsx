@@ -6,9 +6,14 @@ import {
   Input as ChakraInput,
 } from "@chakra-ui/react";
 
-const Input = ({ title, placeholder = title, ...props }: any) => {
+const Input = ({
+  title,
+  width = "100%",
+  placeholder = title,
+  ...props
+}: any) => {
   return (
-    <FormControl w="100%" {...props}>
+    <FormControl w={width}>
       <FormLabel
         fontSize="sm"
         textOverflow="ellipsis"
@@ -17,7 +22,7 @@ const Input = ({ title, placeholder = title, ...props }: any) => {
       >
         {title}
       </FormLabel>
-      <ChakraInput placeholder={placeholder} />
+      <ChakraInput placeholder={placeholder} {...props} />
     </FormControl>
   );
 };
@@ -26,21 +31,72 @@ const MunicipalData = ({
   fieldList = [1, 2, 3, 4, 5, 6, 7, 8, 9],
   showHeader = true,
   headerTitle = "Dados municipais",
+  componentNames = {},
+  handleChange,
+  values,
 }: {
   fieldList?: number[];
   showHeader?: boolean;
   headerTitle?: string;
+  componentNames?: any;
+  handleChange?: any;
+  values?: any;
 }) => {
   const fields = [
-    <Input title="Nº de matricula" />, // 1
-    <Input title="Código Municipal" />, // 2
-    <Input title="Nº IPTU" />, // 3
-    <Input title="Valor do IPTU integral" />, // 4
-    <Input title="Nº de parcelas" />, // 5
-    <Input title="Valor IPTU parcelado" />, // 6
-    <Input title="Instalação EDP" />, // 7
-    <Input title="RGI" />, // 8
-    <Input title="Fornecimento" />, // 9
+    <Input
+      title="Nº de matricula"
+      name={componentNames?.registrationValue}
+      onChange={handleChange}
+      value={values?.registrationValue}
+    />, // 1
+    <Input
+      title="Código Municipal"
+      name={componentNames?.cityCode}
+      onChange={handleChange}
+      value={values?.cityCode}
+    />, // 2
+    <Input
+      title="Nº IPTU"
+      name={componentNames?.IPTUNumber}
+      onChange={handleChange}
+      value={values?.IPTUNumber}
+    />, // 3
+    <Input
+      title="Valor do IPTU integral"
+      name={componentNames?.IntegralIPTUValue}
+      onChange={handleChange}
+      value={values?.IntegralIPTUValue}
+    />, // 4
+    <Input
+      title="Nº de parcelas"
+      name={componentNames?.numberInstallments}
+      onChange={handleChange}
+      value={values?.numberInstallments}
+    />, // 5
+    <Input
+      title="Valor IPTU parcelado"
+      name={componentNames?.installmentsIPTUValue}
+      onChange={handleChange}
+      value={values?.installmentsIPTUValue}
+    />, // 6
+    <Input
+      title="Instalação EDP"
+      name={componentNames?.edpInstallation}
+      onChange={handleChange}
+      value={values?.edpInstallation}
+    />, // 7
+    <Input
+      title="RGI"
+      name={componentNames?.rgi}
+      onChange={handleChange}
+      value={values?.rgi}
+    />, // 8
+    <Input
+      title="Fornecimento"
+      name={componentNames?.supply}
+      onChange={handleChange}
+      value={values?.supply}
+    />, // 9
   ];
 
   return (

@@ -10,9 +10,14 @@ import {
 } from "@chakra-ui/react";
 import { useState } from "react";
 
-const Input = ({ title, placeholder = title, ...props }: any) => {
+const Input = ({
+  title,
+  width = "100%",
+  placeholder = title,
+  ...props
+}: any) => {
   return (
-    <FormControl w="100%" {...props}>
+    <FormControl w={width}>
       <FormLabel
         fontSize="sm"
         textOverflow="ellipsis"
@@ -21,7 +26,7 @@ const Input = ({ title, placeholder = title, ...props }: any) => {
       >
         {title}
       </FormLabel>
-      <ChakraInput placeholder={placeholder} />
+      <ChakraInput placeholder={placeholder} {...props} />
     </FormControl>
   );
 };
@@ -29,20 +34,52 @@ const Input = ({ title, placeholder = title, ...props }: any) => {
 const RentOrSale = ({
   showHeader = true,
   headerTitle = "Dados para aluguel/venda",
+  componentNames = {},
+  handleChange,
+  values,
 }: {
   showHeader?: boolean;
   headerTitle?: string;
+  componentNames?: any;
+  handleChange?: any;
+  values?: any;
 }) => {
   const [mode, setMode] = useState(0);
 
   const fields = [
-    <Input title="Taxa de locação" />, // 1
-    <Input title="Taxa de administração" />, // 2
-    <Input title="Valor Integral" />, // 3
-    <Input title="Valor locação" />, // 4
-    <Input title="Valor de venda" />, // 5
+    <Input
+      title="Taxa de locação"
+      name={componentNames?.leaseFee}
+      onChange={handleChange}
+      value={values?.leaseFee}
+    />, // 1
+    <Input
+      title="Taxa de administração"
+      name={componentNames?.administrationTax}
+      onChange={handleChange}
+      value={values?.administrationTax}
+    />, // 2
+    <Input
+      title="Valor Integral"
+      name={componentNames?.integralValue}
+      onChange={handleChange}
+      value={values?.integralValue}
+    />, // 3
+    <Input
+      title="Valor locação"
+      name={componentNames?.leaseAmount}
+      onChange={handleChange}
+      value={values?.leaseAmount}
+    />, // 4
+    <Input
+      title="Valor de venda"
+      name={componentNames?.sellValue}
+      onChange={handleChange}
+      value={values?.sellValue}
+    />, // 5
   ];
 
+  const modesNames = ["Aluguel", "Venda", "Aluguel e Venda"];
   const fieldListModes = [[1, 2, 3, 4], [5], [1, 2, 3, 4, 5]];
 
   return (
@@ -56,8 +93,11 @@ const RentOrSale = ({
 
       <RadioGroup
         mb="6"
-        onChange={(value) => {
-          setMode(Number(value));
+        onChange={(value: string | number) => {
+          value = Number(value);
+
+          setMode(value);
+          handleChange(componentNames?.goalOfProperty)(modesNames[value]);
         }}
         value={mode}
       >

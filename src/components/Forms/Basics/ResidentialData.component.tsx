@@ -47,7 +47,7 @@ const ResidentialData = ({
     <Input
       title="CEP"
       width="40%"
-      name={componentNames.cep}
+      name={componentNames?.cep}
       onChange={handleChange}
       value={values?.cep}
       mask="*****-***"
@@ -55,27 +55,27 @@ const ResidentialData = ({
     />, // 1
     <Input
       title="Cidade"
-      name={componentNames.city}
+      name={componentNames?.city}
       onChange={handleChange}
       value={values?.city}
     />, // 2
     <Input
       title="Bairro"
-      name={componentNames.district}
+      name={componentNames?.district}
       onChange={handleChange}
       value={values?.district}
     />, // 3
     <Input
       title="Endereço"
-      name={componentNames.address}
+      name={componentNames?.address}
       onChange={handleChange}
       value={values?.address}
     />, // 4
     <Input
       title="Descrição do Imóvel"
-      name={componentNames.immobileDescription}
+      name={componentNames?.propertyDescription}
       onChange={handleChange}
-      value={values?.immobileDescription}
+      value={values?.propertyDescription}
     />, // 5
   ];
 

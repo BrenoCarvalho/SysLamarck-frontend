@@ -184,7 +184,7 @@ const SideNavBar = () => {
               isGroupItem={true}
             />
             <Item
-              href="/imovelSearch"
+              href="/consulta/imovel"
               name="Imóvel"
               icon={<AiOutlineHome />}
               isGroupItem={true}
