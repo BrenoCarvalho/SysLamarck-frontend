@@ -12,7 +12,7 @@ const defaultColumnData = {
 };
 
 const columnDefs = [
-  { field: "id", headerName: "ID", width: 80, flex: 0 },
+  { field: "propertyCode", headerName: "Código do imóvel" },
   { field: "locatorName", headerName: "Locador" },
   { field: "propertyType", headerName: "Tipo de imóvel" },
   { field: "city", headerName: "Cidade" },

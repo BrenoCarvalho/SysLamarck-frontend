@@ -121,7 +121,7 @@ const PropertySearch = () => {
         isOpen={isOpenConfirmDelete}
         onClose={onCloseConfirmDelete}
         onConfirm={deleteProperty}
-        message={`Tem certeza que deseja excluir o imóvel ${selected?.id}?`}
+        message={`Tem certeza que deseja excluir o imóvel ${selected?.propertyCode}?`}
       />
 
       <Alert

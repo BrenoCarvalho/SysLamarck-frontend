@@ -27,7 +27,9 @@ const PropertyVisualizationModal = ({
 
         setData([
           ["ID do imóvel", property.id],
+          ["Código do imóvel", property.propertyCode],
           ["Código do locador", property.locatorCode],
+          ["Imóvel", property.property],
           ["Nome do locador", property.locatorName],
           ["Tipo do Imóvel", property.propertyType],
           ["CEP", property.cep],
