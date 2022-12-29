@@ -1,6 +1,6 @@
 import { Divider, Flex, IconButton, Text } from "@chakra-ui/react";
 import SideNavBar from "./SideNavBar.component";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { HiMenu } from "react-icons/hi";
 
 const Header = ({
@@ -44,7 +44,9 @@ const Header = ({
 };
 
 const Page = ({ children, title, hScreenSize = false, ...props }: any) => {
-  const [showMenu, setShowMenu] = useState(true);
+  const [showMenu, setShowMenu] = useState(
+    window.innerWidth < 768 ? false : true
+  );
 
   window.addEventListener("resize", (value) => {
     const target = value?.target as Window;
