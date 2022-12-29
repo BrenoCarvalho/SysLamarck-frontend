@@ -1,6 +1,6 @@
 import { Divider, Flex, IconButton, Text } from "@chakra-ui/react";
 import SideNavBar from "./SideNavBar.component";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { HiMenu } from "react-icons/hi";
 
 const Header = ({

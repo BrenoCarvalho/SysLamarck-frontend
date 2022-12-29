@@ -15,6 +15,7 @@ import { useState } from "react";
 import PersonalData from "../components/Forms/Basics/PersonalData.component";
 import Guarantor from "../components/Forms/Guarantor.component";
 import Page from "../components/Page.component";
+import Contract from "../components/Forms/Basics/Contract.component";
 
 const LocatarioRegister = () => {
   const [additionalRenter, setAdditionalRenter] = useState(false);
@@ -102,43 +103,7 @@ const LocatarioRegister = () => {
             ))}
           </Flex>
 
-          <FormControl>
-            <FormLabel>Contrato</FormLabel>
-            <Divider mb="6" mt="4" />
-
-            <Flex direction="column" gap="6">
-              <Flex>
-                <FormControl>
-                  <FormLabel fontSize="sm">Aplicar desconto</FormLabel>
-                  <Switch />
-                </FormControl>
-                <FormControl>
-                  <FormLabel fontSize="sm">
-                    Imposto recolhido na fonte
-                  </FormLabel>
-                  <Switch />
-                </FormControl>
-              </Flex>
-              <FormControl>
-                <FormLabel fontSize="sm">Finalidade</FormLabel>
-                <RadioGroup>
-                  <Stack direction="row" gap="6">
-                    <Radio value="1">Residencial</Radio>
-                    <Radio value="2">Comercial</Radio>
-                  </Stack>
-                </RadioGroup>
-              </FormControl>
-              <FormControl>
-                <FormLabel fontSize="sm">Pagamento IPTU</FormLabel>
-                <RadioGroup>
-                  <Stack direction="row" gap="6">
-                    <Radio value="1">Integral</Radio>
-                    <Radio value="2">Parcelado</Radio>
-                  </Stack>
-                </RadioGroup>
-              </FormControl>
-            </Flex>
-          </FormControl>
+          <Contract />
         </Flex>
 
         {/* Right Side */}

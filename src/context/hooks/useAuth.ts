@@ -3,19 +3,19 @@ import { useState, useEffect } from "react";
 import api from "../../api";
 
 export default function useAuth() {
-  const [authenticated, setAuthenticated] = useState(true);
+  const [authenticated, setAuthenticated] = useState(false);
 
-  // useEffect(() => {
-  //   const token = localStorage.getItem("token");
+  useEffect(() => {
+    const token = localStorage.getItem("token");
 
-  //   if (token) {
-  //     api.defaults.headers.Authorization = `Bearer ${JSON.parse(token)}`;
-  //   }
+    if (token) {
+      api.defaults.headers.Authorization = `Bearer ${JSON.parse(token)}`;
+    }
 
-  //   api.get("/").then(() => {
-  //     setAuthenticated(true);
-  //   });
-  // }, []); .
+    api.get("/").then(() => {
+      setAuthenticated(true);
+    });
+  }, []);
 
   async function handleLogin(data: any) {
     return api
