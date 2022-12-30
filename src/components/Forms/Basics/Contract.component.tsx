@@ -167,29 +167,29 @@ const Contract = ({
       onChange={handleChange}
       value={values?.leaseValue}
     />, // 8
-    <InputDate
+    <Input
       title="Duração do contrato"
       name={componentNames.contractDuration}
       onChange={handleChange}
       value={values?.contractDuration}
     />, // 9
-    <InputDate
-      title="Data de Início do Contrato"
-      name={componentNames.startContractDate}
-      onChange={handleChange}
-      value={values?.startContractDate}
-    />, // 10
-    <InputDate
-      title="Data de término do Contrato"
-      name={componentNames.endContractDate}
-      onChange={handleChange}
-      value={values?.endContractDate}
-    />, // 11
     <Input
       title="Dia de pagamento"
       name={componentNames.payday}
       onChange={handleChange}
       value={values?.payday}
+    />, // 10
+    <InputDate
+      title="Data de Início do Contrato"
+      name={componentNames.startContractDate}
+      onChange={handleChange}
+      value={values?.startContractDate}
+    />, // 11
+    <InputDate
+      title="Data de término do Contrato"
+      name={componentNames.endContractDate}
+      onChange={handleChange}
+      value={values?.endContractDate}
     />, // 12
     <InputDate
       title="Primeiro pagamento"
