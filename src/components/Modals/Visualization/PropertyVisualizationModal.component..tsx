@@ -12,6 +12,7 @@ import {
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import PropertyService from "../../../services/PropertyService";
+import { propertyCodeFormatter } from "../../../services/Formatters";
 
 const PropertyVisualizationModal = ({
   onClose,
@@ -27,7 +28,10 @@ const PropertyVisualizationModal = ({
 
         setData([
           ["ID do imóvel", property.id],
-          ["Código do imóvel", property.propertyCode],
+          [
+            "Código do imóvel",
+            propertyCodeFormatter({ value: property.propertyCode }),
+          ],
           ["Código do locador", property.locatorCode],
           ["Imóvel", property.property],
           ["Nome do locador", property.locatorName],

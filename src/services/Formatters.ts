@@ -30,4 +30,14 @@ const cepFormatter = ({ value }: { value: any }) => {
   return value?.replace(value?.length <= 8 ? /(\d{5})/ : /(\d{6})/, "$1-");
 };
 
-export { dateFormatter, cpfFormatter, phoneFormatter, cepFormatter };
+const propertyCodeFormatter = ({ value }: { value: string }) => {
+  return value?.replace(/(\d{3})/, "$1/");
+};
+
+export {
+  dateFormatter,
+  cpfFormatter,
+  phoneFormatter,
+  cepFormatter,
+  propertyCodeFormatter,
+};

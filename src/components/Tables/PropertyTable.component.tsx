@@ -2,6 +2,7 @@ import { Flex } from "@chakra-ui/react";
 import { AgGridReact } from "ag-grid-react";
 import PropertyService from "../../services/PropertyService";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { propertyCodeFormatter } from "../../services/Formatters";
 
 const defaultColumnData = {
   flex: 1,
@@ -12,7 +13,11 @@ const defaultColumnData = {
 };
 
 const columnDefs = [
-  { field: "propertyCode", headerName: "Código do imóvel" },
+  {
+    field: "propertyCode",
+    headerName: "Código do imóvel",
+    valueFormatter: propertyCodeFormatter,
+  },
   { field: "locatorName", headerName: "Locador" },
   { field: "propertyType", headerName: "Tipo de imóvel" },
   { field: "city", headerName: "Cidade" },
