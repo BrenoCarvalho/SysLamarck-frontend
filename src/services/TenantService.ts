@@ -1,9 +1,9 @@
 import api from "../api";
 
-const PropertyService = {
+const TernantService = {
   create: async (data: any) => {
     return api
-      .post("/property", data)
+      .post("/tenant", data)
       .then((response) => {
         return Promise.resolve(response);
       })
@@ -13,7 +13,7 @@ const PropertyService = {
   },
   update: async (id: number, data: any) => {
     return api
-      .put(`/property/${id}`, data)
+      .put(`/tenant/${id}`, data)
       .then((response) => {
         return Promise.resolve(response);
       })
@@ -23,7 +23,7 @@ const PropertyService = {
   },
   getData: async (): Promise<[]> => {
     return api
-      .get("/property")
+      .get("/tenant")
       .then((response) => {
         return Promise.resolve(response.data);
       })
@@ -33,17 +33,7 @@ const PropertyService = {
   },
   get: async (id: number): Promise<any> => {
     return api
-      .get(`/property/findById/${id}`)
-      .then((response) => {
-        return Promise.resolve(response.data);
-      })
-      .catch((error) => {
-        return Promise.reject(error);
-      });
-  },
-  getByPropertyCode: async (propertyCode: string): Promise<any> => {
-    return await api
-      .get(`/property/findByPropertyCode/${propertyCode}`)
+      .get(`/tenant/${id}`)
       .then((response) => {
         return Promise.resolve(response.data);
       })
@@ -53,7 +43,7 @@ const PropertyService = {
   },
   delete: async (id: number) => {
     return api
-      .delete(`/property/${id}`)
+      .delete(`/tenant/${id}`)
       .then((response) => {
         return Promise.resolve(response.data);
       })
@@ -63,4 +53,4 @@ const PropertyService = {
   },
 };
 
-export default PropertyService;
+export default TernantService;

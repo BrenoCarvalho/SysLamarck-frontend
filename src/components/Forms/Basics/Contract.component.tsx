@@ -82,7 +82,6 @@ const CustomSelect = ({
   children,
   ...props
 }: any) => {
-  console.log(options);
   return (
     <FormControl w={width}>
       <FormLabel fontSize="sm">{title}</FormLabel>
