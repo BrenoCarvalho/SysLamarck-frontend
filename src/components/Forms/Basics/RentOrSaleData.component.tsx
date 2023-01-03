@@ -44,7 +44,7 @@ const RentOrSale = ({
   handleChange?: any;
   values?: any;
 }) => {
-  const [mode, setMode] = useState(0);
+  const [mode, setMode] = useState("0");
 
   const fields = [
     <Input
@@ -94,7 +94,7 @@ const RentOrSale = ({
       <RadioGroup
         mb="6"
         onChange={(value: any) => {
-          setMode(Number(value));
+          setMode(value);
           handleChange(componentNames?.goalOfProperty)(
             modesNames[Number(value)]
           );
@@ -102,18 +102,18 @@ const RentOrSale = ({
         value={mode}
       >
         <Stack direction="row" gap="6">
-          <Radio value={0}>Aluguel</Radio>
-          <Radio value={1}>Venda</Radio>
-          <Radio value={2}>Aluguel e Venda</Radio>
+          <Radio value="0">Aluguel</Radio>
+          <Radio value="1">Venda</Radio>
+          <Radio value="2">Aluguel e Venda</Radio>
         </Stack>
       </RadioGroup>
 
       <Flex gap={6} direction="column">
-        {fieldListModes[mode].map((value: number, index: number) => {
+        {fieldListModes[Number(mode)].map((value: number, index: number) => {
           return index % 2 === 0 ? (
             <Flex gap="6">
-              {fields[fieldListModes[mode][index] - 1]}
-              {fields[fieldListModes[mode][index + 1] - 1]}
+              {fields[fieldListModes[Number(mode)][index] - 1]}
+              {fields[fieldListModes[Number(mode)][index + 1] - 1]}
             </Flex>
           ) : null;
         })}
