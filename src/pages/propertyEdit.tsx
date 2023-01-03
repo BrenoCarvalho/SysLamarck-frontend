@@ -152,6 +152,7 @@ const PropertyEdit = () => {
                       onChange={handleChange}
                       value={+values?.DIMOBDeclaration}
                       name={componentNames?.residentialData?.DIMOBDeclaration}
+                      isChecked={values?.DIMOBDeclaration}
                     />
                   </FormControl>
                 </Flex>
