@@ -51,6 +51,7 @@ const LocatorVisualizationModal = ({
           ["Banco", locator?.bank],
           ["Tipo de conta", locator?.accountType],
           ["Agência", locator?.agency],
+          ["Nº da conta", locator?.accountNumber],
           ["Remessa de pagamento", locator?.paymentRemittance],
         ]);
       };
