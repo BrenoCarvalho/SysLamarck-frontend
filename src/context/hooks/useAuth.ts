@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import api from "../../api";
 
 export default function useAuth() {
-  const [authenticated, setAuthenticated] = useState(false);
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -12,9 +12,11 @@ export default function useAuth() {
       api.defaults.headers.Authorization = `Bearer ${JSON.parse(token)}`;
     }
 
-    api.get("/").then(() => {
-      setAuthenticated(true);
-    });
+    api
+      .get(`/user/${localStorage.getItem("username")?.replaceAll(`"`, "")}`)
+      .then((response) => {
+        setUser(response.data);
+      });
   }, []);
 
   async function handleLogin(data: any) {
@@ -25,9 +27,13 @@ export default function useAuth() {
           "token",
           JSON.stringify(response.data.access_token)
         );
+        localStorage.setItem(
+          "username",
+          JSON.stringify(response.data.user.username)
+        );
 
-        api.defaults.headers.Authorization = `Bearer ${response.data.access_token}`;
-        setAuthenticated(true);
+        api.defaults.headers.Authorization = `Bearer ${response?.data?.access_token}`;
+        setUser(response?.data?.user);
 
         return response;
       })
@@ -37,10 +43,11 @@ export default function useAuth() {
   }
 
   function handleLogout() {
-    setAuthenticated(false);
+    setUser(null);
     localStorage.removeItem("token");
+    localStorage.removeItem("username");
     api.defaults.headers.Authorization = "";
   }
 
-  return { authenticated, handleLogin, handleLogout };
+  return { user, handleLogin, handleLogout };
 }

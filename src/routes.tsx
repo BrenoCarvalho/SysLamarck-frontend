@@ -18,8 +18,8 @@ import TenantSearch from "./pages/tenantSearch";
 import TenantEdit from "./pages/tenantEdit";
 
 const Private = ({ Item }: any) => {
-  const { authenticated } = useContext(Context);
-  return authenticated ? <Item /> : <Login />;
+  const { user } = useContext(Context);
+  return user ? <Item /> : <Login />;
 };
 
 const Routes = () => {

@@ -221,7 +221,13 @@ const SideNavBar = () => {
           <Item href="/more" icon={<MdOutlineMoreHoriz />} name="Mais" />
         </Flex>
         {/* logout */}
-        <Flex my="4" w="100%">
+        <Flex
+          my="2"
+          w="100%"
+          direction="column"
+          gap="2"
+          justifyContent="center"
+        >
           <Flex
             w="100%"
             onClick={handleLogout}
