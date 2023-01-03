@@ -7,6 +7,7 @@ import {
   Radio,
   RadioGroup,
   Stack,
+  Switch,
 } from "@chakra-ui/react";
 import { useState } from "react";
 
@@ -77,10 +78,18 @@ const RentOrSale = ({
       onChange={handleChange}
       value={values?.sellValue}
     />, // 5
+    <FormControl>
+      <FormLabel fontSize="sm">Vago</FormLabel>
+      <Switch
+        onChange={handleChange}
+        value={+values?.vacant}
+        name={componentNames?.rentOrSale?.vacant}
+      />
+    </FormControl>, // 6
   ];
 
   const modesNames = ["Aluguel", "Venda", "Aluguel e Venda"];
-  const fieldListModes = [[1, 2, 3, 4], [5], [1, 2, 3, 4, 5]];
+  const fieldListModes = [[1, 2, 3, 4, 6], [5], [1, 2, 3, 4, 5, 6]];
 
   return (
     <FormControl>
