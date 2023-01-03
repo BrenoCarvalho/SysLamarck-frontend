@@ -1,5 +1,5 @@
 import { Flex, FormControl, FormLabel, Switch } from "@chakra-ui/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import MunicipalData from "./Basics/MunicipalData.component";
 import PersonalData from "./Basics/PersonalData.component";
 import ResidentialData from "./Basics/ResidentialData.component";
@@ -15,6 +15,22 @@ const Guarantor = ({
 }) => {
   const [spouse, setSpouse] = useState(false);
   const [immobileBail, setImmobileBail] = useState(false);
+
+  useEffect(() => {
+    if (componentNames && values) {
+      if (values[componentNames?.spouse?.personalData?.fullName]) {
+        setSpouse(true);
+      }
+      if (values[componentNames?.propertyBail?.residentialData?.cep]) {
+        setImmobileBail(true);
+      }
+    }
+  }, [
+    componentNames,
+    componentNames?.spouse,
+    componentNames?.spouse?.personalData?.fullName,
+    values,
+  ]);
 
   return (
     <Flex w="100%" h="100%" direction="column" gap="6">
@@ -35,13 +51,13 @@ const Guarantor = ({
       <Flex w="100%">
         <FormControl alignItems="center" mr="6">
           <FormLabel fontSize="sm">Cônjuge</FormLabel>
-          <Switch onChange={() => setSpouse(!spouse)} value={+spouse} />
+          <Switch onChange={() => setSpouse(!spouse)} isChecked={spouse} />
         </FormControl>
         <FormControl alignItems="center">
           <FormLabel fontSize="sm">Imóvel de fiança</FormLabel>
           <Switch
             onChange={() => setImmobileBail(!immobileBail)}
-            value={+immobileBail}
+            isChecked={immobileBail}
           />
         </FormControl>
       </Flex>

@@ -42,7 +42,7 @@ const TenantSearch = () => {
 
   return (
     <Page
-      title="Consulta de imóvel"
+      title="Consulta de locatário"
       direction="column"
       hScreenSize
       paddingBottom="-2"
@@ -89,7 +89,7 @@ const TenantSearch = () => {
               _hover={{ backgroundColor: "gray.900" }}
               onClick={
                 selected
-                  ? () => navigate(`/editar/imovel/${selected.id}`)
+                  ? () => navigate(`/editar/locatario/${selected.tenantCode}`)
                   : () => {
                       console.log("Selecione algum locatário");
                     }

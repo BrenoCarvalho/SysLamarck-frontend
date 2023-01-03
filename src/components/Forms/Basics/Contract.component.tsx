@@ -115,12 +115,14 @@ const Contract = ({
       name={componentNames?.applyDiscount}
       onChange={handleChange}
       value={values ? values[componentNames?.applyDiscount] : null}
+      isChecked={values ? values[componentNames?.applyDiscount] : null}
     />, // 1
     <SwitchButton
       title="Imposto recolhido na fonte"
       name={componentNames?.withholdingTax}
       onChange={handleChange}
       value={values ? values[componentNames?.withholdingTax] : null}
+      isChecked={values ? values[componentNames?.withholdingTax] : null}
     />, // 2
     <RadioButton
       title="Finalidade"

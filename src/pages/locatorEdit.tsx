@@ -31,6 +31,7 @@ const componentNames = {
     cep: "cep",
     city: "city",
     district: "district",
+    address: "address",
     propertyNumber: "propertyNumber",
   },
   bankData: {

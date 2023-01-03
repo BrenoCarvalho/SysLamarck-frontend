@@ -95,19 +95,217 @@ const TenantVisualizationModal = ({
           ["Valor locação", tenant?.contract?.leaseAmount],
           ["Duração", tenant?.contract?.duration],
           ["Dia de pagamento", tenant?.contract?.payday],
-          ["Data de início do contrato", tenant?.contract?.start],
-          ["Data de termino do contrato", tenant?.contract?.end],
-          ["Primeiro pagamento", tenant?.contract?.firstPayment],
-          ["Tipo", tenant?.bail?.type],
-          ["Valor de caução", tenant?.bail?.escrowValue],
-          ["Seguro militar", tenant?.bail?.militaryInsurance],
-          ["Nome completo (Fiador)", tenant?.bail?.fullName],
-          ["Data de nascimento (Fiador)", tenant?.bail?.birthDate],
-          ["RG (Fiador)", tenant?.bail?.rg],
-          ["CPF / CNPJ (Fiador)", tenant?.bail?.cpf],
-          ["Nacionalidade (Fiador)", tenant?.bail?.nationality],
-          ["Estado civil (Fiador)", tenant?.bail?.maritalStatus],
-          ["Profissão (Fiador)", tenant?.bail?.profession],
+          [
+            "Data de início do contrato",
+            dateFormatter({ value: tenant?.contract?.start }),
+          ],
+          [
+            "Data de termino do contrato",
+            dateFormatter({ value: tenant?.contract?.end }),
+          ],
+          [
+            "Primeiro pagamento",
+            dateFormatter({ value: tenant?.contract?.firstPayment }),
+          ],
+          ["Tipo de fiança", tenant?.bail?.type],
+          tenant?.bail?.type === "Calção"
+            ? ["Valor de caução", tenant?.bail?.escrowValue]
+            : null,
+          tenant?.bail?.type === "Seguro Militar"
+            ? ["Seguro militar", tenant?.bail?.militaryInsurance]
+            : null,
+          tenant?.bail?.type === "Fiador"
+            ? ["Nome completo (Fiador)", tenant?.bail?.fullNameG1]
+            : null,
+          tenant?.bail?.type === "Fiador"
+            ? [
+                "Data de nascimento (Fiador)",
+                dateFormatter({ value: tenant?.bail?.birthDateG1 }),
+              ]
+            : null,
+          tenant?.bail?.type === "Fiador"
+            ? ["RG (Fiador)", tenant?.bail?.rgG1]
+            : null,
+          tenant?.bail?.type === "Fiador"
+            ? ["CPF / CNPJ (Fiador)", tenant?.bail?.cpfG1]
+            : null,
+          tenant?.bail?.type === "Fiador"
+            ? ["Nacionalidade (Fiador)", tenant?.bail?.nationalityG1]
+            : null,
+          tenant?.bail?.type === "Fiador"
+            ? ["Estado civil (Fiador)", tenant?.bail?.maritalStatusG1]
+            : null,
+          tenant?.bail?.type === "Fiador"
+            ? ["Profissão (Fiador)", tenant?.bail?.professionG1]
+            : null,
+          tenant?.bail?.type === "Fiador"
+            ? ["E-mail (Fiador)", tenant?.bail?.emailG1]
+            : null,
+          tenant?.bail?.type === "Fiador"
+            ? ["Contato 1 (Fiador)", tenant?.bail?.contact1G1]
+            : null,
+          tenant?.bail?.type === "Fiador"
+            ? ["Contato 2 (Fiador)", tenant?.bail?.contact2G1]
+            : null,
+          tenant?.bail?.type === "Fiador"
+            ? ["CEP (Fiador)", tenant?.bail?.cepG1]
+            : null,
+          tenant?.bail?.type === "Fiador"
+            ? ["Cidade (Fiador)", tenant?.bail?.cityG1]
+            : null,
+          tenant?.bail?.type === "Fiador"
+            ? ["Estado (Fiador)", tenant?.bail?.districtG1]
+            : null,
+          tenant?.bail?.type === "Fiador"
+            ? ["Endereço (Fiador)", tenant?.bail?.addressG1]
+            : null,
+          tenant?.bail?.spouseFullNameG1
+            ? ["Nome completo (Cônjuge)", tenant?.bail?.spouseFullNameG1]
+            : null,
+          tenant?.bail?.spouseFullNameG1
+            ? [
+                "Data de nascimento (Cônjuge)",
+                dateFormatter({
+                  value: tenant?.bail?.tenant?.bail?.spouseBirthDateG1,
+                }),
+              ]
+            : null,
+          tenant?.bail?.spouseFullNameG1
+            ? ["RG (Cônjuge)", tenant?.bail?.spouseRgG1]
+            : null,
+          tenant?.bail?.spouseFullNameG1
+            ? ["CPF (Cônjuge)", tenant?.bail?.spouseCpfG1]
+            : null,
+          tenant?.bail?.spouseFullNameG1
+            ? ["Nacionalidade (Cônjuge)", tenant?.bail?.spouseNationalityG1]
+            : null,
+          tenant?.bail?.spouseFullNameG1
+            ? ["Profissão (Cônjuge)", tenant?.bail?.spouseProfessionG1]
+            : null,
+          tenant?.bail?.spouseFullNameG1
+            ? ["Contato1 (Cônjuge)", tenant?.bail?.spouseContact1G1]
+            : null,
+          tenant?.bail?.bailPropertyCepG1
+            ? ["CEP (Imóvel de fiança)", tenant?.bail?.bailPropertyCepG1]
+            : null,
+          tenant?.bail?.bailPropertyCepG1
+            ? ["Cidade (Imóvel de fiança)", tenant?.bail?.bailPropertyCityG1]
+            : null,
+          tenant?.bail?.bailPropertyCepG1
+            ? [
+                "Estado (Imóvel de fiança)",
+                tenant?.bail?.bailPropertyDistrictG1,
+              ]
+            : null,
+          tenant?.bail?.bailPropertyCepG1
+            ? [
+                "Endereço (Imóvel de fiança)",
+                tenant?.bail?.bailPropertyAddressG1,
+              ]
+            : null,
+          tenant?.bail?.bailPropertyCepG1
+            ? [
+                "Nº de matricula (Imóvel de fiança)",
+                tenant?.bail?.bailPropertyRegistrationNumberG1,
+              ]
+            : null,
+          tenant?.bail?.fullNameG2
+            ? ["Nome completo (Fiador 2)", tenant?.bail?.fullNameG2]
+            : null,
+          tenant?.bail?.fullNameG2
+            ? [
+                "Data de nascimento (Fiador 2)",
+                dateFormatter({
+                  value: tenant?.bail?.birthDateG2,
+                }),
+              ]
+            : null,
+          tenant?.bail?.fullNameG2
+            ? ["RG (Fiador 2)", tenant?.bail?.rgG2]
+            : null,
+          tenant?.bail?.fullNameG2
+            ? ["CPF / CNPJ (Fiador 2)", tenant?.bail?.cpfG2]
+            : null,
+          tenant?.bail?.fullNameG2
+            ? ["Nacionalidade (Fiador 2)", tenant?.bail?.nationalityG2]
+            : null,
+          tenant?.bail?.fullNameG2
+            ? ["Estado civil (Fiador 2)", tenant?.bail?.maritalStatusG2]
+            : null,
+          tenant?.bail?.fullNameG2
+            ? ["Profissão (Fiador 2)", tenant?.bail?.professionG2]
+            : null,
+          tenant?.bail?.fullNameG2
+            ? ["E-mail (Fiador 2)", tenant?.bail?.emailG2]
+            : null,
+          tenant?.bail?.fullNameG2
+            ? ["Contato 1 (Fiador 2)", tenant?.bail?.contact1G2]
+            : null,
+          tenant?.bail?.fullNameG2
+            ? ["Contato 2 (Fiador 2)", tenant?.bail?.contact2G2]
+            : null,
+          tenant?.bail?.fullNameG2
+            ? ["CEP (Fiador 2)", tenant?.bail?.cepG2]
+            : null,
+          tenant?.bail?.fullNameG2
+            ? ["Cidade (Fiador 2)", tenant?.bail?.cityG2]
+            : null,
+          tenant?.bail?.fullNameG2
+            ? ["Estado (Fiador 2)", tenant?.bail?.districtG2]
+            : null,
+          tenant?.bail?.fullNameG2
+            ? ["Endereço (Fiador 2)", tenant?.bail?.addressG2]
+            : null,
+          tenant?.bail?.spouseFullNameG2
+            ? ["Nome completo (Cônjuge 2)", tenant?.bail?.spouseFullNameG2]
+            : null,
+          tenant?.bail?.spouseFullNameG2
+            ? [
+                "Data de nascimento (Cônjuge 2)",
+                dateFormatter({
+                  value: tenant?.bail?.spouseBirthDateG2,
+                }),
+              ]
+            : null,
+          tenant?.bail?.spouseFullNameG2
+            ? ["RG (Cônjuge 2)", tenant?.bail?.spouseRgG2]
+            : null,
+          tenant?.bail?.spouseFullNameG2
+            ? ["CPF (Cônjuge 2)", tenant?.bail?.spouseCpfG2]
+            : null,
+          tenant?.bail?.spouseFullNameG2
+            ? ["Nacionalidade (Cônjuge 2)", tenant?.bail?.spouseNationalityG2]
+            : null,
+          tenant?.bail?.spouseFullNameG2
+            ? ["Profissão (Cônjuge 2)", tenant?.bail?.spouseProfessionG2]
+            : null,
+          tenant?.bail?.spouseFullNameG2
+            ? ["Contato1 (Cônjuge 2)", tenant?.bail?.spouseContact1G2]
+            : null,
+          tenant?.bail?.bailPropertyCepG2
+            ? ["CEP (Imóvel de fiança 2)", tenant?.bail?.bailPropertyCepG2]
+            : null,
+          tenant?.bail?.bailPropertyCepG2
+            ? ["Cidade (Imóvel de fiança 2)", tenant?.bail?.bailPropertyCityG2]
+            : null,
+          tenant?.bail?.bailPropertyCepG2
+            ? [
+                "Estado (Imóvel de fiança 2)",
+                tenant?.bail?.bailPropertyDistrictG2,
+              ]
+            : null,
+          tenant?.bail?.bailPropertyCepG2
+            ? [
+                "Endereço (Imóvel de fiança 2)",
+                tenant?.bail?.bailPropertyAddressG2,
+              ]
+            : null,
+          tenant?.bail?.bailPropertyCepG2
+            ? [
+                "Nº de matricula (Imóvel de fiança 2)",
+                tenant?.bail?.bailPropertyRegistrationNumberG2,
+              ]
+            : null,
         ]);
       };
       loadData();

@@ -1,6 +1,8 @@
 const dateFormatter = ({ value }: { value: any }) => {
   const splited_date = value?.split("-");
-  return `${splited_date[2]}/${splited_date[1]}/${splited_date[0]}`;
+  return splited_date?.length
+    ? `${splited_date[2]}/${splited_date[1]}/${splited_date[0]}`
+    : "";
 };
 
 const cpfFormatter = ({ value }: { value: any }) => {

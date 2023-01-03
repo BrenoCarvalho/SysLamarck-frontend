@@ -15,6 +15,7 @@ import { useContext } from "react";
 import PropertySearch from "./pages/propertySearch";
 import PropertyEdit from "./pages/propertyEdit";
 import TenantSearch from "./pages/tenantSearch";
+import TenantEdit from "./pages/tenantEdit";
 
 const Private = ({ Item }: any) => {
   const { authenticated } = useContext(Context);
@@ -57,6 +58,10 @@ const Routes = () => {
         <Route
           path="/editar/imovel/:id"
           element={<Private Item={PropertyEdit} />}
+        />
+        <Route
+          path="/editar/locatario/:id"
+          element={<Private Item={TenantEdit} />}
         />
       </RoutesComponent>
     </BrowserRouter>

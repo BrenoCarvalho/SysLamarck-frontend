@@ -187,7 +187,7 @@ const PropertyEdit = () => {
                 {/* Submit button */}
                 <Flex w="100%" h="100%" justifyContent="flex-end">
                   <Button w={150} type="submit">
-                    Adicionar
+                    Salvar
                   </Button>
                 </Flex>
               </Flex>
