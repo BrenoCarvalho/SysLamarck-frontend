@@ -83,7 +83,7 @@ const RentOrSale = ({
       <Switch
         onChange={handleChange}
         value={+values?.vacant}
-        name={componentNames?.rentOrSale?.vacant}
+        name={componentNames?.vacant}
         isChecked={values?.vacant}
       />
     </FormControl>, // 6
