@@ -170,14 +170,6 @@ const PropertyEdit = () => {
                   handleChange={handleChange}
                   values={values}
                 />
-                <FormControl>
-                  <FormLabel fontSize="sm">Vago</FormLabel>
-                  <Switch
-                    onChange={handleChange}
-                    value={+values?.vacant}
-                    name={componentNames?.rentOrSale?.vacant}
-                  />
-                </FormControl>
                 <MunicipalData
                   componentNames={componentNames.municipalData}
                   handleChange={handleChange}

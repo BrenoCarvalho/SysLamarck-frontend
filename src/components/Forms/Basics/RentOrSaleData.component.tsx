@@ -84,6 +84,7 @@ const RentOrSale = ({
         onChange={handleChange}
         value={+values?.vacant}
         name={componentNames?.rentOrSale?.vacant}
+        isChecked={values?.vacant}
       />
     </FormControl>, // 6
   ];
