@@ -41,7 +41,7 @@ const PropertyService = {
         return Promise.reject(error);
       });
   },
-  getByPropertyCode: async (propertyCode: string): Promise<any> => {
+  getByPropertyCode: async (propertyCode: string | null): Promise<any> => {
     return await api
       .get(`/property/findByPropertyCode/${propertyCode}`)
       .then((response) => {

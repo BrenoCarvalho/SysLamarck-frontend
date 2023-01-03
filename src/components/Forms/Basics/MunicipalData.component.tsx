@@ -45,57 +45,57 @@ const MunicipalData = ({
   const fields = [
     <Input
       title="Nº de matricula"
-      name={componentNames?.registrationValue}
+      name={componentNames?.registrationNumber}
       onChange={handleChange}
-      value={values?.registrationValue}
+      value={values ? values[componentNames?.registrationNumber] : null}
     />, // 1
     <Input
       title="Código Municipal"
       name={componentNames?.cityCode}
       onChange={handleChange}
-      value={values?.cityCode}
+      value={values ? values[componentNames?.cityCode] : null}
     />, // 2
     <Input
       title="Nº IPTU"
       name={componentNames?.IPTUNumber}
       onChange={handleChange}
-      value={values?.IPTUNumber}
+      value={values ? values[componentNames?.IPTUNumber] : null}
     />, // 3
     <Input
       title="Valor do IPTU integral"
       name={componentNames?.IntegralIPTUValue}
       onChange={handleChange}
-      value={values?.IntegralIPTUValue}
+      value={values ? values[componentNames?.IntegralIPTUValue] : null}
     />, // 4
     <Input
       title="Nº de parcelas"
       name={componentNames?.numberInstallments}
       onChange={handleChange}
-      value={values?.numberInstallments}
+      value={values ? values[componentNames?.numberInstallments] : null}
     />, // 5
     <Input
       title="Valor IPTU parcelado"
       name={componentNames?.installmentsIPTUValue}
       onChange={handleChange}
-      value={values?.installmentsIPTUValue}
+      value={values ? values[componentNames?.installmentsIPTUValue] : null}
     />, // 6
     <Input
       title="Instalação EDP"
       name={componentNames?.edpInstallation}
       onChange={handleChange}
-      value={values?.edpInstallation}
+      value={values ? values[componentNames?.edpInstallation] : null}
     />, // 7
     <Input
       title="RGI"
       name={componentNames?.rgi}
       onChange={handleChange}
-      value={values?.rgi}
+      value={values ? values[componentNames?.rgi] : null}
     />, // 8
     <Input
       title="Fornecimento"
       name={componentNames?.supply}
       onChange={handleChange}
-      value={values?.supply}
+      value={values ? values[componentNames?.supply] : null}
     />, // 9
   ];
 

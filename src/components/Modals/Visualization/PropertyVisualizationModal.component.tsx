@@ -50,7 +50,7 @@ const PropertyVisualizationModal = ({
           ["Valor locação", property.leaseAmount],
           ["Valor de venda", property.sellValue],
           ["Vago", property.vacant ? "Sim" : "Não"],
-          ["Nº de matricula", property.registrationValue],
+          ["Nº de matricula", property.registrationNumber],
           ["Código Municipal", property.cityCode],
           ["Nº IPTU", property.IPTUNumber],
           ["Valor do IPTU integral", property.IntegralIPTUValue],

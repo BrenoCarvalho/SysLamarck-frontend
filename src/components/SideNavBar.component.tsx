@@ -190,13 +190,13 @@ const SideNavBar = () => {
               isGroupItem={true}
             />
             <Item
-              href="/locatarioSearch"
+              href="/consulta/locatario"
               name="Locatário"
               icon={<AiOutlineTeam />}
               isGroupItem={true}
             />
             <Item
-              href="/userSearch"
+              href="/consulta/usuario"
               name="Usuário"
               icon={<RiUserSettingsLine />}
               isGroupItem={true}

@@ -42,7 +42,7 @@ const componentNames = {
     vacant: "vacant",
   },
   municipalData: {
-    registrationValue: "registrationValue",
+    registrationNumber: "registrationNumber",
     cityCode: "cityCode",
     IPTUNumber: "IPTUNumber",
     IntegralIPTUValue: "IntegralIPTUValue",
@@ -84,7 +84,7 @@ const ImmobileRegister = () => {
     leaseAmount: "",
     sellValue: "",
     vacant: false,
-    registrationValue: "",
+    registrationNumber: "",
     cityCode: "",
     IPTUNumber: "",
     IntegralIPTUValue: "",

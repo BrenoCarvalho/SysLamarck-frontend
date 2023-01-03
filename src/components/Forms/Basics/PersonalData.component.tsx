@@ -59,35 +59,38 @@ const PersonalData = ({
   handleChange?: any;
   values?: any;
 }) => {
+  console.log();
   const fields = [
     <Input
       title="Nome completo"
       name={componentNames?.fullName}
       onChange={handleChange}
-      value={values?.fullName}
+      value={values ? values[componentNames?.fullName] : null}
     />, // 1
     <InputDate
       title="Data de nascimento"
       width="40%"
       name={componentNames?.birthDate}
       onChange={handleChange}
-      value={values?.birthDate}
+      value={values ? values[componentNames?.birthDate] : null}
     />, // 2
     <Input
       title="RG"
       name={componentNames?.rg}
       onChange={handleChange}
-      value={values?.rg}
-      mask=""
-      maskChar={null}
+      value={values ? values[componentNames?.rg] : null}
     />, // 3
     <Input
       title="CPF / CNPJ"
       name={componentNames?.cpf}
       onChange={handleChange}
-      value={values?.cpf}
+      value={values ? values[componentNames?.cpf] : null}
       mask={
-        values?.cpf?.length <= 14 ? "***.***.***-*****" : "**.***.***/****-**"
+        values
+          ? values[componentNames?.cpf]?.length <= 14
+            ? "***.***.***-*****"
+            : "**.***.***/****-**"
+          : null
       }
       maskChar={null}
     />, // 4
@@ -95,41 +98,53 @@ const PersonalData = ({
       title="Nacionalidade"
       name={componentNames?.nationality}
       onChange={handleChange}
-      value={values?.nationality}
+      value={values ? values[componentNames?.nationality] : null}
     />, // 5
     <Input
       title="Estado Civil"
       name={componentNames?.maritalStatus}
       onChange={handleChange}
-      value={values?.maritalStatus}
+      value={values ? values[componentNames?.maritalStatus] : null}
     />, // 6
     <Input
       title="Profissão"
       name={componentNames?.profession}
       onChange={handleChange}
-      value={values?.profession}
+      value={values ? values[componentNames?.profession] : null}
     />, // 7
     <Input
       title="E-mail"
       name={componentNames?.email}
       onChange={handleChange}
       type="email"
-      value={values?.email}
+      value={values ? values[componentNames?.email] : null}
     />, // 8
     <Input
       title="Contato 1"
       name={componentNames?.contact1}
       onChange={handleChange}
-      value={values?.contact1}
-      mask={values?.contact1?.length <= 12 ? "** ****-*****" : "** *****-****"}
+      value={values ? values[componentNames?.contact1] : null}
+      mask={
+        values
+          ? values[componentNames?.contact1]?.length <= 12
+            ? "** ****-*****"
+            : "** *****-****"
+          : null
+      }
       maskChar={null}
     />, // 9
     <Input
       title="Contato 2"
       name={componentNames?.contact2}
       onChange={handleChange}
-      value={values?.contact2}
-      mask={values?.contact2?.length <= 12 ? "** ****-*****" : "** *****-****"}
+      value={values ? values[componentNames?.contact2] : null}
+      mask={
+        values
+          ? values[componentNames?.contact2]?.length <= 12
+            ? "** ****-*****"
+            : "** *****-****"
+          : null
+      }
       maskChar={null}
     />, // 10
   ];

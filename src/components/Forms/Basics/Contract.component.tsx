@@ -95,7 +95,7 @@ const CustomSelect = ({
 };
 
 const Contract = ({
-  fieldList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+  fieldList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
   showHeader = true,
   headerTitle = "Contrato",
   componentNames = {},
@@ -114,28 +114,30 @@ const Contract = ({
       title="Aplicar desconto"
       name={componentNames?.applyDiscount}
       onChange={handleChange}
-      value={values?.applyDiscount}
+      value={values ? values[componentNames?.applyDiscount] : null}
     />, // 1
     <SwitchButton
       title="Imposto recolhido na fonte"
-      name={componentNames?.collectedTax}
+      name={componentNames?.withholdingTax}
       onChange={handleChange}
-      value={values?.collectedTax}
+      value={values ? values[componentNames?.withholdingTax] : null}
     />, // 2
     <RadioButton
       title="Finalidade"
-      name={componentNames?.IPTUpayment}
-      onChange={handleChange}
-      value={values?.IPTUpayment}
+      name={componentNames?.goal}
+      onChange={(value: any) => handleChange(componentNames?.goal)(value)}
+      value={values ? values[componentNames?.goal] : null}
     >
       <Radio value="Residencial">Residencial</Radio>
       <Radio value="Comercial">Comercial</Radio>
     </RadioButton>, // 3
     <RadioButton
       title="Pagamento IPTU"
-      name={componentNames?.IPTUpayment}
-      onChange={handleChange}
-      value={values?.IPTUpayment}
+      name={componentNames?.IPTUPayment}
+      onChange={(value: any) =>
+        handleChange(componentNames?.IPTUPayment)(value)
+      }
+      value={values ? values[componentNames?.IPTUPayment] : null}
     >
       <Radio value="Integral">Integral</Radio>
       <Radio value="Parcelado">Parcelado</Radio>
@@ -145,56 +147,56 @@ const Contract = ({
       options={["IGP-M(FGV)", "IGP(FGV)", "INPC(IBGE)", "IPCA(IBGE)"]}
       name={componentNames?.index}
       onChange={handleChange}
-      value={values?.index}
+      value={values ? values[componentNames?.index] : null}
     />, // 5
     <CustomSelect
       title="Reajuste"
       options={["Anual", "Mensal", "Trimestral", "Quadrimestral", "Semestral"]}
-      name={componentNames?.adjustment}
+      name={componentNames?.reajust}
       onChange={handleChange}
-      value={values?.adjustment}
+      value={values ? values[componentNames?.reajust] : null}
     />, // 6
     <Input
       title="Valor Integral"
-      name={componentNames.fullValue}
+      name={componentNames.integralValue}
       onChange={handleChange}
-      value={values?.fullValue}
+      value={values ? values[componentNames?.integralValue] : null}
     />, // 7
     <Input
       title="Valor Locação"
-      name={componentNames.leaseValue}
+      name={componentNames.leaseAmount}
       onChange={handleChange}
-      value={values?.leaseValue}
+      value={values ? values[componentNames?.leaseAmount] : null}
     />, // 8
     <Input
       title="Duração do contrato"
-      name={componentNames.contractDuration}
+      name={componentNames.duration}
       onChange={handleChange}
-      value={values?.contractDuration}
+      value={values ? values[componentNames?.duration] : null}
     />, // 9
     <Input
       title="Dia de pagamento"
       name={componentNames.payday}
       onChange={handleChange}
-      value={values?.payday}
+      value={values ? values[componentNames?.payday] : null}
     />, // 10
     <InputDate
       title="Data de Início do Contrato"
-      name={componentNames.startContractDate}
+      name={componentNames.start}
       onChange={handleChange}
-      value={values?.startContractDate}
+      value={values ? values[componentNames?.start] : null}
     />, // 11
     <InputDate
       title="Data de término do Contrato"
-      name={componentNames.endContractDate}
+      name={componentNames.end}
       onChange={handleChange}
-      value={values?.endContractDate}
+      value={values ? values[componentNames?.end] : null}
     />, // 12
     <InputDate
       title="Primeiro pagamento"
       name={componentNames.firstPayment}
       onChange={handleChange}
-      value={values?.firstPayment}
+      value={values ? values[componentNames?.firstPayment] : null}
     />, // 13
   ];
 

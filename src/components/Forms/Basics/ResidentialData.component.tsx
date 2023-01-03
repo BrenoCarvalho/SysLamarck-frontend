@@ -49,7 +49,7 @@ const ResidentialData = ({
       width="40%"
       name={componentNames?.cep}
       onChange={handleChange}
-      value={values?.cep}
+      value={values ? values[componentNames?.cep] : null}
       mask="*****-***"
       maskChar={null}
     />, // 1
@@ -57,25 +57,25 @@ const ResidentialData = ({
       title="Cidade"
       name={componentNames?.city}
       onChange={handleChange}
-      value={values?.city}
+      value={values ? values[componentNames?.city] : null}
     />, // 2
     <Input
       title="Bairro"
       name={componentNames?.district}
       onChange={handleChange}
-      value={values?.district}
+      value={values ? values[componentNames?.district] : null}
     />, // 3
     <Input
       title="Endereço"
       name={componentNames?.address}
       onChange={handleChange}
-      value={values?.address}
+      value={values ? values[componentNames?.address] : null}
     />, // 4
     <Input
       title="Descrição do Imóvel"
       name={componentNames?.propertyDescription}
       onChange={handleChange}
-      value={values?.propertyDescription}
+      value={values ? values[componentNames?.propertyDescription] : null}
     />, // 5
   ];
 

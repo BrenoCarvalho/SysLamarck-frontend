@@ -180,14 +180,14 @@ const LocatorRegister = () => {
         onClose={sucessDialogOnClose}
         isOpen={sucessDialogIsOpen}
         title="Sucesso!"
-        message={"Locatário adicionado com sucesso."}
+        message={"Locador adicionado com sucesso."}
       />
 
       <Alert
         onClose={errorDialogOnClose}
         isOpen={errorDialogIsOpen}
         title="Erro!"
-        message="Falha ao adicionar locatário, verifique os campos e tente novamente."
+        message="Falha ao adicionar locador, verifique os campos e tente novamente."
       />
     </Page>
   );

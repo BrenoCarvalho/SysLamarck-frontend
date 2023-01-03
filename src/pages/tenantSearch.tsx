@@ -2,16 +2,15 @@ import Page from "../components/Page.component";
 import { Button, Flex, useDisclosure } from "@chakra-ui/react";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
-import PropertyService from "../services/PropertyService";
-import PropertyTable from "../components/Tables/PropertyTable.component";
+import TenantService from "../services/TenantService";
 import ConfirmDelete from "../components/Modals/ConfirmDelete.component";
 import { useState } from "react";
 import Alert from "../components/Modals/Alert.component";
 import { useNavigate } from "react-router-dom";
 import TenantVisualizationModal from "../components/Modals/Visualization/TenantVisualization.component.";
-import { propertyCodeFormatter } from "../services/Formatters";
+import TenantTable from "../components/Tables/TenantTable.component";
 
-const PropertySearch = () => {
+const TenantSearch = () => {
   const navigate = useNavigate();
 
   const {
@@ -34,8 +33,8 @@ const PropertySearch = () => {
 
   const [selected, setSelected] = useState<any>();
 
-  const deleteProperty = async () => {
-    const response = await PropertyService.delete(selected.id);
+  const deleteTenant = async () => {
+    const response = await TenantService.delete(selected?.tenantCode);
     if (response === 1) {
       successDeletedDialogOnOpen();
     }
@@ -59,7 +58,7 @@ const PropertySearch = () => {
         shadow="lg"
         gap="1"
       >
-        <PropertyTable
+        <TenantTable
           setSelected={setSelected}
           deleteCallback={successDeletedDialogIsOpen}
         />
@@ -92,7 +91,7 @@ const PropertySearch = () => {
                 selected
                   ? () => navigate(`/editar/imovel/${selected.id}`)
                   : () => {
-                      console.log("Selecione algum imóvel");
+                      console.log("Selecione algum locatário");
                     }
               }
             >
@@ -109,7 +108,7 @@ const PropertySearch = () => {
               selected
                 ? () => visualizationModalDialogOnOpen()
                 : () => {
-                    console.log("Selecione algum imóvel");
+                    console.log("Selecione algum locatário");
                   }
             }
           >
@@ -121,17 +120,15 @@ const PropertySearch = () => {
       <ConfirmDelete
         isOpen={isOpenConfirmDelete}
         onClose={onCloseConfirmDelete}
-        onConfirm={deleteProperty}
-        message={`Tem certeza que deseja excluir o imóvel ${propertyCodeFormatter(
-          { value: selected?.propertyCode }
-        )}?`}
+        onConfirm={deleteTenant}
+        message={`Tem certeza que deseja excluir o locatário ${selected?.tenantCode}?`}
       />
 
       <Alert
         onClose={successDeletedDialogOnClose}
         isOpen={successDeletedDialogIsOpen}
         title="Sucesso!"
-        message="Imóvel deletado com sucesso."
+        message="Locatário deletado com sucesso."
       />
 
       <TenantVisualizationModal
@@ -143,4 +140,4 @@ const PropertySearch = () => {
   );
 };
 
-export default PropertySearch;
+export default TenantSearch;

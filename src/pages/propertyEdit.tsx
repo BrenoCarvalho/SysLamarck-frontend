@@ -44,7 +44,7 @@ const componentNames = {
     vacant: "vacant",
   },
   municipalData: {
-    registrationValue: "registrationValue",
+    registrationNumber: "registrationNumber",
     cityCode: "cityCode",
     IPTUNumber: "IPTUNumber",
     IntegralIPTUValue: "IntegralIPTUValue",

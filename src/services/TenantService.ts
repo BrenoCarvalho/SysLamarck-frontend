@@ -1,6 +1,6 @@
 import api from "../api";
 
-const TernantService = {
+const TenantService = {
   create: async (data: any) => {
     return api
       .post("/tenant", data)
@@ -53,4 +53,4 @@ const TernantService = {
   },
 };
 
-export default TernantService;
+export default TenantService;

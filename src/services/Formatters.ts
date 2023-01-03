@@ -4,7 +4,7 @@ const dateFormatter = ({ value }: { value: any }) => {
 };
 
 const cpfFormatter = ({ value }: { value: any }) => {
-  if (value.indexOf(".") === -1) {
+  if (value?.indexOf(".") === -1) {
     if (value?.length <= 11) {
       return value?.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
     } else {
