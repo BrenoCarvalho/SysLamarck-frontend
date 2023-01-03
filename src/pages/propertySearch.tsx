@@ -8,7 +8,7 @@ import ConfirmDelete from "../components/Modals/ConfirmDelete.component";
 import { useState } from "react";
 import Alert from "../components/Modals/Alert.component";
 import { useNavigate } from "react-router-dom";
-import TenantVisualizationModal from "../components/Modals/Visualization/TenantVisualization.component.";
+import PropertyVisualizationModal from "../components/Modals/Visualization/PropertyVisualizationModal.component";
 import { propertyCodeFormatter } from "../services/Formatters";
 
 const PropertySearch = () => {
@@ -134,7 +134,7 @@ const PropertySearch = () => {
         message="Imóvel deletado com sucesso."
       />
 
-      <TenantVisualizationModal
+      <PropertyVisualizationModal
         onClose={visualizationModalDialogOnClose}
         isOpen={visualizationModalDialogIsOpen}
         propertySelected={selected}
