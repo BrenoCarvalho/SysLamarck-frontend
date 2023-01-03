@@ -93,11 +93,11 @@ const RentOrSale = ({
 
       <RadioGroup
         mb="6"
-        onChange={(value: string | number) => {
-          value = Number(value);
-
-          setMode(value);
-          handleChange(componentNames?.goalOfProperty)(modesNames[value]);
+        onChange={(value: any) => {
+          setMode(Number(value));
+          handleChange(componentNames?.goalOfProperty)(
+            modesNames[Number(value)]
+          );
         }}
         value={mode}
       >
