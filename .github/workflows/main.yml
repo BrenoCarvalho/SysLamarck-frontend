@@ -20,6 +20,7 @@ jobs:
           pass: ${{ secrets.REMOTE_PASSWORD }}
           connect_timeout: 10s
           script: |
+            zsh
             cd /home/brenocarvalho
             touch a.txt
             echo $(nvm) >> a.txt 
