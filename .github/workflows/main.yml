@@ -22,11 +22,14 @@ jobs:
       #     REMOTE_USER: ${{secrets.REMOTE_USER}}
       #     TARGET: ${{secrets.TARGET_DIR}}
       #     EXCLUDE: "/dist/, /node_modules/, **.env, rebuild_app.sh, watcher.sh"
-      - name: Connect to the actuated SSH gateway
-        uses: invi5H/ssh-action@v1
+      - name: ssh pipelines
+        uses: cross-the-world/ssh-pipeline@master
+        env:
+          WELCOME: "ssh pipeline"
         with:
-          SSH_HOST: ${{ secrets.SSH_HOST }}
-          SSH_PORT: "22"
-          SSH_USER: ${{ secrets.SSH_USER }}
-          SSH_KEY: ${{ secrets.SSH_KEY }}
-      - run: ssh ${{ steps.ssh.outputs.SERVER }} pwd
+          host: "139.177.207.74"
+          user: "brenocarvalho"
+          pass: ${{ secrets.PASS }}
+          connect_timeout: 10s
+          script: |
+            pwd
