@@ -22,6 +22,7 @@ jobs:
           script: |
             cd ${{ secrets.REPOSITORY_DIR }}
             git pull
-            /home/brenocarvalho/.nvm/versions/node/v18.12.1/bin/npm run build
+            npm run build
+            # /home/brenocarvalho/.nvm/versions/node/v18.12.1/bin/npm run build
             # pm2 delete syslamarck-frontend 
             pm2 start --name syslamarck-frontend npm -- run start_production
