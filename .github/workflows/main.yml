@@ -22,3 +22,5 @@ jobs:
           script: |
             cd ${{ secrets.REPOSITORY_DIR }}
             git pull
+            npm run build
+            pm2 restart syslamarck-frontend
