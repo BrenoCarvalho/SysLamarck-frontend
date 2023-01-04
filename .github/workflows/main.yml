@@ -32,4 +32,4 @@ jobs:
           pass: ${{ secrets.PASS }}
           connect_timeout: 10s
           script: |
-            pwd
+            cd /home/brenocarvalho && mkdir test
