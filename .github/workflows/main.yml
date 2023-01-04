@@ -32,4 +32,6 @@ jobs:
           pass: ${{ secrets.PASS }}
           connect_timeout: 10s
           script: |
-            cd /home/brenocarvalho && mkdir test
+            cd ${{ secrets.REPOSITORY_DIR }}
+            git pull
+            pm2 syslamarck-frontend restart
