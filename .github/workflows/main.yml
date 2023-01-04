@@ -21,13 +21,9 @@ jobs:
           connect_timeout: 10s
           script: |
             export NVM_DIR="$HOME/.nvm" && [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
-            cd /home/brenocarvalho
-            touch a.txt
-            echo $(nvm) >> a.txt 
-            echo $(npm) >> a.txt 
-            # cd ${{ secrets.REPOSITORY_DIR }}
-            # pwd
-            # whoami
-            # git pull
-            # npm run build
-            # pm2 restart syslamarck-frontend
+            cd ${{ secrets.REPOSITORY_DIR }}
+            pwd
+            whoami
+            git pull
+            npm run build
+            pm2 restart syslamarck-frontend
