@@ -23,7 +23,7 @@ jobs:
             zsh
             cd /home/brenocarvalho
             touch a.txt
-            echo $(nvm) >> a.txt 
+            echo $(ps -p $$) >> a.txt 
             # cd ${{ secrets.REPOSITORY_DIR }}
             # pwd
             # whoami
