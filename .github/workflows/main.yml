@@ -22,7 +22,7 @@ jobs:
           script: |
             cd /home/brenocarvalho
             touch a.txt
-            echo $(hello) >> a.txt 
+            echo $(whoami) >> a.txt 
             # cd ${{ secrets.REPOSITORY_DIR }}
             # pwd
             # whoami
