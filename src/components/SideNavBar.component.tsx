@@ -138,7 +138,7 @@ const SideNavBar = () => {
             pb="4"
             className="border-b border-gray-100 w-full"
           >
-            SysLamarck1
+            SysLamarck
           </Text>
         </Link>
         {/* pages */}
