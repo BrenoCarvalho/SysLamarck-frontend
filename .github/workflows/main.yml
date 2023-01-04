@@ -22,8 +22,7 @@ jobs:
           script: |
             export NVM_DIR="$HOME/.nvm" && [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
             cd ${{ secrets.REPOSITORY_DIR }}
-            pwd
-            whoami
             git pull
             npm run build
-            pm2 restart syslamarck-frontend
+            pm2 delete syslamarck-frontend
+            pm2 start --name syslamarck-frontend npm -- run start_production
