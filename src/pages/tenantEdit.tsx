@@ -12,16 +12,17 @@ import {
   Text,
   useDisclosure,
 } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
-import PersonalData from "../components/Forms/Basics/PersonalData.component";
-import Guarantor from "../components/Forms/Guarantor.component";
-import Page from "../components/Page.component";
-import Contract from "../components/Forms/Basics/Contract.component";
 import { Form, Formik } from "formik";
-import PropertyService from "../services/PropertyService";
-import InputMask from "react-input-mask";
+import Page from "../components/Page.component";
 import TenantService from "../services/TenantService";
 import Alert from "../components/Modals/Alert.component";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import PersonalData from "../components/Forms/Basics/PersonalData.component";
+import Contract from "../components/Forms/Basics/Contract.component";
+import Guarantor from "../components/Forms/Guarantor.component";
+import InputMask from "react-input-mask";
+import PropertyService from "../services/PropertyService";
 
 const componentNames = {
   property: {
@@ -160,100 +161,110 @@ const componentNames = {
   },
 };
 
-const LocatarioRegister = () => {
-  const initialValues = {
-    propertyId: null,
-    propertyCode: null,
-    fullName: null,
-    birthDate: null,
-    rg: null,
-    cpf: null,
-    nationality: null,
-    maritalStatus: null,
-    profession: null,
-    email: null,
-    contact1: null,
-    contact2: null,
-    fullNameT2: null,
-    birthDateT2: null,
-    rgT2: null,
-    cpfT2: null,
-    nationalityT2: null,
-    maritalStatusT2: null,
-    professionT2: null,
-    emailT2: null,
-    contact1T2: null,
-    contact2T2: null,
-    residents: null,
-    applyDiscount: false,
-    withholdingTax: true,
-    goal: "Residencial",
-    IPTUPayment: "Integral",
-    index: null,
-    reajust: null,
-    integralValue: null,
-    leaseAmount: null,
-    duration: null,
-    payday: null,
-    start: null,
-    end: null,
-    firstPayment: null,
-    type: "Fiador",
-    escrowValue: null,
-    militaryInsurance: null,
-    fullNameG1: null,
-    birthDateG1: null,
-    rgG1: null,
-    cpfG1: null,
-    nationalityG1: null,
-    maritalStatusG1: null,
-    professionG1: null,
-    emailG1: null,
-    contact1G1: null,
-    contact2G1: null,
-    cepG1: null,
-    cityG1: null,
-    districtG1: null,
-    addressG1: null,
-    spouseFullNameG1: null,
-    spouseBirthDateG1: null,
-    spouseRgG1: null,
-    spouseCpfG1: null,
-    spouseNationalityG1: null,
-    spouseProfessionG1: null,
-    spouseContact1G1: null,
-    bailPropertyCepG1: null,
-    bailPropertyCityG1: null,
-    ailPropertyDistrictG1: null,
-    BailPropertyAddressG1: null,
-    BailPropertyRegistrationNumberG1: null,
-    fullNameG2: null,
-    birthDateG2: null,
-    rgG2: null,
-    cpfG2: null,
-    nationalityG2: null,
-    maritalStatusG2: null,
-    professionG2: null,
-    emailG2: null,
-    contact1G2: null,
-    contact2G2: null,
-    cepG2: null,
-    cityG2: null,
-    districtG2: null,
-    addressG2: null,
-    spouseFullNameG2: null,
-    spouseBirthDateG2: null,
-    spouseRgG2: null,
-    spouseCpfG2: null,
-    spouseNationalityG2: null,
-    spouseProfessionG2: null,
-    spouseContact1G2: null,
-    bailPropertyCepG2: null,
-    bailPropertyCityG2: null,
-    bailPropertyDistrictG2: null,
-    bailPropertyAddressG2: null,
-    bailPropertyRegistrationNumberG2: null,
+const formatData = (data: any) => {
+  return {
+    tenantCode: data?.tenantCode,
+    propertyId: data?.propertyId,
+    propertyCode: data?.propertyCode,
+    fullName: data?.fullName,
+    birthDate: data?.birthDate,
+    rg: data?.rg,
+    cpf: data?.cpf,
+    nationality: data?.nationality,
+    maritalStatus: data?.maritalStatus,
+    profession: data?.profession,
+    email: data?.email,
+    contact1: data?.contact1,
+    contact2: data?.contact2,
+    fullNameT2: data?.fullNameT2,
+    birthDateT2: data?.birthDateT2,
+    rgT2: data?.rgT2,
+    cpfT2: data?.cpfT2,
+    nationalityT2: data?.nationalityT2,
+    maritalStatusT2: data?.maritalStatusT2,
+    professionT2: data?.professionT2,
+    emailT2: data?.emailT2,
+    contact1T2: data?.contact1T2,
+    contact2T2: data?.contact2T2,
+    residents: data?.residents,
+    applyDiscount: data?.contract?.applyDiscount,
+    withholdingTax: data?.contract?.withholdingTax,
+    goal: data?.contract?.goal,
+    IPTUPayment: data?.contract?.IPTUPayment,
+    index: data?.contract?.index,
+    reajust: data?.contract?.reajust,
+    integralValue: data?.contract?.integralValue,
+    leaseAmount: data?.contract?.leaseAmount,
+    duration: data?.contract?.duration,
+    payday: data?.contract?.payday,
+    start: data?.contract?.start,
+    end: data?.contract?.end,
+    firstPayment: data?.contract?.firstPayment,
+    type: data?.bail?.type,
+    escrowValue: data?.bail?.escrowValue,
+    militaryInsurance: data?.bail?.militaryInsurance,
+    fullNameG1: data?.bail?.fullNameG1,
+    birthDateG1: data?.bail?.birthDateG1,
+    rgG1: data?.bail?.rgG1,
+    cpfG1: data?.bail?.cpfG1,
+    nationalityG1: data?.bail?.nationalityG1,
+    maritalStatusG1: data?.bail?.maritalStatusG1,
+    professionG1: data?.bail?.professionG1,
+    emailG1: data?.bail?.emailG1,
+    contact1G1: data?.bail?.contact1G1,
+    contact2G1: data?.bail?.contact2G1,
+    cepG1: data?.bail?.cepG1,
+    cityG1: data?.bail?.cityG1,
+    districtG1: data?.bail?.districtG1,
+    addressG1: data?.bail?.addressG1,
+    spouseFullNameG1: data?.bail?.spouseFullNameG1,
+    spouseBirthDateG1: data?.bail?.spouseBirthDateG1,
+    spouseRgG1: data?.bail?.spouseRgG1,
+    spouseCpfG1: data?.bail?.spouseCpfG1,
+    spouseNationalityG1: data?.bail?.spouseNationalityG1,
+    spouseProfessionG1: data?.bail?.spouseProfessionG1,
+    spouseContact1G1: data?.bail?.spouseContact1G1,
+    bailPropertyCepG1: data?.bail?.bailPropertyCepG1,
+    bailPropertyCityG1: data?.bail?.bailPropertyCityG1,
+    bailPropertyDistrictG1: data?.bail?.bailPropertyDistrictG1,
+    bailPropertyAddressG1: data?.bail?.bailPropertyAddressG1,
+    bailPropertyRegistrationNumberG1:
+      data?.bail?.bailPropertyRegistrationNumberG1,
+    fullNameG2: data?.bail?.fullNameG2,
+    birthDateG2: data?.bail?.birthDateG2,
+    rgG2: data?.bail?.rgG2,
+    cpfG2: data?.bail?.cpfG2,
+    nationalityG2: data?.bail?.nationalityG2,
+    maritalStatusG2: data?.bail?.maritalStatusG2,
+    professionG2: data?.bail?.professionG2,
+    emailG2: data?.bail?.emailG2,
+    contact1G2: data?.bail?.contact1G2,
+    contact2G2: data?.bail?.contact2G2,
+    cepG2: data?.bail?.cepG2,
+    cityG2: data?.bail?.cityG2,
+    districtG2: data?.bail?.districtG2,
+    addressG2: data?.bail?.addressG2,
+    spouseFullNameG2: data?.bail?.spouseFullNameG2,
+    spouseBirthDateG2: data?.bail?.spouseBirthDateG2,
+    spouseRgG2: data?.bail?.spouseRgG2,
+    spouseCpfG2: data?.bail?.spouseCpfG2,
+    spouseNationalityG2: data?.bail?.spouseNationalityG2,
+    spouseProfessionG2: data?.bail?.spouseProfessionG2,
+    spouseContact1G2: data?.bail?.spouseContact1G2,
+    bailPropertyCepG2: data?.bail?.bailPropertyCepG2,
+    bailPropertyCityG2: data?.bail?.bailPropertyCityG2,
+    bailPropertyDistrictG2: data?.bail?.bailPropertyDistrictG2,
+    bailPropertyAddressG2: data?.bail?.bailPropertyAddressG2,
+    bailPropertyRegistrationNumberG2:
+      data?.bail?.bailPropertyRegistrationNumberG2,
   };
+};
+
+const TenantEdit = () => {
+  const params = useParams();
+  const navigate = useNavigate();
+
+  const [initialValues, setInitialValues] = useState<any>();
 
   const {
     isOpen: sucessDialogIsOpen,
@@ -288,35 +299,47 @@ const LocatarioRegister = () => {
   };
 
   useEffect(() => {
-    const updatePropertyAddress = async () => {
-      const newPropertyAddress = await getPropertyAddress(
-        initialValues?.propertyCode
-      );
-      if (newPropertyAddress && newPropertyAddress !== propertyAddress) {
-        setPropertyAddress(newPropertyAddress);
-      }
-    };
+    if (!initialValues) {
+      TenantService.get(Number(params.id)).then((result) => {
+        if (result) {
+          setInitialValues(formatData(result));
+          if (result?.fullNameT2) {
+            setAdditionalRenter(true);
+          }
+          setBailType(
+            (bailTypesName.indexOf(result?.bail?.type) + 1).toString()
+          );
+          if (result?.bail?.fullNameG2) {
+            setAdditionalGuarantor(true);
+          }
 
-    updatePropertyAddress();
-  }, [initialValues?.propertyCode, propertyAddress]);
+          const loadPropertyCode = async () => {
+            const address = await getPropertyAddress(result?.propertyCode);
+            setPropertyAddress(address ? address : "Não identificado");
+          };
+
+          loadPropertyCode();
+        } else {
+          navigate("/cadastro/locatario");
+        }
+      });
+    }
+  }, [additionalRenter, bailTypesName, initialValues, navigate, params.id]);
 
   return (
-    <Page title="Cadastro de Locatário" direction="column">
-      {/* Container */}
+    <Page title="Editar locatário" direction="column">
+      {/* Form */}
       <Formik
         initialValues={initialValues}
-        onSubmit={async (values) => {
-          if (propertyAddress !== "Não identificado") {
-            TenantService.create(values)
-              .then(() => {
-                sucessDialogOnOpen();
-              })
-              .catch(() => {
-                errorDialogOnOpen();
-              });
-          } else {
-            errorDialogOnOpen();
-          }
+        enableReinitialize={true}
+        onSubmit={(values) => {
+          TenantService.update(values.tenantCode, values)
+            .then(() => {
+              sucessDialogOnOpen();
+            })
+            .catch(() => {
+              errorDialogOnOpen();
+            });
         }}
       >
         {({ handleChange, values }) => (
@@ -372,7 +395,7 @@ const LocatarioRegister = () => {
                     <FormLabel fontSize="sm">Locatário adicional</FormLabel>
                     <Switch
                       onChange={() => setAdditionalRenter(!additionalRenter)}
-                      value={+additionalRenter}
+                      isChecked={additionalRenter}
                     />
                   </FormControl>
                 </Flex>
@@ -484,7 +507,7 @@ const LocatarioRegister = () => {
                           onChange={() =>
                             setAdditionalGuarantor(!additionalGuarantor)
                           }
-                          value={+additionalGuarantor}
+                          isChecked={additionalGuarantor}
                         />
                       </FormControl>
                     </Flex>
@@ -545,7 +568,7 @@ const LocatarioRegister = () => {
                 {/* Submit button */}
                 <Flex w="100%" h="100%" justifyContent="flex-end">
                   <Button w={150} type="submit">
-                    Adicionar
+                    Salvar
                   </Button>
                 </Flex>
               </Flex>
@@ -555,20 +578,23 @@ const LocatarioRegister = () => {
       </Formik>
 
       <Alert
-        onClose={sucessDialogOnClose}
+        onClose={() => {
+          sucessDialogOnClose();
+          navigate("/consulta/locatario");
+        }}
         isOpen={sucessDialogIsOpen}
         title="Sucesso!"
-        message={"Locatário adicionado com sucesso."}
+        message={"Locatário editado com sucesso."}
       />
 
       <Alert
         onClose={errorDialogOnClose}
         isOpen={errorDialogIsOpen}
         title="Erro!"
-        message="Falha ao adicionar locatário, verifique os campos e tente novamente."
+        message="Falha ao editar locatário, verifique os campos e tente novamente."
       />
     </Page>
   );
 };
 
-export default LocatarioRegister;
+export default TenantEdit;

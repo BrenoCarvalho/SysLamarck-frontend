@@ -9,14 +9,16 @@ import {
   Switch,
   useDisclosure,
 } from "@chakra-ui/react";
-import Immobile from "../components/Forms/Basics/Immobile.component";
-import MunicipalData from "../components/Forms/Basics/MunicipalData.component";
-import RentOrSale from "../components/Forms/Basics/RentOrSaleData.component";
+import { Form, Formik } from "formik";
 import ResidentialData from "../components/Forms/Basics/ResidentialData.component";
 import Page from "../components/Page.component";
-import { Form, Formik } from "formik";
 import PropertyService from "../services/PropertyService";
 import Alert from "../components/Modals/Alert.component";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import RentOrSale from "../components/Forms/Basics/RentOrSaleData.component";
+import MunicipalData from "../components/Forms/Basics/MunicipalData.component";
+import Immobile from "../components/Forms/Basics/Immobile.component";
 
 const componentNames = {
   propertyData: {
@@ -54,7 +56,12 @@ const componentNames = {
   },
 };
 
-const ImmobileRegister = () => {
+const PropertyEdit = () => {
+  const params = useParams();
+  const navigate = useNavigate();
+
+  const [initialValues, setInitialValues] = useState<any>();
+
   const {
     isOpen: sucessDialogIsOpen,
     onOpen: sucessDialogOnOpen,
@@ -67,41 +74,26 @@ const ImmobileRegister = () => {
     onClose: errorDialogOnClose,
   } = useDisclosure();
 
-  const initialValues = {
-    locatorCode: "0",
-    propertyType: "",
-    cep: "",
-    city: "",
-    district: "",
-    address: "",
-    propertyDescription: "",
-    IPTUPayer: "Proprietário",
-    DIMOBDeclaration: false,
-    goalOfProperty: "Aluguel",
-    leaseFee: "",
-    administrationTax: "",
-    integralValue: "",
-    leaseAmount: "",
-    sellValue: "",
-    vacant: false,
-    registrationNumber: "",
-    cityCode: "",
-    IPTUNumber: "",
-    IntegralIPTUValue: "",
-    numberInstallments: "",
-    installmentsIPTUValue: "",
-    edpInstallation: "",
-    rgi: "",
-    supply: "",
-  };
+  useEffect(() => {
+    if (!initialValues) {
+      PropertyService.get(Number(params.id)).then((result) => {
+        if (result) {
+          setInitialValues(result);
+        } else {
+          navigate("/cadastro/imovel");
+        }
+      });
+    }
+  }, [initialValues, navigate, params.id]);
 
   return (
-    <Page title="Cadastro de Imóvel" direction="column">
-      {/* Container */}
+    <Page title="Editar Imóvel" direction="column">
+      {/* Form */}
       <Formik
         initialValues={initialValues}
+        enableReinitialize={true}
         onSubmit={(values) => {
-          PropertyService.create(values)
+          PropertyService.update(values.id, values)
             .then(() => {
               sucessDialogOnOpen();
             })
@@ -160,6 +152,7 @@ const ImmobileRegister = () => {
                       onChange={handleChange}
                       value={+values?.DIMOBDeclaration}
                       name={componentNames?.residentialData?.DIMOBDeclaration}
+                      isChecked={values?.DIMOBDeclaration}
                     />
                   </FormControl>
                 </Flex>
@@ -187,7 +180,7 @@ const ImmobileRegister = () => {
                 {/* Submit button */}
                 <Flex w="100%" h="100%" justifyContent="flex-end">
                   <Button w={150} type="submit">
-                    Adicionar
+                    Salvar
                   </Button>
                 </Flex>
               </Flex>
@@ -197,20 +190,23 @@ const ImmobileRegister = () => {
       </Formik>
 
       <Alert
-        onClose={sucessDialogOnClose}
+        onClose={() => {
+          sucessDialogOnClose();
+          navigate("/consulta/imovel");
+        }}
         isOpen={sucessDialogIsOpen}
         title="Sucesso!"
-        message={"Imóvel adicionado com sucesso."}
+        message={"Imóvel editado com sucesso."}
       />
 
       <Alert
         onClose={errorDialogOnClose}
         isOpen={errorDialogIsOpen}
         title="Erro!"
-        message="Falha ao adicionar imóvel, verifique os campos e tente novamente."
+        message="Falha ao editar imóvel, verifique os campos e tente novamente."
       />
     </Page>
   );
 };
 
-export default ImmobileRegister;
+export default PropertyEdit;

@@ -11,6 +11,8 @@ import {
   MdOutlineSettings,
   MdPersonOutline,
 } from "react-icons/md";
+import { useContext } from "react";
+import { Context } from "../context/AuthContext";
 
 const Group = ({ name, icon, children }: any) => {
   const [isOpen, setOpen] = useState(false);
@@ -104,6 +106,8 @@ const Item = ({ href, name, icon, isGroupItem = false }: itemInterface) => {
 };
 
 const SideNavBar = () => {
+  const { handleLogout } = useContext(Context);
+
   return (
     <Flex
       p="6"
@@ -174,25 +178,25 @@ const SideNavBar = () => {
 
           <Group name="Consultas" icon={<BiSearch />}>
             <Item
-              href="/locadorSearch"
+              href="/consulta/locador"
               name="Locador"
               icon={<MdPersonOutline />}
               isGroupItem={true}
             />
             <Item
-              href="/imovelSearch"
+              href="/consulta/imovel"
               name="Imóvel"
               icon={<AiOutlineHome />}
               isGroupItem={true}
             />
             <Item
-              href="/locatarioSearch"
+              href="/consulta/locatario"
               name="Locatário"
               icon={<AiOutlineTeam />}
               isGroupItem={true}
             />
             <Item
-              href="/userSearch"
+              href="/consulta/usuario"
               name="Usuário"
               icon={<RiUserSettingsLine />}
               isGroupItem={true}
@@ -217,10 +221,16 @@ const SideNavBar = () => {
           <Item href="/more" icon={<MdOutlineMoreHoriz />} name="Mais" />
         </Flex>
         {/* logout */}
-        <Flex my="4" w="100%">
+        <Flex
+          my="2"
+          w="100%"
+          direction="column"
+          gap="2"
+          justifyContent="center"
+        >
           <Flex
             w="100%"
-            onClick={(): any => {}}
+            onClick={handleLogout}
             mb="2"
             justify="start"
             alignItems="center"

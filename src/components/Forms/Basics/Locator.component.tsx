@@ -3,20 +3,21 @@ import {
   Flex,
   FormControl,
   FormLabel,
-  NumberDecrementStepper,
-  NumberIncrementStepper,
-  NumberInput,
-  NumberInputField,
-  NumberInputStepper,
   Select,
 } from "@chakra-ui/react";
 
 const Locator = ({
   showHeader = true,
   headerTitle = "Dados do locador",
+  componentNames = {},
+  handleChange,
+  values,
 }: {
   showHeader?: boolean;
   headerTitle?: string;
+  componentNames?: any;
+  handleChange?: any;
+  values?: any;
 }) => {
   return (
     <FormControl>
@@ -28,19 +29,14 @@ const Locator = ({
       ) : null}
 
       <Flex gap="6">
-        <FormControl w="40%">
-          <FormLabel fontSize="sm">Código do locador</FormLabel>
-          <NumberInput min={1} max={500}>
-            <NumberInputField />
-            <NumberInputStepper>
-              <NumberIncrementStepper />
-              <NumberDecrementStepper />
-            </NumberInputStepper>
-          </NumberInput>
-        </FormControl>
         <FormControl w="100%">
           <FormLabel fontSize="sm">Prestação de Serviço</FormLabel>
-          <Select placeholder="Selecionar">
+          <Select
+            placeholder="Selecionar"
+            name={componentNames.provisionService}
+            onChange={handleChange}
+            value={values?.provisionService}
+          >
             <option>Leomar</option>
             <option>Glaucia</option>
             <option>Luiza</option>

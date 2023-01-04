@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Table custom style */
+.customStyle {
+  --ag-borders: none;
+  --ag-borders-row: solid 1px;
+}

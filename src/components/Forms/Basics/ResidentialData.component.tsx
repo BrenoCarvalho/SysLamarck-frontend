@@ -5,10 +5,16 @@ import {
   FormLabel,
   Input as ChakraInput,
 } from "@chakra-ui/react";
+import InputMask from "react-input-mask";
 
-const Input = ({ title, placeholder = title, ...props }: any) => {
+const Input = ({
+  title,
+  width = "100%",
+  placeholder = title,
+  ...props
+}: any) => {
   return (
-    <FormControl w="100%" {...props}>
+    <FormControl w={width}>
       <FormLabel
         fontSize="sm"
         textOverflow="ellipsis"
@@ -17,7 +23,7 @@ const Input = ({ title, placeholder = title, ...props }: any) => {
       >
         {title}
       </FormLabel>
-      <ChakraInput placeholder={placeholder} />
+      <ChakraInput as={InputMask} placeholder={placeholder} {...props} />
     </FormControl>
   );
 };
@@ -26,17 +32,51 @@ const ResidentialData = ({
   fieldList = [1, 2, 3, 4, 5],
   showHeader = true,
   headerTitle = "Dados residenciais",
+  componentNames = {},
+  handleChange,
+  values,
 }: {
   fieldList?: number[];
   showHeader?: boolean;
   headerTitle?: string;
+  componentNames?: any;
+  handleChange?: any;
+  values?: any;
 }) => {
   const fields = [
-    <Input title="CEP" w="40%" />, // 1
-    <Input title="Cidade" />, // 2
-    <Input title="Bairro" />, // 3
-    <Input title="Logradouro" placeholder="Nº do imóvel" />, // 4
-    <Input title="Descrição do Imóvel" />, // 5
+    <Input
+      title="CEP"
+      width="40%"
+      name={componentNames?.cep}
+      onChange={handleChange}
+      value={values ? values[componentNames?.cep] : null}
+      mask="*****-***"
+      maskChar={null}
+    />, // 1
+    <Input
+      title="Cidade"
+      name={componentNames?.city}
+      onChange={handleChange}
+      value={values ? values[componentNames?.city] : null}
+    />, // 2
+    <Input
+      title="Bairro"
+      name={componentNames?.district}
+      onChange={handleChange}
+      value={values ? values[componentNames?.district] : null}
+    />, // 3
+    <Input
+      title="Endereço"
+      name={componentNames?.address}
+      onChange={handleChange}
+      value={values ? values[componentNames?.address] : null}
+    />, // 4
+    <Input
+      title="Descrição do Imóvel"
+      name={componentNames?.propertyDescription}
+      onChange={handleChange}
+      value={values ? values[componentNames?.propertyDescription] : null}
+    />, // 5
   ];
 
   return (
