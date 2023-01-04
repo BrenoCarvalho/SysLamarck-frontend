@@ -45,7 +45,7 @@ const Login = () => {
         padding="8"
       >
         <Text fontSize="26px" textAlign={"center"} fontWeight="bold">
-          a plataforma SysLamarck
+          Acesse a plataforma SysLamarck
         </Text>
         <Input
           placeholder="Usuário"
