@@ -21,7 +21,4 @@ jobs:
           connect_timeout: 10s
           script: |
             cd ${{ secrets.REPOSITORY_DIR }}
-            git pull
-            npm run build
-            pm2 delete syslamarck-frontend 
-            pm2 start --name syslamarck-frontend npm -- run start_production
+            ./reload.sh
