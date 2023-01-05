@@ -22,6 +22,7 @@ import PropertyService from "../services/PropertyService";
 import InputMask from "react-input-mask";
 import TenantService from "../services/TenantService";
 import Alert from "../components/Modals/Alert.component";
+import Residents from "../components/residents.component";
 
 const componentNames = {
   property: {
@@ -268,7 +269,7 @@ const LocatarioRegister = () => {
   } = useDisclosure();
 
   const [additionalRenter, setAdditionalRenter] = useState(false);
-  const [residentsLenght, setResidentsLenght] = useState<number[]>([]);
+  const [residents, setResidents] = useState<any[]>([]);
 
   const bailTypesName = ["Fiador", "Calção", "Seguro Militar"];
   const [bailType, setBailType] = useState("1");
@@ -307,7 +308,7 @@ const LocatarioRegister = () => {
         initialValues={initialValues}
         onSubmit={async (values) => {
           if (propertyAddress !== "Não identificado") {
-            TenantService.create(values)
+            TenantService.create({ ...values, residents })
               .then(() => {
                 sucessDialogOnOpen();
               })
@@ -383,55 +384,8 @@ const LocatarioRegister = () => {
                     values={values}
                   />
                 ) : null}
-                <Divider />
-                <Flex direction="column">
-                  <Flex w="100%">
-                    <Button
-                      w="100%"
-                      bg="gray.800"
-                      color="#fff"
-                      _hover={{ backgroundColor: "gray.900" }}
-                      onClick={() =>
-                        setResidentsLenght([
-                          ...residentsLenght,
-                          residentsLenght.length
-                            ? residentsLenght[residentsLenght.length - 1] + 1
-                            : 1,
-                        ])
-                      }
-                    >
-                      Adicionar morador
-                    </Button>
-                  </Flex>
-                  {residentsLenght.map((e) => (
-                    <>
-                      <Flex mt="6" align="flex-end" w="100%">
-                        <Text w="100%">Morador {e}</Text>
-                        <Button
-                          size="sm"
-                          _hover={{ color: "red.800" }}
-                          onClick={() =>
-                            setResidentsLenght(
-                              residentsLenght.filter((item) => item !== e)
-                            )
-                          }
-                          variant="unstyled"
-                          fontSize="lg"
-                          w="20px"
-                          h="20px"
-                        >
-                          X
-                        </Button>
-                      </Flex>
 
-                      <Divider mb="6" mt="3" />
-                      <PersonalData
-                        fieldList={[1, 3, 4, 9]}
-                        showHeader={false}
-                      />
-                    </>
-                  ))}
-                </Flex>
+                <Residents residents={residents} setResidents={setResidents} />
 
                 <Contract
                   componentNames={componentNames.contract}

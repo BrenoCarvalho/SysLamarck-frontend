@@ -1,5 +1,6 @@
 import {
   Button,
+  Divider,
   Flex,
   Modal,
   ModalBody,
@@ -31,7 +32,22 @@ const TenantVisualizationModal = ({
       const loadData = async () => {
         const tenant = await TenantService.get(tenantSelected?.tenantCode);
 
+        const residents: any = [["Moradores"]];
+
+        tenant?.residents.map((resident: any) => {
+          const tenantIndex = tenant?.residents?.indexOf(resident) + 1;
+
+          residents.push([`Nome - Morador ${tenantIndex}`, resident.fullName]);
+          residents.push([`RG - Morador ${tenantIndex}`, resident.rg]);
+          residents.push([`CPF / CNPJ - Morador ${tenantIndex}`, resident.cpf]);
+          residents.push([
+            `Contato 1 - Morador ${tenantIndex}`,
+            resident.contact1,
+          ]);
+        });
+
         setData([
+          ["Locatário"],
           ["Código do locatário", tenant?.tenantCode],
           [
             "Código do imóvel",
@@ -82,6 +98,8 @@ const TenantVisualizationModal = ({
                 phoneFormatter({ value: tenant?.contact2T2 }),
               ]
             : null,
+          ...residents,
+          ["Contrato"],
           ["Aplicar desconto", tenant?.contract?.applyDiscount ? "Sim" : "Não"],
           [
             "Imposto recolhido na fonte",
@@ -107,6 +125,7 @@ const TenantVisualizationModal = ({
             "Primeiro pagamento",
             dateFormatter({ value: tenant?.contract?.firstPayment }),
           ],
+          ["Fiança"],
           ["Tipo de fiança", tenant?.bail?.type],
           tenant?.bail?.type === "Calção"
             ? ["Valor de caução", tenant?.bail?.escrowValue]
@@ -323,12 +342,34 @@ const TenantVisualizationModal = ({
             {data?.map((value: any) => {
               return value ? (
                 <Flex>
-                  <Text fontWeight="bold">
-                    {value[0]}
-                    <Text fontWeight="normal">
-                      {value[1] ? value[1] : "Não cadastrado"}
+                  {value?.length > 1 ? (
+                    <Text fontWeight="bold">
+                      {value[0]}
+                      <Text fontWeight="normal">
+                        {value[1] ? value[1] : "Não cadastrado"}
+                      </Text>
                     </Text>
-                  </Text>
+                  ) : (
+                    <Flex
+                      mb="1"
+                      w="100%"
+                      direction="column"
+                      justifyContent="center"
+                      align="center"
+                      gap="1"
+                    >
+                      <Text
+                        w="100%"
+                        mt="1"
+                        mb="1"
+                        fontWeight="bold"
+                        textAlign="center"
+                      >
+                        {value[0]}
+                      </Text>
+                      <Divider w="50%" />
+                    </Flex>
+                  )}
                 </Flex>
               ) : null;
             })}

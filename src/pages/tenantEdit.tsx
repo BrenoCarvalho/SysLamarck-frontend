@@ -23,6 +23,7 @@ import Contract from "../components/Forms/Basics/Contract.component";
 import Guarantor from "../components/Forms/Guarantor.component";
 import InputMask from "react-input-mask";
 import PropertyService from "../services/PropertyService";
+import Residents from "../components/residents.component";
 
 const componentNames = {
   property: {
@@ -279,7 +280,7 @@ const TenantEdit = () => {
   } = useDisclosure();
 
   const [additionalRenter, setAdditionalRenter] = useState(false);
-  const [residentsLenght, setResidentsLenght] = useState<number[]>([]);
+  const [residents, setResidents] = useState<any[]>([]);
 
   const bailTypesName = ["Fiador", "Calção", "Seguro Militar"];
   const [bailType, setBailType] = useState("1");
@@ -303,6 +304,8 @@ const TenantEdit = () => {
       TenantService.get(Number(params.id)).then((result) => {
         if (result) {
           setInitialValues(formatData(result));
+          setResidents(result?.residents);
+
           if (result?.fullNameT2) {
             setAdditionalRenter(true);
           }
@@ -343,7 +346,7 @@ const TenantEdit = () => {
           if (values?.end === "") values.end = null;
           if (values?.firstPayment === "") values.firstPayment = null;
 
-          TenantService.update(values.tenantCode, values)
+          TenantService.update(values.tenantCode, { ...values, residents })
             .then(() => {
               sucessDialogOnOpen();
             })
@@ -416,55 +419,8 @@ const TenantEdit = () => {
                     values={values}
                   />
                 ) : null}
-                <Divider />
-                <Flex direction="column">
-                  <Flex w="100%">
-                    <Button
-                      w="100%"
-                      bg="gray.800"
-                      color="#fff"
-                      _hover={{ backgroundColor: "gray.900" }}
-                      onClick={() =>
-                        setResidentsLenght([
-                          ...residentsLenght,
-                          residentsLenght.length
-                            ? residentsLenght[residentsLenght.length - 1] + 1
-                            : 1,
-                        ])
-                      }
-                    >
-                      Adicionar morador
-                    </Button>
-                  </Flex>
-                  {residentsLenght.map((e) => (
-                    <>
-                      <Flex mt="6" align="flex-end" w="100%">
-                        <Text w="100%">Morador {e}</Text>
-                        <Button
-                          size="sm"
-                          _hover={{ color: "red.800" }}
-                          onClick={() =>
-                            setResidentsLenght(
-                              residentsLenght.filter((item) => item !== e)
-                            )
-                          }
-                          variant="unstyled"
-                          fontSize="lg"
-                          w="20px"
-                          h="20px"
-                        >
-                          X
-                        </Button>
-                      </Flex>
 
-                      <Divider mb="6" mt="3" />
-                      <PersonalData
-                        fieldList={[1, 3, 4, 9]}
-                        showHeader={false}
-                      />
-                    </>
-                  ))}
-                </Flex>
+                <Residents residents={residents} setResidents={setResidents} />
 
                 <Contract
                   componentNames={componentNames.contract}
