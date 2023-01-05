@@ -333,6 +333,16 @@ const TenantEdit = () => {
         initialValues={initialValues}
         enableReinitialize={true}
         onSubmit={(values) => {
+          if (values?.birthDate === "") values.birthDate = null;
+          if (values?.birthDateT2 === "") values.birthDateT2 = null;
+          if (values?.birthDateG1 === "") values.birthDateG1 = null;
+          if (values?.spouseBirthDateG1 === "") values.spouseBirthDateG1 = null;
+          if (values?.birthDateG2 === "") values.birthDateG2 = null;
+          if (values?.spouseBirthDateG2 === "") values.spouseBirthDateG2 = null;
+          if (values?.start === "") values.start = null;
+          if (values?.end === "") values.end = null;
+          if (values?.firstPayment === "") values.firstPayment = null;
+
           TenantService.update(values.tenantCode, values)
             .then(() => {
               sucessDialogOnOpen();

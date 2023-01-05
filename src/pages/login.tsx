@@ -16,7 +16,7 @@ const Login = () => {
     } else {
       const response = await handleLogin({ username, password });
 
-      if (response.status === 401) {
+      if (response?.status === 401) {
         setError("Usuário ou senha inválidos");
       }
     }

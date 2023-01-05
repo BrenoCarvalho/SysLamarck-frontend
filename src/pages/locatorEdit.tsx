@@ -80,6 +80,8 @@ const LocatorEdit = () => {
         initialValues={initialValues}
         enableReinitialize={true}
         onSubmit={(values) => {
+          if (values?.birthDate === "") values.birthDate = null;
+
           LocatorService.update(values.locatorCode, values)
             .then(() => {
               sucessDialogOnOpen();
