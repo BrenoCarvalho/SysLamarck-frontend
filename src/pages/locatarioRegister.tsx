@@ -186,8 +186,8 @@ const LocatarioRegister = () => {
     contact1T2: null,
     contact2T2: null,
     residents: null,
-    applyDiscount: false,
-    withholdingTax: true,
+    applyDiscount: true,
+    withholdingTax: false,
     goal: "Residencial",
     IPTUPayment: "Integral",
     index: null,
@@ -341,12 +341,7 @@ const LocatarioRegister = () => {
                 gap="7"
               >
                 <FormControl w="100%">
-                  <FormLabel fontSize="sm">
-                    Imóvel:{" "}
-                    {propertyAddress.length >= 39
-                      ? `${propertyAddress.substring(0, 36)}...`
-                      : propertyAddress}
-                  </FormLabel>
+                  <FormLabel fontSize="sm">Imóvel: {propertyAddress}</FormLabel>
                   <Input
                     as={InputMask}
                     value={values?.propertyCode ? values.propertyCode : ""}
