@@ -19,6 +19,7 @@ import {
   phoneFormatter,
   propertyCodeFormatter,
 } from "../../../services/Formatters";
+import PropertyService from "../../../services/PropertyService";
 
 const TenantVisualizationModal = ({
   onClose,
@@ -32,9 +33,9 @@ const TenantVisualizationModal = ({
       const loadData = async () => {
         const tenant = await TenantService.get(tenantSelected?.tenantCode);
 
-        const residents: any = [["Moradores"]];
+        const residents: any = tenant?.residents?.length ? [["Moradores"]] : [];
 
-        tenant?.residents.map((resident: any) => {
+        tenant?.residents?.map((resident: any) => {
           const tenantIndex = tenant?.residents?.indexOf(resident) + 1;
 
           residents.push([`Nome - Morador ${tenantIndex}`, resident.fullName]);
@@ -52,6 +53,11 @@ const TenantVisualizationModal = ({
           [
             "Código do imóvel",
             propertyCodeFormatter({ value: tenant?.propertyCode }),
+          ],
+          [
+            "Endereço do imóvel",
+            (await PropertyService.getByPropertyCode(tenant?.propertyCode))
+              ?.address,
           ],
           ["Nome do locador", tenant?.fullName],
           ["Data de nascimento", dateFormatter({ value: tenant?.birthDate })],
