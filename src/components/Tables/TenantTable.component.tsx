@@ -1,11 +1,7 @@
 import { Flex } from "@chakra-ui/react";
 import { AgGridReact } from "ag-grid-react";
 import { useCallback, useEffect, useRef, useState } from "react";
-import {
-  propertyCodeFormatter,
-  dateFormatter,
-  cpfFormatter,
-} from "../../services/Formatters";
+import { propertyCodeFormatter, cpfFormatter } from "../../services/Formatters";
 import TenantService from "../../services/TenantService";
 
 const defaultColumnData = {
@@ -28,9 +24,8 @@ const columnDefs = [
   },
   { field: "fullName", headerName: "Nome" },
   {
-    field: "birthDate",
-    headerName: "Data de nascimento",
-    valueFormatter: dateFormatter,
+    field: "contact1",
+    headerName: "Contato 1 (Locatário)",
   },
   { field: "rg", headerName: "RG" },
   { field: "cpf", headerName: "CPF / CNPJ", valueFormatter: cpfFormatter },

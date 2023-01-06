@@ -21,7 +21,7 @@ const columnDefs = [
     headerName: "Data de nascimento",
     valueFormatter: dateFormatter,
   },
-  { field: "email", headerName: "Email" },
+  { field: "contact1", headerName: "Contato 1" },
   {
     field: "cpf",
     headerName: "CPF / CNPJ",

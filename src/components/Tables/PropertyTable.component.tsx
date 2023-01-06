@@ -12,6 +12,10 @@ const defaultColumnData = {
   sortable: true,
 };
 
+const vacantFormatter = ({ value }: any) => {
+  return value ? "Sim" : "Não";
+};
+
 const columnDefs = [
   {
     field: "propertyCode",
@@ -20,9 +24,9 @@ const columnDefs = [
   },
   { field: "locatorName", headerName: "Locador" },
   { field: "propertyType", headerName: "Tipo de imóvel" },
-  { field: "city", headerName: "Cidade" },
-  { field: "address", headerName: "Endereço" },
   { field: "goalOfProperty", headerName: "Objetivo" },
+  { field: "vacant", headerName: "Vago", valueFormatter: vacantFormatter },
+  { field: "address", headerName: "Endereço" },
   { field: "propertyDescription", headerName: "Descrição" },
 ];
 

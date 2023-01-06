@@ -277,22 +277,30 @@ const LocatarioRegister = () => {
 
   const [propertyAddress, setPropertyAddress] = useState("Não identificado");
 
-  const getPropertyAddress = async (propertyCode: string | null) => {
+  const getProperty = async (propertyCode: string | null) => {
     const property = await PropertyService.getByPropertyCode(propertyCode);
-    return property?.address;
+    return property;
   };
 
   const updateProperty = async (propertyCode: string) => {
-    const propertyAddress = await getPropertyAddress(propertyCode);
+    const property = await getProperty(propertyCode);
+    const propertyAddress = property?.address;
+    console.log(propertyAddress);
 
-    setPropertyAddress(propertyAddress ? propertyAddress : "Não identificado");
+    if (property) {
+      setPropertyAddress(
+        property.vacant ? propertyAddress : "Imóvel indisponível"
+      );
+    } else {
+      setPropertyAddress("Não identificado");
+    }
   };
 
   useEffect(() => {
     const updatePropertyAddress = async () => {
-      const newPropertyAddress = await getPropertyAddress(
-        initialValues?.propertyCode
-      );
+      const newPropertyAddress = (
+        await getProperty(initialValues?.propertyCode)
+      )?.address;
       if (newPropertyAddress && newPropertyAddress !== propertyAddress) {
         setPropertyAddress(newPropertyAddress);
       }
