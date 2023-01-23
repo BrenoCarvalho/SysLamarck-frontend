@@ -49,9 +49,8 @@ const TenantVisualizationModal = ({
 
         setData([
           ["Locatário"],
-          ["Código do locatário", tenant?.tenantCode],
           [
-            "Código do imóvel",
+            "Código do locatário",
             propertyCodeFormatter({ value: tenant?.propertyCode }),
           ],
           [
@@ -59,7 +58,7 @@ const TenantVisualizationModal = ({
             (await PropertyService.getByPropertyCode(tenant?.propertyCode))
               ?.address,
           ],
-          ["Nome do locador", tenant?.fullName],
+          ["Nome do locatário", tenant?.fullName],
           ["Data de nascimento", dateFormatter({ value: tenant?.birthDate })],
           ["RG", tenant?.rg],
           ["CPF", cpfFormatter({ value: tenant?.cpf })],
