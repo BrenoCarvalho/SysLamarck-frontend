@@ -55,7 +55,7 @@ const componentNames = {
       contact2: "contact2T2",
     },
   },
-  residents: {},
+  residents: [],
   contract: {
     applyDiscount: "applyDiscount",
     withholdingTax: "withholdingTax",
@@ -304,7 +304,10 @@ const TenantEdit = () => {
       TenantService.get(Number(params.id)).then((result) => {
         if (result) {
           setInitialValues(formatData(result));
-          setResidents(result?.residents);
+
+          if (result?.residents) {
+            setResidents(result?.residents);
+          }
 
           if (result?.fullNameT2) {
             setAdditionalRenter(true);
