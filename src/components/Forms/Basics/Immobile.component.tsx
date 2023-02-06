@@ -91,7 +91,7 @@ const Immobile = ({
             name={componentNames?.propertyType}
             value={values?.propertyType}
           >
-            <option>Casa</option>
+            <option>Residencial</option>
             <option>Apartamento</option>
             <option>Comercial</option>
             <option>Terreno</option>

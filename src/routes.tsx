@@ -16,6 +16,7 @@ import PropertySearch from "./pages/propertySearch";
 import PropertyEdit from "./pages/propertyEdit";
 import TenantSearch from "./pages/tenantSearch";
 import TenantEdit from "./pages/tenantEdit";
+import Reports from "./pages/reports";
 
 const Private = ({ Item }: any) => {
   const { user } = useContext(Context);
@@ -63,6 +64,7 @@ const Routes = () => {
           path="/editar/locatario/:id"
           element={<Private Item={TenantEdit} />}
         />
+        <Route path="/relatorios" element={<Private Item={Reports} />} />
       </RoutesComponent>
     </BrowserRouter>
   );

@@ -5,6 +5,8 @@ import { AiOutlineHome, AiOutlineIdcard, AiOutlineTeam } from "react-icons/ai";
 import { BiSearch } from "react-icons/bi";
 import { RiUserSettingsLine } from "react-icons/ri";
 import { IoMdArrowDropdown, IoMdArrowDropleft } from "react-icons/io";
+import { TbReportSearch } from "react-icons/tb";
+
 import {
   MdOutlineLogout,
   MdOutlineMoreHoriz,
@@ -202,6 +204,11 @@ const SideNavBar = () => {
               isGroupItem={true}
             />
           </Group>
+          <Item
+            href="/relatorios"
+            icon={<TbReportSearch />}
+            name="Relatórios"
+          />
         </Flex>
         {/* settings */}
         <Flex
