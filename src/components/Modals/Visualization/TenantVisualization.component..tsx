@@ -135,8 +135,11 @@ const TenantVisualizationModal = ({
           tenant?.bail?.type === "Calção"
             ? ["Valor de caução", tenant?.bail?.escrowValue]
             : null,
-          tenant?.bail?.type === "Seguro Militar"
-            ? ["Seguro militar", tenant?.bail?.militaryInsurance]
+          tenant?.bail?.type === "Termo de garantia"
+            ? ["Termo de garantia", tenant?.bail?.warrantyTerm]
+            : null,
+          tenant?.bail?.type === "Título de capitalização"
+            ? ["Título de capitalização", tenant?.bail?.capitalizationTitle]
             : null,
           tenant?.bail?.type === "Fiador"
             ? ["Nome completo (Fiador)", tenant?.bail?.fullNameG1]

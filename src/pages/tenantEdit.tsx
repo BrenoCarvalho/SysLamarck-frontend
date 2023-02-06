@@ -74,7 +74,8 @@ const componentNames = {
   bail: {
     type: "type",
     escrowValue: "escrowValue",
-    militaryInsurance: "militaryInsurance",
+    warrantyTerm: "warrantyTerm",
+    capitalizationTitle: "capitalizationTitle",
     guarantor: {
       personalData: {
         fullName: "fullNameG1",
@@ -203,7 +204,8 @@ const formatData = (data: any) => {
     firstPayment: data?.contract?.firstPayment,
     type: data?.bail?.type,
     escrowValue: data?.bail?.escrowValue,
-    militaryInsurance: data?.bail?.militaryInsurance,
+    warrantyTerm: data?.bail?.warrantyTerm,
+    capitalizationTitle: data?.bail?.capitalizationTitle,
     fullNameG1: data?.bail?.fullNameG1,
     birthDateG1: data?.bail?.birthDateG1,
     rgG1: data?.bail?.rgG1,
@@ -282,7 +284,12 @@ const TenantEdit = () => {
   const [additionalRenter, setAdditionalRenter] = useState(false);
   const [residents, setResidents] = useState<any[]>([]);
 
-  const bailTypesName = ["Fiador", "Calção", "Seguro Militar"];
+  const bailTypesName = [
+    "Fiador",
+    "Calção",
+    "Termo de garantia",
+    "Título de capitalização",
+  ];
   const [bailType, setBailType] = useState("1");
   const [additionalGuarantor, setAdditionalGuarantor] = useState(false);
 
@@ -457,7 +464,8 @@ const TenantEdit = () => {
                     <Stack direction="row" gap="6">
                       <Radio value="1">Fiador</Radio>
                       <Radio value="2">Calção</Radio>
-                      <Radio value="3">Seguro Militar</Radio>
+                      <Radio value="3">Termo de garantia</Radio>
+                      <Radio value="4">Título de Capitalização</Radio>
                     </Stack>
                   </RadioGroup>
                 </FormControl>
@@ -518,7 +526,7 @@ const TenantEdit = () => {
                     <Flex w="100%">
                       <FormControl w="100%">
                         <FormLabel fontSize="sm">
-                          Upload do seguro militar
+                          Upload do termo de garantia
                         </FormLabel>
                         <Button
                           w={150}
@@ -529,6 +537,31 @@ const TenantEdit = () => {
                         >
                           Upload
                         </Button>
+                      </FormControl>
+                    </Flex>
+                  </>
+                ) : null}
+
+                {bailType === "4" ? (
+                  <>
+                    <Flex w="100%">
+                      <FormControl w="100%">
+                        <FormLabel fontSize="sm">
+                          Título de capitalização
+                        </FormLabel>
+                        <Input
+                          placeholder="Título de capitalização"
+                          name={componentNames?.bail?.capitalizationTitle}
+                          onChange={handleChange}
+                          value={
+                            values
+                              ? values[
+                                  componentNames?.bail
+                                    ?.capitalizationTitle as keyof object
+                                ]
+                              : ""
+                          }
+                        />
                       </FormControl>
                     </Flex>
                   </>
