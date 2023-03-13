@@ -32,7 +32,7 @@ const Header = ({ title }: any) => {
       alignItems: "center",
       justifyContent: "center",
       flexDirection: "row",
-      marginBottom: 38,
+      marginBottom: 36,
       marginTop: "3",
     },
     text: {
@@ -136,7 +136,7 @@ const Table = ({ header, data }: any) => {
       <hr
         style={{
           border: "0.4px solid black",
-          marginTop: "6px",
+          marginTop: "4px",
           marginBottom: "3px",
         }}
       />
