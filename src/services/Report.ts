@@ -39,13 +39,8 @@ const Report = {
     endDate: any,
     mode: number
   ): Promise<any> => {
-    const url =
-      mode === 1
-        ? "/report/contractsCompletedByPeriod"
-        : "/report/contractsStartedByPeriod";
-
     return api
-      .post(url, { startDate, endDate })
+      .post("/report/contractsByPeriod", { startDate, endDate, mode })
       .then((response) => {
         return Promise.resolve(response?.data);
       })

@@ -1,7 +1,7 @@
 import Page from "../components/Page.component";
 import { Button, Divider, Flex, Text, useDisclosure } from "@chakra-ui/react";
 import { AiOutlineHome } from "react-icons/ai";
-import { CgFileDocument } from "react-icons/cg";
+import { CgFileDocument, CgMoreO } from "react-icons/cg";
 import ReportViewer from "../components/Modals/Reports/ReportViewer.component";
 import PropertiesForSale from "../components/documents/properties/PropertiesForSale.compoent";
 import PropertiesByLocatorModal from "../components/Modals/Reports/PropertiesByLocator.component";
@@ -97,14 +97,14 @@ const ContractSection = () => {
       shadow="lg"
     >
       <ContractsByPeriodModal
-        isOpen={isOpenCompletedByPeriod}
-        onClose={onCloseCompletedByPeriod}
+        isOpen={isOpenStartedByPeriod}
+        onClose={onCloseStartedByPeriod}
         mode={1}
       />
 
       <ContractsByPeriodModal
-        isOpen={isOpenStartedByPeriod}
-        onClose={onCloseStartedByPeriod}
+        isOpen={isOpenCompletedByPeriod}
+        onClose={onCloseCompletedByPeriod}
         mode={2}
       />
 
@@ -117,10 +117,40 @@ const ContractSection = () => {
         </Flex>
         <Divider mb="3" />
 
+        <Button onClick={onOpenStartedByPeriod}>Iniciados por período</Button>
         <Button onClick={onOpenCompletedByPeriod}>
           Finalizados por período
         </Button>
-        <Button onClick={onOpenStartedByPeriod}>Iniciados por período</Button>
+      </Flex>
+    </Flex>
+  );
+};
+
+const OthersSection = () => {
+  return (
+    <Flex
+      w="50%"
+      h="100%"
+      direction={["column", "column", "column", "row"]}
+      justifyContent="center"
+      bg="#fff"
+      p="8"
+      borderRadius="lg"
+      shadow="lg"
+    >
+      <Flex direction="column" w="100%" gap="2">
+        <Flex align="center">
+          <CgMoreO className="text-2xl text-black" />
+          <Text fontWeight="bold" ml="2" mt="1">
+            Outros
+          </Text>
+        </Flex>
+        <Divider mb="3" />
+
+        <Button disabled>Imposto predial</Button>
+        <Button disabled>RGI EDP</Button>
+        <Button disabled>Imposto de renda</Button>
+        <Button disabled>Ficha de cadastro</Button>
       </Flex>
     </Flex>
   );
@@ -131,6 +161,7 @@ const Reports = () => {
     <Page title="Relatórios" gap="4">
       <PropertySection />
       <ContractSection />
+      <OthersSection />
     </Page>
   );
 };

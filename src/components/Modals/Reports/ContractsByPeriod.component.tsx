@@ -15,6 +15,7 @@ import {
 } from "@chakra-ui/react";
 import { useState } from "react";
 import ReportViewer from "./ReportViewer.component";
+import ContractsByPeriod from "../../documents/contracts/ContractsByPeriod.component";
 
 const ContractsByPeriodModal = ({ isOpen, onClose, mode }: any) => {
   const {
@@ -91,11 +92,17 @@ const ContractsByPeriodModal = ({ isOpen, onClose, mode }: any) => {
         </ModalContent>
       </Modal>
 
-      {/* <ReportViewer
+      <ReportViewer
         isOpen={isOpenDocument}
-        onClose={onCloseContractsCompletedByPeriod}
-        report={}
-      /> */}
+        onClose={onCloseDocument}
+        report={
+          <ContractsByPeriod
+            startDate={startDate}
+            endDate={endDate}
+            mode={mode}
+          />
+        }
+      />
     </>
   );
 };

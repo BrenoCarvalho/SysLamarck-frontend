@@ -2,7 +2,7 @@ import { Flex, Text } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import { cloneElement, useState } from "react";
 import { AiOutlineHome, AiOutlineIdcard, AiOutlineTeam } from "react-icons/ai";
-import { BiSearch } from "react-icons/bi";
+import { BiDollarCircle, BiSearch } from "react-icons/bi";
 import { RiUserSettingsLine } from "react-icons/ri";
 import { IoMdArrowDropdown, IoMdArrowDropleft } from "react-icons/io";
 import { TbReportSearch } from "react-icons/tb";
@@ -209,6 +209,7 @@ const SideNavBar = () => {
             icon={<TbReportSearch />}
             name="Relatórios"
           />
+          <Item href="/caixa" icon={<BiDollarCircle />} name="Caixa" />
         </Flex>
         {/* settings */}
         <Flex
