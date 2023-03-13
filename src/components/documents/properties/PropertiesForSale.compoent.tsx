@@ -7,8 +7,8 @@ import {
   Image,
 } from "@react-pdf/renderer";
 import { useEffect, useState } from "react";
-import Report from "../../services/Report";
-import { propertyCodeFormatter } from "../../services/Formatters";
+import Report from "../../../services/Report";
+import { propertyCodeFormatter } from "../../../services/Formatters";
 
 Font.register({
   family: "Inter",
@@ -30,7 +30,7 @@ const Card = ({ address, district, description, propertyCode, price }: any) => {
       width: "100%",
       border: "1px solid black",
       fontSize: "11",
-      padding: 16,
+      padding: 12,
       borderRadius: "4px",
       marginBottom: "10px",
     },
@@ -44,11 +44,11 @@ const Card = ({ address, district, description, propertyCode, price }: any) => {
     },
     row: {
       flexDirection: "row",
-      marginBottom: "12px",
+      marginBottom: "8px",
     },
     footer: {
       flexDirection: "row",
-      marginTop: "20px",
+      marginTop: "10px",
       justifyContent: "space-between",
     },
   });

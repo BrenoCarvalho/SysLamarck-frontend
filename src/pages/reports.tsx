@@ -2,11 +2,30 @@ import Page from "../components/Page.component";
 import { Button, Divider, Flex, Text, useDisclosure } from "@chakra-ui/react";
 import { AiOutlineHome } from "react-icons/ai";
 import { CgFileDocument } from "react-icons/cg";
-import ReportViewer from "../components/Modals/ReportViewer.component";
-import PropertiesForSale from "../components/documents/PropertiesForSale.compoent";
+import ReportViewer from "../components/Modals/Reports/ReportViewer.component";
+import PropertiesForSale from "../components/documents/properties/PropertiesForSale.compoent";
+import PropertiesByLocatorModal from "../components/Modals/Reports/PropertiesByLocator.component";
+import VacantProperties from "../components/documents/properties/VacantProperties.compoent";
+import ContractsByPeriodModal from "../components/Modals/Reports/ContractsByPeriod.component";
 
 const PropertySection = () => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const {
+    isOpen: isOpenPropertiesForSale,
+    onOpen: onOpenPropertiesForSale,
+    onClose: onClosePropertiesForSale,
+  } = useDisclosure();
+
+  const {
+    isOpen: isOpenVacantProperties,
+    onOpen: onOpenVacantProperties,
+    onClose: onCloseVacantProperties,
+  } = useDisclosure();
+
+  const {
+    isOpen: isOpenPropertiesByLocator,
+    onOpen: onOpenPropertiesByLocator,
+    onClose: onClosePropertiesByLocator,
+  } = useDisclosure();
 
   return (
     <Flex
@@ -20,9 +39,20 @@ const PropertySection = () => {
       shadow="lg"
     >
       <ReportViewer
-        isOpen={isOpen}
-        onClose={onClose}
+        isOpen={isOpenPropertiesForSale}
+        onClose={onClosePropertiesForSale}
         report={<PropertiesForSale />}
+      />
+
+      <ReportViewer
+        isOpen={isOpenVacantProperties}
+        onClose={onCloseVacantProperties}
+        report={<VacantProperties />}
+      />
+
+      <PropertiesByLocatorModal
+        isOpen={isOpenPropertiesByLocator}
+        onClose={onClosePropertiesByLocator}
       />
 
       <Flex direction="column" w="100%" gap="2">
@@ -34,14 +64,27 @@ const PropertySection = () => {
         </Flex>
         <Divider mb="3" />
 
-        <Button onClick={onOpen}>Imóveis para venda</Button>
-        <Button disabled={true}>Imóveis por locador</Button>
+        <Button onClick={onOpenPropertiesForSale}>Para venda</Button>
+        <Button onClick={onOpenVacantProperties}>Vagos</Button>
+        <Button onClick={onOpenPropertiesByLocator}>Por locador</Button>
       </Flex>
     </Flex>
   );
 };
 
 const ContractSection = () => {
+  const {
+    isOpen: isOpenCompletedByPeriod,
+    onOpen: onOpenCompletedByPeriod,
+    onClose: onCloseCompletedByPeriod,
+  } = useDisclosure();
+
+  const {
+    isOpen: isOpenStartedByPeriod,
+    onOpen: onOpenStartedByPeriod,
+    onClose: onCloseStartedByPeriod,
+  } = useDisclosure();
+
   return (
     <Flex
       w="50%"
@@ -53,6 +96,18 @@ const ContractSection = () => {
       borderRadius="lg"
       shadow="lg"
     >
+      <ContractsByPeriodModal
+        isOpen={isOpenCompletedByPeriod}
+        onClose={onCloseCompletedByPeriod}
+        mode={1}
+      />
+
+      <ContractsByPeriodModal
+        isOpen={isOpenStartedByPeriod}
+        onClose={onCloseStartedByPeriod}
+        mode={2}
+      />
+
       <Flex direction="column" w="100%" gap="2">
         <Flex align="center">
           <CgFileDocument className="text-2xl text-black" />
@@ -62,7 +117,10 @@ const ContractSection = () => {
         </Flex>
         <Divider mb="3" />
 
-        <Button disabled={true}>Contratos finalizados por período</Button>
+        <Button onClick={onOpenCompletedByPeriod}>
+          Finalizados por período
+        </Button>
+        <Button onClick={onOpenStartedByPeriod}>Iniciados por período</Button>
       </Flex>
     </Flex>
   );
