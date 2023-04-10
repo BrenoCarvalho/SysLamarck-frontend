@@ -8,7 +8,10 @@ import {
 } from "@react-pdf/renderer";
 import { useEffect, useState } from "react";
 import Report from "../../../services/Report";
-import { propertyCodeFormatter } from "../../../services/Formatters";
+import {
+  currencyFormatter,
+  propertyCodeFormatter,
+} from "../../../services/Formatters";
 
 Font.register({
   family: "Inter",
@@ -81,8 +84,12 @@ const Card = ({ property }: any) => {
         <Text style={cardStyle.textProperty}>
           {propertyCodeFormatter({ value: property?.propertyCode })}
         </Text>
-        <Text style={cardStyle.textProperty}>{property?.integralValue}</Text>
-        <Text style={cardStyle.textProperty}>{property?.leaseAmount}</Text>
+        <Text style={cardStyle.textProperty}>
+          {currencyFormatter({ value: property?.integralValue })}
+        </Text>
+        <Text style={cardStyle.textProperty}>
+          {currencyFormatter({ value: property?.leaseAmount })}
+        </Text>
       </div>
     </div>
   );

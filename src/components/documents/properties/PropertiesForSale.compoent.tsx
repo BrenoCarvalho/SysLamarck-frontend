@@ -8,7 +8,10 @@ import {
 } from "@react-pdf/renderer";
 import { useEffect, useState } from "react";
 import Report from "../../../services/Report";
-import { propertyCodeFormatter } from "../../../services/Formatters";
+import {
+  currencyFormatter,
+  propertyCodeFormatter,
+} from "../../../services/Formatters";
 
 Font.register({
   family: "Inter",
@@ -182,7 +185,7 @@ const generatePages = (property: any, type: any) => {
             district={property[i]?.district}
             description={property[i]?.propertyDescription}
             propertyCode={property[i]?.propertyCode}
-            price={property[i]?.sellValue}
+            price={currencyFormatter({ value: property[i]?.sellValue })}
           />
         ) : null}
         {property[i + 1]?.id ? (
@@ -191,7 +194,7 @@ const generatePages = (property: any, type: any) => {
             district={property[i + 1]?.district}
             description={property[i + 1]?.propertyDescription}
             propertyCode={property[i + 1]?.propertyCode}
-            price={property[i + 1]?.sellValue}
+            price={currencyFormatter({ value: property[i + 1]?.sellValue })}
           />
         ) : null}
         {property[i + 2]?.id ? (
@@ -200,7 +203,7 @@ const generatePages = (property: any, type: any) => {
             district={property[i + 2]?.district}
             description={property[i + 2]?.propertyDescription}
             propertyCode={property[i + 2]?.propertyCode}
-            price={property[i + 2]?.sellValue}
+            price={currencyFormatter({ value: property[i + 2]?.sellValue })}
           />
         ) : null}
         {property[i + 3]?.id ? (
@@ -209,7 +212,7 @@ const generatePages = (property: any, type: any) => {
             district={property[i + 3]?.district}
             description={property[i + 3]?.propertyDescription}
             propertyCode={property[i + 3]?.propertyCode}
-            price={property[i + 3]?.sellValue}
+            price={currencyFormatter({ value: property[i + 3]?.sellValue })}
           />
         ) : null}
       </Page>

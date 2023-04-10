@@ -36,10 +36,29 @@ const propertyCodeFormatter = ({ value }: { value: string }) => {
   return value?.replace(/(\d{3})/, "$1/");
 };
 
+const currencyFormatter = ({ value }: { value: any }) => {
+  if (!value) {
+    return;
+  }
+
+  if (value.indexOf(".") !== -1) {
+    value = value.replace(".", ",");
+  }
+
+  value = "R$" + value.replace(/(\d)(?=(\d{3})+(\.(\d){0,2})*$)/g, "$1.");
+
+  if (value.indexOf(",") === -1) return value + ",00";
+
+  var decimals = value.split(",")[1];
+
+  return decimals.length < 2 ? value + "0" : value;
+};
+
 export {
   dateFormatter,
   cpfFormatter,
   phoneFormatter,
   cepFormatter,
   propertyCodeFormatter,
+  currencyFormatter,
 };

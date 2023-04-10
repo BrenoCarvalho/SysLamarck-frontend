@@ -7,6 +7,8 @@ import PropertiesForSale from "../components/documents/properties/PropertiesForS
 import PropertiesByLocatorModal from "../components/Modals/Reports/PropertiesByLocator.component";
 import VacantProperties from "../components/documents/properties/VacantProperties.compoent";
 import ContractsByPeriodModal from "../components/Modals/Reports/ContractsByPeriod.component";
+import RgiEdp from "../components/documents/RgiEdp.component";
+import PropertyTax from "../components/documents/PropertyTax.component";
 
 const PropertySection = () => {
   const {
@@ -29,7 +31,7 @@ const PropertySection = () => {
 
   return (
     <Flex
-      w="50%"
+      w={["100%", "100%", "100%", "50%"]}
       h="100%"
       direction={["column", "column", "column", "row"]}
       justifyContent="center"
@@ -87,7 +89,7 @@ const ContractSection = () => {
 
   return (
     <Flex
-      w="50%"
+      w={["100%", "100%", "100%", "50%"]}
       h="100%"
       direction={["column", "column", "column", "row"]}
       justifyContent="center"
@@ -127,9 +129,21 @@ const ContractSection = () => {
 };
 
 const OthersSection = () => {
+  const {
+    isOpen: isOpenRgiEdp,
+    onOpen: onOpenRgiEdp,
+    onClose: onCloseRgiEdp,
+  } = useDisclosure();
+
+  const {
+    isOpen: isOpenPropertyTax,
+    onOpen: onOpenPropertyTax,
+    onClose: onClosePropertyTax,
+  } = useDisclosure();
+
   return (
     <Flex
-      w="50%"
+      w={["100%", "100%", "100%", "50%"]}
       h="100%"
       direction={["column", "column", "column", "row"]}
       justifyContent="center"
@@ -138,6 +152,18 @@ const OthersSection = () => {
       borderRadius="lg"
       shadow="lg"
     >
+      <ReportViewer
+        isOpen={isOpenRgiEdp}
+        onClose={onCloseRgiEdp}
+        report={<RgiEdp />}
+      />
+
+      <ReportViewer
+        isOpen={isOpenPropertyTax}
+        onClose={onClosePropertyTax}
+        report={<PropertyTax />}
+      />
+
       <Flex direction="column" w="100%" gap="2">
         <Flex align="center">
           <CgMoreO className="text-2xl text-black" />
@@ -147,10 +173,10 @@ const OthersSection = () => {
         </Flex>
         <Divider mb="3" />
 
-        <Button disabled>Imposto predial</Button>
-        <Button disabled>RGI EDP</Button>
+        <Button onClick={onOpenPropertyTax}>Imposto predial</Button>
+        <Button onClick={onOpenRgiEdp}>RGI EDP</Button>
         <Button disabled>Imposto de renda</Button>
-        <Button disabled>Ficha de cadastro</Button>
+        <Button>Ficha de cadastro</Button>
       </Flex>
     </Flex>
   );
@@ -158,7 +184,11 @@ const OthersSection = () => {
 
 const Reports = () => {
   return (
-    <Page title="Relatórios" gap="4">
+    <Page
+      title="Relatórios"
+      gap="4"
+      direction={["column", "column", "column", "row"]}
+    >
       <PropertySection />
       <ContractSection />
       <OthersSection />

@@ -2,12 +2,13 @@ import { Flex, Text } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import { cloneElement, useState } from "react";
 import { AiOutlineHome, AiOutlineIdcard, AiOutlineTeam } from "react-icons/ai";
-import { BiDollarCircle, BiSearch } from "react-icons/bi";
+import { BiDollarCircle, BiSearch, BiShow, BiTransfer } from "react-icons/bi";
 import { RiUserSettingsLine } from "react-icons/ri";
 import { IoMdArrowDropdown, IoMdArrowDropleft } from "react-icons/io";
 import { TbReportSearch } from "react-icons/tb";
 
 import {
+  MdCallReceived,
   MdOutlineLogout,
   MdOutlineMoreHoriz,
   MdOutlineSettings,
@@ -209,7 +210,26 @@ const SideNavBar = () => {
             icon={<TbReportSearch />}
             name="Relatórios"
           />
-          <Item href="/caixa" icon={<BiDollarCircle />} name="Caixa" />
+          <Group name="Caixa" icon={<BiDollarCircle />}>
+            <Item
+              href="/caixa/movimentacao"
+              icon={<BiTransfer />}
+              name="Movimentação"
+              isGroupItem={true}
+            />
+            <Item
+              href="/caixa/recebimentoAluguel"
+              icon={<MdCallReceived />}
+              name="Alugel"
+              isGroupItem={true}
+            />
+            <Item
+              href="/caixa/visualizar"
+              icon={<BiShow />}
+              name="Visualizar"
+              isGroupItem={true}
+            />
+          </Group>
         </Flex>
         {/* settings */}
         <Flex

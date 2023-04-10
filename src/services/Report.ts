@@ -48,6 +48,28 @@ const Report = {
         return Promise.reject(error);
       });
   },
+
+  rgiEdp: async (): Promise<any> => {
+    return api
+      .get(`/report/rgiEdp`)
+      .then((response) => {
+        return Promise.resolve(response?.data);
+      })
+      .catch((error) => {
+        return Promise.reject(error);
+      });
+  },
+
+  propertyTax: async (): Promise<any> => {
+    return api
+      .get(`/report/propertyTax`)
+      .then((response) => {
+        return Promise.resolve(response?.data);
+      })
+      .catch((error) => {
+        return Promise.reject(error);
+      });
+  },
 };
 
 export default Report;

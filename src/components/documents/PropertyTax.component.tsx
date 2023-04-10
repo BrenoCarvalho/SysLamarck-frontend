@@ -8,11 +8,8 @@ import {
   View,
 } from "@react-pdf/renderer";
 import { useEffect, useState } from "react";
-import Report from "../../../services/Report";
-import {
-  dateFormatter,
-  propertyCodeFormatter,
-} from "../../../services/Formatters";
+import Report from "../../services/Report";
+import { propertyCodeFormatter } from "../../services/Formatters";
 
 Font.register({
   family: "Inter",
@@ -148,12 +145,10 @@ const Table = ({ header, data }: any) => {
       {data?.map((row: any) => {
         const itemsRow = Object?.values(row);
 
-        itemsRow[0] =
-          typeof itemsRow[0] === "string"
-            ? propertyCodeFormatter({ value: itemsRow[0] })
-            : itemsRow[0];
-        itemsRow[3] = dateFormatter({ value: itemsRow[3] });
-        itemsRow[4] = dateFormatter({ value: itemsRow[4] });
+        itemsRow[1] =
+          typeof itemsRow[1] === "string"
+            ? propertyCodeFormatter({ value: itemsRow[1] })
+            : itemsRow[1];
 
         return (
           <View style={styles.tableRow}>
@@ -171,22 +166,22 @@ const Table = ({ header, data }: any) => {
   );
 };
 
-const generatePages = (data: any, pageTitle: string) => {
+const generatePages = (data: any) => {
   const pages = [];
 
   for (let i = 0; i < data?.length; i += 20) {
     const newData = data.slice(i, i + 20);
 
     pages.push(
-      <Page title={pageTitle}>
+      <Page title="Imposto predial">
         <Table
           header={[
-            "Cod. de propriedade",
+            "Cod. locador",
+            "Cod. propriedade",
             "Nome locador",
-            "Nome locatário",
-            "Data início",
-            "Data fim",
-            "Tipo imóvel",
+            "CPF locador",
+            "Endereço",
+            "IPTU",
           ]}
           data={newData}
         />
@@ -197,9 +192,9 @@ const generatePages = (data: any, pageTitle: string) => {
   return pages;
 };
 
-const NoneContractFound = ({ pageTitle }: any) => {
+const NoneDataFound = () => {
   return (
-    <Page title={pageTitle}>
+    <Page title="Imposto predial">
       <Text
         style={{
           width: "100%",
@@ -209,23 +204,18 @@ const NoneContractFound = ({ pageTitle }: any) => {
           marginLeft: "10px",
         }}
       >
-        Nenhum contrato encontrado.
+        Nenhum dado encontrado.
       </Text>
     </Page>
   );
 };
 
-const ContractsByPeriod = ({ startDate, endDate, mode }: any) => {
-  const pageTitle =
-    mode === 1
-      ? "Contratos iniciados por período"
-      : "Contratos finalizados por período";
-
+const PropertyTax = () => {
   const [data, setData] = useState<any>();
 
   useEffect(() => {
     const loadData = async () => {
-      setData(await Report.contractsByPeriod(startDate, endDate, mode));
+      setData(await Report.propertyTax());
     };
 
     if (!data) loadData();
@@ -234,14 +224,14 @@ const ContractsByPeriod = ({ startDate, endDate, mode }: any) => {
   return (
     <Document>
       {data?.length ? (
-        generatePages(data, pageTitle)?.map((obj: any) => {
+        generatePages(data)?.map((obj: any) => {
           return obj;
         })
       ) : (
-        <NoneContractFound pageTitle={pageTitle} />
+        <NoneDataFound />
       )}
     </Document>
   );
 };
 
-export default ContractsByPeriod;
+export default PropertyTax;
