@@ -55,6 +55,7 @@ const ContractsByPeriodModal = ({ isOpen, onClose, mode }: any) => {
                   size="md"
                   type="date"
                   onChange={(value) => {
+                    console.log(value?.target?.value);
                     setStartDate(value?.target?.value);
                   }}
                 />

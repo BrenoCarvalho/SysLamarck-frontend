@@ -9,6 +9,7 @@ import VacantProperties from "../components/documents/properties/VacantPropertie
 import ContractsByPeriodModal from "../components/Modals/Reports/ContractsByPeriod.component";
 import RgiEdp from "../components/documents/RgiEdp.component";
 import PropertyTax from "../components/documents/PropertyTax.component";
+import ContractsByMonthModal from "../components/Modals/Reports/ContractsByMonth.component";
 
 const PropertySection = () => {
   const {
@@ -76,6 +77,18 @@ const PropertySection = () => {
 
 const ContractSection = () => {
   const {
+    isOpen: isOpenReadjustmentContracts,
+    onOpen: onOpenReadjustmentContracts,
+    onClose: onCloseReadjustmentContracts,
+  } = useDisclosure();
+
+  const {
+    isOpen: isOpenRenovationContracts,
+    onOpen: onOpenRenovationContracts,
+    onClose: onCloseRenovationContracts,
+  } = useDisclosure();
+
+  const {
     isOpen: isOpenCompletedByPeriod,
     onOpen: onOpenCompletedByPeriod,
     onClose: onCloseCompletedByPeriod,
@@ -110,6 +123,18 @@ const ContractSection = () => {
         mode={2}
       />
 
+      <ContractsByMonthModal
+        isOpen={isOpenReadjustmentContracts}
+        onClose={onCloseReadjustmentContracts}
+        type="readjustment"
+      />
+
+      <ContractsByMonthModal
+        isOpen={isOpenRenovationContracts}
+        onClose={onCloseRenovationContracts}
+        type="renovation"
+      />
+
       <Flex direction="column" w="100%" gap="2">
         <Flex align="center">
           <CgFileDocument className="text-2xl text-black" />
@@ -119,6 +144,12 @@ const ContractSection = () => {
         </Flex>
         <Divider mb="3" />
 
+        <Button onClick={onOpenReadjustmentContracts}>
+          Contratos para reajuste
+        </Button>
+        <Button onClick={onOpenRenovationContracts}>
+          Contratos para renovação
+        </Button>
         <Button onClick={onOpenStartedByPeriod}>Iniciados por período</Button>
         <Button onClick={onOpenCompletedByPeriod}>
           Finalizados por período

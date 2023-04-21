@@ -34,6 +34,20 @@ const Report = {
       });
   },
 
+  contractsByMonth: async (
+    month: string | number,
+    type: "start" | "end"
+  ): Promise<any> => {
+    return api
+      .get("/report/contractsByMonth", { params: { month, type: type } })
+      .then((response) => {
+        return Promise.resolve(response?.data);
+      })
+      .catch((error) => {
+        return Promise.reject(error);
+      });
+  },
+
   contractsByPeriod: async (
     startDate: any,
     endDate: any,
