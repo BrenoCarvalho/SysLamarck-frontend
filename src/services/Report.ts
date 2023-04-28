@@ -84,6 +84,17 @@ const Report = {
         return Promise.reject(error);
       });
   },
+
+  registrationForm: async (tenantCode: number): Promise<any> => {
+    return api
+      .get("/report/registrationForm", { params: { tenantCode } })
+      .then((response) => {
+        return Promise.resolve(response?.data);
+      })
+      .catch((error) => {
+        return Promise.reject(error);
+      });
+  },
 };
 
 export default Report;

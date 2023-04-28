@@ -10,6 +10,7 @@ import ContractsByPeriodModal from "../components/Modals/Reports/ContractsByPeri
 import RgiEdp from "../components/documents/RgiEdp.component";
 import PropertyTax from "../components/documents/PropertyTax.component";
 import ContractsByMonthModal from "../components/Modals/Reports/ContractsByMonth.component";
+import RegistrationForm from "../components/documents/RegistrationForm.component";
 
 const PropertySection = () => {
   const {
@@ -172,6 +173,12 @@ const OthersSection = () => {
     onClose: onClosePropertyTax,
   } = useDisclosure();
 
+  const {
+    isOpen: isOpenRegistrationForm,
+    onOpen: onOpenRegistrationForm,
+    onClose: onCloseRegistrationForm,
+  } = useDisclosure();
+
   return (
     <Flex
       w={["100%", "100%", "100%", "50%"]}
@@ -195,6 +202,12 @@ const OthersSection = () => {
         report={<PropertyTax />}
       />
 
+      <ReportViewer
+        isOpen={isOpenRegistrationForm}
+        onClose={onCloseRegistrationForm}
+        report={<RegistrationForm />}
+      />
+
       <Flex direction="column" w="100%" gap="2">
         <Flex align="center">
           <CgMoreO className="text-2xl text-black" />
@@ -207,7 +220,7 @@ const OthersSection = () => {
         <Button onClick={onOpenPropertyTax}>Imposto predial</Button>
         <Button onClick={onOpenRgiEdp}>RGI EDP</Button>
         <Button disabled>Imposto de renda</Button>
-        <Button>Ficha de cadastro</Button>
+        <Button onClick={onOpenRegistrationForm}>Ficha de cadastro</Button>
       </Flex>
     </Flex>
   );
