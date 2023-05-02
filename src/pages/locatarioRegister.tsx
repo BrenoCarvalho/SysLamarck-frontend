@@ -23,6 +23,8 @@ import InputMask from "react-input-mask";
 import TenantService from "../services/TenantService";
 import Alert from "../components/Modals/Alert.component";
 import Residents from "../components/residents.component";
+import ReportViewer from "../components/Modals/Reports/ReportViewer.component";
+import RegistrationForm from "../components/documents/RegistrationForm.component";
 
 const componentNames = {
   property: {
@@ -270,6 +272,14 @@ const LocatarioRegister = () => {
     onClose: errorDialogOnClose,
   } = useDisclosure();
 
+  const {
+    isOpen: isOpenRegistrationForm,
+    onOpen: onOpenRegistrationForm,
+    onClose: onCloseRegistrationForm,
+  } = useDisclosure();
+
+  const [tenantCode, setTenantCode] = useState<number>(1);
+
   const [additionalRenter, setAdditionalRenter] = useState(false);
   const [residents, setResidents] = useState<any[]>([]);
 
@@ -292,7 +302,6 @@ const LocatarioRegister = () => {
   const updateProperty = async (propertyCode: string) => {
     const property = await getProperty(propertyCode);
     const propertyAddress = property?.address;
-    console.log(propertyAddress);
 
     if (property) {
       setPropertyAddress(
@@ -322,13 +331,20 @@ const LocatarioRegister = () => {
       <Formik
         initialValues={initialValues}
         onSubmit={async (values) => {
-          if (propertyAddress !== "Não identificado") {
+          if (
+            propertyAddress !== "Não identificado" &&
+            propertyAddress !== "Imóvel indisponível"
+          ) {
             TenantService.create({ ...values, residents })
-              .then(() => {
+              .then((result) => {
                 sucessDialogOnOpen();
+                setTenantCode(result?.data?.tenantCode);
               })
               .catch(() => {
                 errorDialogOnOpen();
+              })
+              .finally(() => {
+                updateProperty(values?.propertyCode || "0");
               });
           } else {
             errorDialogOnOpen();
@@ -545,7 +561,10 @@ const LocatarioRegister = () => {
       </Formik>
 
       <Alert
-        onClose={sucessDialogOnClose}
+        onClose={() => {
+          sucessDialogOnClose();
+          onOpenRegistrationForm();
+        }}
         isOpen={sucessDialogIsOpen}
         title="Sucesso!"
         message={"Locatário adicionado com sucesso."}
@@ -556,6 +575,12 @@ const LocatarioRegister = () => {
         isOpen={errorDialogIsOpen}
         title="Erro!"
         message="Falha ao adicionar locatário, verifique os campos e tente novamente."
+      />
+
+      <ReportViewer
+        isOpen={isOpenRegistrationForm}
+        onClose={onCloseRegistrationForm}
+        report={<RegistrationForm tenantCode={tenantCode} />}
       />
     </Page>
   );

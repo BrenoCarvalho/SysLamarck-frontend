@@ -160,8 +160,6 @@ const ListResidents = ({ residents, setResidents }: any) => {
 };
 
 const Residents = ({ residents, setResidents }: any) => {
-  console.log(residents);
-
   return (
     <FormControl>
       <FormLabel>Moradores</FormLabel>

@@ -6,6 +6,7 @@ import {
   dateFormatter,
   propertyCodeFormatter,
 } from "../../services/Formatters";
+import MovimentationService from "../../services/cashier/Movimentation";
 
 const defaultColumnData = {
   flex: 1,
@@ -17,36 +18,37 @@ const defaultColumnData = {
 
 const columnDefs = [
   {
-    field: "",
+    field: "id",
     headerName: "Nº Lançamento",
-    valueFormatter: propertyCodeFormatter,
     width: 148,
     flex: 0,
   },
-  { field: "", headerName: "Descrição" },
+  { field: "description", headerName: "Descrição" },
   {
-    field: "",
+    field: "date",
     headerName: "Data",
     valueFormatter: dateFormatter,
     width: 160,
     flex: 0,
   },
-  { field: "", headerName: "Crédito", width: 130, flex: 0 },
-  { field: "", headerName: "Débito", width: 130, flex: 0 },
+  { field: "credit", headerName: "Crédito", width: 130, flex: 0 },
+  { field: "debit", headerName: "Débito", width: 130, flex: 0 },
 ];
 
 const CashierMovimentationTable = ({
   setSelected,
   deleteCallback,
+  refreshTrigger,
 }: {
   setSelected?: any;
   deleteCallback?: any;
+  refreshTrigger?: any;
 }) => {
   const [data, setData] = useState([]);
   const gridRef = useRef<any>(null);
 
   const onGridReady = async () => {
-    setData(await PropertyService.getData());
+    setData(await MovimentationService.getData());
   };
 
   const onSelectionChanged = useCallback(() => {
@@ -60,6 +62,12 @@ const CashierMovimentationTable = ({
       remove: selectedData,
     });
   }, [deleteCallback]);
+
+  useEffect(() => {
+    if (refreshTrigger) {
+      onGridReady();
+    }
+  }, [refreshTrigger]);
 
   return (
     <Flex h="100%">
