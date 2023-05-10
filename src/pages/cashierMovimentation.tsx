@@ -13,6 +13,14 @@ import InputMask from "react-input-mask";
 import { Form, Formik } from "formik";
 import MovimentationService from "../services/cashier/Movimentation";
 import Alert from "../components/Modals/Alert.component";
+import ConfirmDelete from "../components/Modals/ConfirmDelete.component";
+
+interface Movimentation {
+  description: string | null;
+  date: Date | null;
+  debit: number | string | null;
+  credit: number | string | null;
+}
 
 const Input = ({
   title,
@@ -41,19 +49,54 @@ const InputDate = ({ title, width = "100%", ...props }: any) => {
 };
 
 const CashierMovimentation = () => {
-  const [selected, setSelected] = useState<any>();
-
-  const [trigger, setTrigger] = useState(0);
-
   const {
     isOpen: dialogIsOpen,
     onOpen: dialogOnOpen,
     onClose: dialogOnClose,
   } = useDisclosure();
 
-  const [dialogError, setDialogError] = useState<boolean>(false);
+  const {
+    isOpen: isOpenConfirmDelete,
+    onOpen: onOpenConfirmDelete,
+    onClose: onCloseConfirmDelete,
+  } = useDisclosure();
 
-  const initialValues = {
+  const {
+    isOpen: successDeletedDialogIsOpen,
+    onOpen: successDeletedDialogOnOpen,
+    onClose: successDeletedDialogOnClose,
+  } = useDisclosure();
+
+  const [dialogError, setDialogError] = useState<boolean>(false);
+  const [trigger, setTrigger] = useState(0);
+  const [selected, setSelected] = useState<any>();
+
+  const deleteMovimentation = async () => {
+    const response = await MovimentationService.delete(selected.id);
+    if (response === 1) {
+      successDeletedDialogOnOpen();
+    }
+  };
+
+  const createMovimentation = async (values: Movimentation) => {
+    MovimentationService.create({
+      ...values,
+      debit: Number(values.debit),
+      credit: Number(values.credit),
+    })
+      .then(() => {
+        setDialogError(false);
+      })
+      .catch(() => {
+        setDialogError(true);
+      })
+      .finally(() => {
+        setTrigger((trigger) => trigger + 1);
+        dialogOnOpen();
+      });
+  };
+
+  const initialValues: Movimentation = {
     description: null,
     date: null,
     debit: null,
@@ -70,19 +113,7 @@ const CashierMovimentation = () => {
     >
       <Formik
         initialValues={initialValues}
-        onSubmit={(values) =>
-          MovimentationService.create(values)
-            .then(() => {
-              setDialogError(false);
-            })
-            .catch(() => {
-              setDialogError(true);
-            })
-            .finally(() => {
-              setTrigger((trigger) => trigger + 1);
-              dialogOnOpen();
-            })
-        }
+        onSubmit={(values: Movimentation) => createMovimentation(values)}
       >
         {({ handleChange, values }) => (
           <Flex
@@ -144,11 +175,46 @@ const CashierMovimentation = () => {
             </Form>
             <CashierMovimentationTable
               setSelected={setSelected}
+              deleteCallback={successDeletedDialogIsOpen}
               refreshTrigger={trigger}
             />
+            <Flex w="100%" padding="3" justifyContent="flex-end" gap="2">
+              <Button
+                w={150}
+                _hover={{ color: "red.700" }}
+                variant="unstyled"
+                shadow="md"
+                onClick={
+                  selected
+                    ? onOpenConfirmDelete
+                    : () => {
+                        console.log("Selecione algum locatário");
+                      }
+                }
+              >
+                Remover
+              </Button>
+              <Button width="160px" type="submit">
+                Fechar caixa
+              </Button>
+            </Flex>
           </Flex>
         )}
       </Formik>
+
+      <ConfirmDelete
+        isOpen={isOpenConfirmDelete}
+        onClose={onCloseConfirmDelete}
+        onConfirm={deleteMovimentation}
+        message="Tem certeza que deseja deletar a movimentação?"
+      />
+
+      <Alert
+        onClose={successDeletedDialogOnClose}
+        isOpen={successDeletedDialogIsOpen}
+        title="Sucesso!"
+        message="Movimentação deletada com sucesso."
+      />
 
       <Alert
         onClose={dialogOnClose}

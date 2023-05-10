@@ -38,20 +38,15 @@ const propertyCodeFormatter = ({ value }: { value: string }) => {
 
 const currencyFormatter = ({ value }: { value: any }) => {
   if (!value) {
-    return;
+    return "R$ 0,00";
   }
 
-  if (value.indexOf(".") !== -1) {
-    value = value.replace(".", ",");
-  }
+  const formatter = new Intl.NumberFormat("pt-br", {
+    style: "currency",
+    currency: "BRL",
+  });
 
-  value = "R$" + value.replace(/(\d)(?=(\d{3})+(\.(\d){0,2})*$)/g, "$1.");
-
-  if (value.indexOf(",") === -1) return value + ",00";
-
-  var decimals = value.split(",")[1];
-
-  return decimals.length < 2 ? value + "0" : value;
+  return formatter?.format(value) || ("" as any);
 };
 
 export {

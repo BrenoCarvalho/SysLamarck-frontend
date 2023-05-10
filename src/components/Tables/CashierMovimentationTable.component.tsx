@@ -1,11 +1,7 @@
 import { Flex } from "@chakra-ui/react";
 import { AgGridReact } from "ag-grid-react";
-import PropertyService from "../../services/PropertyService";
 import { useCallback, useEffect, useRef, useState } from "react";
-import {
-  dateFormatter,
-  propertyCodeFormatter,
-} from "../../services/Formatters";
+import { currencyFormatter, dateFormatter } from "../../services/Formatters";
 import MovimentationService from "../../services/cashier/Movimentation";
 
 const defaultColumnData = {
@@ -31,8 +27,20 @@ const columnDefs = [
     width: 160,
     flex: 0,
   },
-  { field: "credit", headerName: "Crédito", width: 130, flex: 0 },
-  { field: "debit", headerName: "Débito", width: 130, flex: 0 },
+  {
+    field: "credit",
+    headerName: "Crédito",
+    width: 130,
+    flex: 0,
+    valueFormatter: currencyFormatter,
+  },
+  {
+    field: "debit",
+    headerName: "Débito",
+    width: 130,
+    flex: 0,
+    valueFormatter: currencyFormatter,
+  },
 ];
 
 const CashierMovimentationTable = ({
