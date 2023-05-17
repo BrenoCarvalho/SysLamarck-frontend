@@ -218,7 +218,7 @@ const SideNavBar = () => {
               isGroupItem={true}
             />
             <Item
-              href="/caixa/recebimentoAluguel"
+              href="/caixa/aluguel"
               icon={<MdCallReceived />}
               name="Alugel"
               isGroupItem={true}

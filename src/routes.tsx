@@ -18,6 +18,7 @@ import TenantSearch from "./pages/tenantSearch";
 import TenantEdit from "./pages/tenantEdit";
 import Reports from "./pages/reports";
 import CashierMovimentation from "./pages/cashierMovimentation";
+import CashierRent from "./pages/cashierRent";
 
 const Private = ({ Item }: any) => {
   const { user } = useContext(Context);
@@ -70,6 +71,7 @@ const Routes = () => {
           path="/caixa/movimentacao"
           element={<Private Item={CashierMovimentation} />}
         />
+        <Route path="/caixa/aluguel" element={<Private Item={CashierRent} />} />
       </RoutesComponent>
     </BrowserRouter>
   );
