@@ -22,7 +22,7 @@ const columnDefs = [
     headerName: "Código do imóvel",
     valueFormatter: propertyCodeFormatter,
   },
-  { field: "locatorName", headerName: "Locador" },
+  { field: "locator.fullName", headerName: "Locador" },
   { field: "propertyType", headerName: "Tipo de imóvel" },
   { field: "goalOfProperty", headerName: "Objetivo" },
   { field: "vacant", headerName: "Vago", valueFormatter: vacantFormatter },

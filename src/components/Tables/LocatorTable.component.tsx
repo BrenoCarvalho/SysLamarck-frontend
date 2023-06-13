@@ -13,7 +13,7 @@ const defaultColumnData = {
 };
 
 const columnDefs = [
-  { field: "locatorCode", headerName: "Código", width: 98, flex: 0 },
+  { field: "id", headerName: "Código", width: 98, flex: 0 },
   { field: "fullName", headerName: "Nome" },
   { field: "provisionService", headerName: "Prestação de serviço" },
   {

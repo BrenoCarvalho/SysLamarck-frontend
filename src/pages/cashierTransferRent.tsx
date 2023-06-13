@@ -65,7 +65,7 @@ const TenantSelect = ({
   </FormControl>
 );
 
-const CashierRent = () => {
+const CashierTransferRent = () => {
   const [tenant, setTenant] = useState<any>();
   const [property, setProperty] = useState<any>();
 
@@ -83,7 +83,7 @@ const CashierRent = () => {
 
   return (
     <Page
-      title="Recebimento de Aluguel"
+      title="Repasse de Aluguel"
       direction="column"
       paddingBottom="-2"
       gap="4"
@@ -141,8 +141,9 @@ const CashierRent = () => {
           <Divider width="100%" />
           <Flex w="100%" gap="20px">
             <RentInputs
-              title="Crédito"
-              fieldList={[1, 2, 3, 4, 5, 6, 7, 8, 9]}
+              title="Débito"
+              fieldList={[1, 2, 3, 4, 5, 9, 10, 11]}
+              disableComponents={true}
             />
           </Flex>
           <Divider />
@@ -157,7 +158,7 @@ const CashierRent = () => {
               justifyContent="center"
               textAlign="center"
             >
-              <ChakraInput placeholder="Forma de pagamento" />
+              <ChakraInput placeholder="Forma de pagamento" disabled={true} />
               <Button>Baixa</Button>
             </Flex>
           </Flex>
@@ -174,4 +175,4 @@ const CashierRent = () => {
   );
 };
 
-export default CashierRent;
+export default CashierTransferRent;

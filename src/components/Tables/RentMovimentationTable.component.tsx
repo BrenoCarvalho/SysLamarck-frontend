@@ -17,28 +17,28 @@ const columnDefs = [
     field: "contractCode",
     headerName: "Nº Contrato",
     width: 127,
-    flex: 1,
+    flex: 0,
   },
-  { field: "installmentNumber", width: 120, flex: 1, headerName: "Nº Parcela" },
+  { field: "installmentNumber", width: 120, flex: 0, headerName: "Nº Parcela" },
   {
     field: "dueDate",
     headerName: "Data vencimento",
     valueFormatter: dateFormatter,
     width: 160,
-    flex: 1,
+    flex: 0,
   },
   {
     field: "installmentValue",
     headerName: "Valor Parcela",
-    width: 130,
-    flex: 1,
+    width: 140,
+    flex: 0,
     valueFormatter: currencyFormatter,
   },
   {
     field: "status",
     headerName: "Status",
     width: 100,
-    flex: 1,
+    flex: 0,
   },
 ];
 
@@ -80,7 +80,10 @@ const RentMovimentationTable = ({
     <Flex h="100%">
       <div
         className="ag-theme-alpine customStyle"
-        style={{ height: "100%", width: "100%" }}
+        style={{
+          height: "100%",
+          width: "100%",
+        }}
       >
         <AgGridReact
           ref={gridRef}

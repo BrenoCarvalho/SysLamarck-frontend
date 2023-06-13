@@ -10,7 +10,6 @@ import Alert from "../components/Modals/Alert.component";
 
 const componentNames = {
   locator: {
-    locatorCode: "locatorCode",
     provisionService: "provisionService",
   },
   personalData: {

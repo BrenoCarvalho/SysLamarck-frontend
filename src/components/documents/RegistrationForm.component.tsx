@@ -529,12 +529,12 @@ const ContractInfo = ({ data }: any) => {
   );
 };
 
-const RegistrationForm = ({ tenantCode }: any) => {
+const RegistrationForm = ({ tenantId }: any) => {
   const [data, setData] = useState<any>();
 
   useEffect(() => {
     const loadData = async () => {
-      setData(await Report.registrationForm(tenantCode));
+      setData(await Report.registrationForm(tenantId));
     };
 
     if (!data) loadData();

@@ -28,28 +28,28 @@ const Immobile = ({
 }) => {
   const [locatorName, setLocatorName] = useState("Não identificado");
 
-  const getLocatorName = async (locatorCode: string | number) => {
-    const locator = await LocatorService?.get(Number(locatorCode));
+  const getLocatorName = async (locatorId: string | number) => {
+    const locator = await LocatorService?.get(Number(locatorId));
     return locator?.fullName;
   };
 
-  const updateLocator = async (locatorCode: string | number) => {
-    const locatorName = await getLocatorName(locatorCode);
+  const updateLocator = async (locatorId: string | number) => {
+    const locatorName = await getLocatorName(locatorId);
 
     setLocatorName(locatorName ? locatorName : "Não identificado");
-    handleChange(componentNames?.locatorCode)(locatorCode);
+    handleChange(componentNames?.locatorId)(locatorId);
   };
 
   useEffect(() => {
     const updateLocatorName = async () => {
-      const newLocatorName = await getLocatorName(values?.locatorCode);
+      const newLocatorName = await getLocatorName(values?.locatorId);
       if (newLocatorName && newLocatorName !== locatorName) {
         setLocatorName(newLocatorName);
       }
     };
 
     updateLocatorName();
-  }, [locatorName, values?.locatorCode]);
+  }, [locatorName, values?.locatorId]);
 
   return (
     <FormControl>
@@ -72,8 +72,8 @@ const Immobile = ({
             onChange={(value) => {
               updateLocator(value);
             }}
-            name={componentNames?.locatorCode}
-            value={values?.locatorCode}
+            name={componentNames?.locatorId}
+            value={values?.locatorId}
             min={0}
           >
             <NumberInputField />

@@ -165,9 +165,9 @@ const componentNames = {
 
 const formatData = (data: any) => {
   return {
-    tenantCode: data?.tenantCode,
+    id: data?.id,
     propertyId: data?.propertyId,
-    propertyCode: data?.propertyCode,
+    propertyCode: data?.property?.propertyCode,
     fullName: data?.fullName,
     birthDate: data?.birthDate,
     rg: data?.rg,
@@ -327,7 +327,9 @@ const TenantEdit = () => {
           }
 
           const loadPropertyCode = async () => {
-            const address = await getPropertyAddress(result?.propertyCode);
+            const address = await getPropertyAddress(
+              result?.property?.propertyCode
+            );
             setPropertyAddress(address ? address : "Não identificado");
           };
 
@@ -356,7 +358,7 @@ const TenantEdit = () => {
           if (values?.end === "") values.end = null;
           if (values?.firstPayment === "") values.firstPayment = null;
 
-          TenantService.update(values.tenantCode, { ...values, residents })
+          TenantService.update(values.id, { ...values, residents })
             .then(() => {
               sucessDialogOnOpen();
             })

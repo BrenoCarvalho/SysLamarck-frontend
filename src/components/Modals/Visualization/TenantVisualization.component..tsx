@@ -31,7 +31,7 @@ const TenantVisualizationModal = ({
   useEffect(() => {
     if (isOpen) {
       const loadData = async () => {
-        const tenant = await TenantService.get(tenantSelected?.tenantCode);
+        const tenant = await TenantService.get(tenantSelected?.id);
 
         const residents: any = tenant?.residents?.length ? [["Moradores"]] : [];
 
@@ -51,13 +51,9 @@ const TenantVisualizationModal = ({
           ["Locatário"],
           [
             "Código do locatário",
-            propertyCodeFormatter({ value: tenant?.propertyCode }),
+            propertyCodeFormatter({ value: tenant?.property?.propertyCode }),
           ],
-          [
-            "Endereço do imóvel",
-            (await PropertyService.getByPropertyCode(tenant?.propertyCode))
-              ?.address,
-          ],
+          ["Endereço do imóvel", tenant?.property?.address],
           ["Nome do locatário", tenant?.fullName],
           ["Data de nascimento", dateFormatter({ value: tenant?.birthDate })],
           ["RG", tenant?.rg],
@@ -337,7 +333,7 @@ const TenantVisualizationModal = ({
       };
       loadData();
     }
-  }, [isOpen, tenantSelected?.tenantCode]);
+  }, [isOpen, tenantSelected?.id]);
 
   return (
     <Modal onClose={onClose} isOpen={isOpen} scrollBehavior="inside" isCentered>

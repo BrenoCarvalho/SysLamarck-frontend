@@ -29,10 +29,10 @@ const LocatorVisualizationModal = ({
   useEffect(() => {
     if (isOpen) {
       const loadData = async () => {
-        const locator = await LocatorService.get(locatorSelected?.locatorCode);
+        const locator = await LocatorService.get(locatorSelected?.id);
 
         setData([
-          ["Código", locator?.locatorCode],
+          ["Código", locator?.id],
           ["Nome Completo", locator?.fullName],
           ["Prestação de serviço", locator?.provisionService],
           ["Data de nascimento", dateFormatter({ value: locator?.birthDate })],
@@ -57,7 +57,7 @@ const LocatorVisualizationModal = ({
       };
       loadData();
     }
-  }, [isOpen, locatorSelected?.locatorCode]);
+  }, [isOpen, locatorSelected?.id]);
 
   return (
     <Modal onClose={onClose} isOpen={isOpen} scrollBehavior="inside" isCentered>

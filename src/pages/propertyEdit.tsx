@@ -22,7 +22,7 @@ import Immobile from "../components/Forms/Basics/Immobile.component";
 
 const componentNames = {
   propertyData: {
-    locatorCode: "locatorCode",
+    locatorId: "locatorId",
     propertyType: "propertyType",
   },
   residentialData: {
@@ -76,9 +76,12 @@ const PropertyEdit = () => {
 
   useEffect(() => {
     if (!initialValues) {
-      PropertyService.get(Number(params.id)).then((result) => {
+      PropertyService.get(Number(params.id), true).then((result) => {
         if (result) {
-          setInitialValues(result);
+          const data = { locatorId: result?.locator?.id, ...result };
+          delete data["locator"];
+
+          setInitialValues(data);
         } else {
           navigate("/cadastro/imovel");
         }

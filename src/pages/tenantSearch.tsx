@@ -34,7 +34,7 @@ const TenantSearch = () => {
   const [selected, setSelected] = useState<any>();
 
   const deleteTenant = async () => {
-    const response = await TenantService.delete(selected?.tenantCode);
+    const response = await TenantService.delete(selected?.id);
     if (response === 1) {
       successDeletedDialogOnOpen();
     }
@@ -89,7 +89,7 @@ const TenantSearch = () => {
               _hover={{ backgroundColor: "gray.900" }}
               onClick={
                 selected
-                  ? () => navigate(`/editar/locatario/${selected.tenantCode}`)
+                  ? () => navigate(`/editar/locatario/${selected.id}`)
                   : () => {
                       console.log("Selecione algum locatário");
                     }
@@ -121,7 +121,7 @@ const TenantSearch = () => {
         isOpen={isOpenConfirmDelete}
         onClose={onCloseConfirmDelete}
         onConfirm={deleteTenant}
-        message={`Tem certeza que deseja excluir o locatário ${selected?.tenantCode}?`}
+        message={`Tem certeza que deseja excluir o locatário ${selected?.id}?`}
       />
 
       <Alert

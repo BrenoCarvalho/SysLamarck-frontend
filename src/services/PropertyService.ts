@@ -31,9 +31,17 @@ const PropertyService = {
         return Promise.reject(error);
       });
   },
-  get: async (id: number): Promise<any> => {
+  get: async (
+    id: number,
+    showLocator?: boolean | number,
+    showTenant?: boolean | number
+  ): Promise<any> => {
     return api
-      .get(`/property/findById/${id}`)
+      .get(
+        `/property/${id}?showLocator=${Number(
+          showLocator
+        )}&?showTenant=${Number(showTenant)}`
+      )
       .then((response) => {
         return Promise.resolve(response.data);
       })

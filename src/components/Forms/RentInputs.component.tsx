@@ -45,6 +45,7 @@ const RentInputs = ({
   values,
   inverted,
   title,
+  disableComponents = false,
 }: {
   componentNames?: any;
   handleChange?: any;
@@ -52,6 +53,7 @@ const RentInputs = ({
   inverted?: boolean;
   title: string;
   fieldList: number[];
+  disableComponents?: boolean;
 }) => {
   const fields = [
     <Input
@@ -61,6 +63,7 @@ const RentInputs = ({
       value={values ? values[componentNames?.water] : null}
       inverted={inverted}
       placeholder="R$ 0,00"
+      disabled={disableComponents}
     />, // 1
     <Input
       title="Luz"
@@ -69,6 +72,7 @@ const RentInputs = ({
       value={values ? values[componentNames?.eletricity] : null}
       inverted={inverted}
       placeholder="R$ 0,00"
+      disabled={disableComponents}
     />, // 2
     <Input
       title="IPTU"
@@ -77,6 +81,7 @@ const RentInputs = ({
       value={values ? values[componentNames?.iptu] : null}
       inverted={inverted}
       placeholder="R$ 0,00"
+      disabled={disableComponents}
     />, // 3
     <Input
       title="Imposto de renda"
@@ -85,6 +90,7 @@ const RentInputs = ({
       value={values ? values[componentNames?.incomeTax] : null}
       inverted={inverted}
       placeholder="R$ 0,00"
+      disabled={disableComponents}
     />, // 4
     <Input
       title="Condomínio"
@@ -93,6 +99,7 @@ const RentInputs = ({
       value={values ? values[componentNames?.condominium] : null}
       inverted={inverted}
       placeholder="R$ 0,00"
+      disabled={disableComponents}
     />, // 5
     <Input
       title="Desconto especial"
@@ -101,6 +108,7 @@ const RentInputs = ({
       value={values ? values[componentNames?.commission] : null}
       inverted={inverted}
       placeholder="R$ 0,00"
+      disabled={disableComponents}
     />, // 6
     <Input
       title="Aluguel"
@@ -109,6 +117,7 @@ const RentInputs = ({
       value={values ? values[componentNames?.rent] : null}
       inverted={inverted}
       placeholder="R$ 0,00"
+      disabled={disableComponents}
     />, // 7
     <Input
       title="Multa romp. contrato"
@@ -117,6 +126,7 @@ const RentInputs = ({
       value={values ? values[componentNames?.breachOfContractFine] : null}
       inverted={inverted}
       placeholder="R$ 0,00"
+      disabled={disableComponents}
     />, // 8
     <Input
       title="Diversos"
@@ -125,6 +135,7 @@ const RentInputs = ({
       value={values ? values[componentNames?.sundry] : null}
       inverted={inverted}
       placeholder="R$ 0,00"
+      disabled={disableComponents}
     />, // 9
     <Input
       title="Taxa de administração"
@@ -142,6 +153,7 @@ const RentInputs = ({
       value={values ? values[componentNames?.leaseFee] : null}
       inverted={inverted}
       placeholder="R$ 0,00"
+      disabled={disableComponents}
     />, // 11
   ];
 
@@ -168,6 +180,7 @@ const RentInputs = ({
           height="60px"
           size="sm"
           resize="unset"
+          disabled={disableComponents}
         />
         <Text
           fontSize="sm"

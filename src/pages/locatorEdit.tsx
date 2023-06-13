@@ -12,7 +12,6 @@ import { useNavigate, useParams } from "react-router-dom";
 
 const componentNames = {
   locator: {
-    locatorCode: "locatorCode",
     provisionService: "provisionService",
   },
   personalData: {
@@ -82,7 +81,7 @@ const LocatorEdit = () => {
         onSubmit={(values) => {
           if (values?.birthDate === "") values.birthDate = null;
 
-          LocatorService.update(values.locatorCode, values)
+          LocatorService.update(values.id, values)
             .then(() => {
               sucessDialogOnOpen();
             })

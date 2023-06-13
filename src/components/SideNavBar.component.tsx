@@ -8,6 +8,7 @@ import { IoMdArrowDropdown, IoMdArrowDropleft } from "react-icons/io";
 import { TbReportSearch } from "react-icons/tb";
 
 import {
+  MdCallMade,
   MdCallReceived,
   MdOutlineLogout,
   MdOutlineMoreHoriz,
@@ -214,13 +215,19 @@ const SideNavBar = () => {
             <Item
               href="/caixa/movimentacao"
               icon={<BiTransfer />}
-              name="Movimentação"
+              name="Geral"
               isGroupItem={true}
             />
             <Item
-              href="/caixa/aluguel"
+              href="/caixa/aluguel/recebimento"
               icon={<MdCallReceived />}
-              name="Alugel"
+              name="Recebimento"
+              isGroupItem={true}
+            />
+            <Item
+              href="/caixa/aluguel/repasse"
+              icon={<MdCallMade />}
+              name="Repasse"
               isGroupItem={true}
             />
             <Item

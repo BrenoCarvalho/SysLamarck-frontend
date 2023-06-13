@@ -34,7 +34,7 @@ const LocatorSearch = () => {
   const [selected, setSelected] = useState<any>();
 
   const deleteLocator = async () => {
-    const response = await LocatorService.delete(selected.locatorCode);
+    const response = await LocatorService.delete(selected.id);
     if (response === 1) {
       successDeletedDialogOnOpen();
     }
@@ -89,7 +89,7 @@ const LocatorSearch = () => {
               _hover={{ backgroundColor: "gray.900" }}
               onClick={
                 selected
-                  ? () => navigate(`/editar/locador/${selected.locatorCode}`)
+                  ? () => navigate(`/editar/locador/${selected?.id}`)
                   : () => {
                       console.log("Selecione algum locatário");
                     }

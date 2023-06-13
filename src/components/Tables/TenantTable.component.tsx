@@ -14,7 +14,7 @@ const defaultColumnData = {
 
 const columnDefs = [
   {
-    field: "propertyCode",
+    field: "property.propertyCode",
     headerName: "Código do locatário",
     valueFormatter: propertyCodeFormatter,
   },

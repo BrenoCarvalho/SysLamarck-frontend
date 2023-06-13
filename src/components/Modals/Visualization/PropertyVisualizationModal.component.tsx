@@ -24,7 +24,7 @@ const PropertyVisualizationModal = ({
   useEffect(() => {
     if (isOpen) {
       const loadData = async () => {
-        const property = await PropertyService.get(propertySelected?.id);
+        const property = await PropertyService.get(propertySelected?.id, true);
 
         setData([
           ["ID do imóvel", property.id],
@@ -32,9 +32,9 @@ const PropertyVisualizationModal = ({
             "Código do imóvel",
             propertyCodeFormatter({ value: property.propertyCode }),
           ],
-          ["Código do locador", property.locatorCode],
+          ["Código do locador", property.locator.id],
           ["Imóvel", property.property],
-          ["Nome do locador", property.locatorName],
+          ["Nome do locador", property.locator.fullName],
           ["Tipo do Imóvel", property.propertyType],
           ["CEP", property.cep],
           ["Cidade", property.city],

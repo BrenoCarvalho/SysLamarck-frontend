@@ -20,7 +20,7 @@ import Alert from "../components/Modals/Alert.component";
 
 const componentNames = {
   propertyData: {
-    locatorCode: "locatorCode",
+    locatorId: "locatorId",
     propertyType: "propertyType",
   },
   residentialData: {
@@ -68,7 +68,7 @@ const ImmobileRegister = () => {
   } = useDisclosure();
 
   const initialValues = {
-    locatorCode: "0",
+    locatorId: "",
     propertyType: "",
     cep: "",
     city: "",

@@ -278,7 +278,7 @@ const LocatarioRegister = () => {
     onClose: onCloseRegistrationForm,
   } = useDisclosure();
 
-  const [tenantCode, setTenantCode] = useState<number>(1);
+  const [tenantId, setTenantId] = useState<number>(1);
 
   const [additionalRenter, setAdditionalRenter] = useState(false);
   const [residents, setResidents] = useState<any[]>([]);
@@ -338,7 +338,7 @@ const LocatarioRegister = () => {
             TenantService.create({ ...values, residents })
               .then((result) => {
                 sucessDialogOnOpen();
-                setTenantCode(result?.data?.tenantCode);
+                setTenantId(result?.data?.id);
               })
               .catch(() => {
                 errorDialogOnOpen();
@@ -580,7 +580,7 @@ const LocatarioRegister = () => {
       <ReportViewer
         isOpen={isOpenRegistrationForm}
         onClose={onCloseRegistrationForm}
-        report={<RegistrationForm tenantCode={tenantCode} />}
+        report={<RegistrationForm tenantId={tenantId} />}
       />
     </Page>
   );
