@@ -8,7 +8,7 @@ import {
   View,
 } from "@react-pdf/renderer";
 import { useEffect, useState } from "react";
-import Report from "../../services/Report";
+import ReportService from "../../services/Report";
 import { propertyCodeFormatter } from "../../services/Formatters";
 
 Font.register({
@@ -215,7 +215,7 @@ const RgiEdp = () => {
 
   useEffect(() => {
     const loadData = async () => {
-      setData(await Report.rgiEdp());
+      setData(await ReportService.rgiEdp());
     };
 
     if (!data) loadData();

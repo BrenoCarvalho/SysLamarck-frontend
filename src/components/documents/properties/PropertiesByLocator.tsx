@@ -7,7 +7,7 @@ import {
   Image,
 } from "@react-pdf/renderer";
 import { useEffect, useState } from "react";
-import Report from "../../../services/Report";
+import ReportService from "../../../services/Report";
 import { propertyCodeFormatter } from "../../../services/Formatters";
 
 Font.register({
@@ -247,7 +247,7 @@ const PropertiesByLocator = ({ locatorCode }: any) => {
 
   useEffect(() => {
     const loadData = async () => {
-      setData(await Report.propertyByLocator(locatorCode));
+      setData(await ReportService.propertyByLocator(locatorCode));
     };
 
     if (!data) loadData();

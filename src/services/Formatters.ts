@@ -5,6 +5,16 @@ const dateFormatter = ({ value }: { value: any }) => {
     : "";
 };
 
+const installmentFormatter = ({
+  value,
+  total,
+}: {
+  value: any;
+  total: number;
+}) => {
+  return `${value}`;
+};
+
 const cpfFormatter = ({ value }: { value: any }) => {
   if (value?.indexOf(".") === -1) {
     if (value?.length <= 11) {
@@ -56,4 +66,5 @@ export {
   cepFormatter,
   propertyCodeFormatter,
   currencyFormatter,
+  installmentFormatter,
 };

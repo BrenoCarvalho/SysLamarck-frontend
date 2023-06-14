@@ -95,7 +95,7 @@ const CustomSelect = ({
 };
 
 const Contract = ({
-  fieldList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
+  fieldList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
   showHeader = true,
   headerTitle = "Contrato",
   componentNames = {},
@@ -182,24 +182,12 @@ const Contract = ({
       onChange={handleChange}
       value={values ? values[componentNames?.payday] : null}
     />, // 10
-    <InputDate
-      title="Data de Início do Contrato"
-      name={componentNames.start}
+    <Input
+      title="Meses de carência"
+      name={componentNames.gracePeriod}
       onChange={handleChange}
-      value={values ? values[componentNames?.start] : null}
+      value={values ? values[componentNames?.gracePeriod] : null}
     />, // 11
-    <InputDate
-      title="Data de término do Contrato"
-      name={componentNames.end}
-      onChange={handleChange}
-      value={values ? values[componentNames?.end] : null}
-    />, // 12
-    <InputDate
-      title="Primeiro pagamento"
-      name={componentNames.firstPayment}
-      onChange={handleChange}
-      value={values ? values[componentNames?.firstPayment] : null}
-    />, // 13
   ];
 
   return (

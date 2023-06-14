@@ -7,7 +7,7 @@ import {
   Image,
 } from "@react-pdf/renderer";
 import { useEffect, useState } from "react";
-import Report from "../../services/Report";
+import ReportService from "../../services/Report";
 import {
   dateFormatter,
   propertyCodeFormatter,
@@ -534,7 +534,7 @@ const RegistrationForm = ({ tenantId }: any) => {
 
   useEffect(() => {
     const loadData = async () => {
-      setData(await Report.registrationForm(tenantId));
+      setData(await ReportService.registrationForm(tenantId));
     };
 
     if (!data) loadData();

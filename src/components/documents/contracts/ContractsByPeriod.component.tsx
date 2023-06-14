@@ -8,7 +8,7 @@ import {
   View,
 } from "@react-pdf/renderer";
 import { useEffect, useState } from "react";
-import Report from "../../../services/Report";
+import ReportService from "../../../services/Report";
 import {
   dateFormatter,
   propertyCodeFormatter,
@@ -225,7 +225,7 @@ const ContractsByPeriod = ({ startDate, endDate, mode }: any) => {
 
   useEffect(() => {
     const loadData = async () => {
-      setData(await Report.contractsByPeriod(startDate, endDate, mode));
+      setData(await ReportService.contractsByPeriod(startDate, endDate, mode));
     };
 
     if (!data) loadData();

@@ -7,7 +7,7 @@ import {
   Image,
 } from "@react-pdf/renderer";
 import { useEffect, useState } from "react";
-import Report from "../../../services/Report";
+import ReportService from "../../../services/Report";
 import {
   currencyFormatter,
   propertyCodeFormatter,
@@ -227,7 +227,7 @@ const PropertiesForSale = () => {
 
   useEffect(() => {
     const loadData = async () => {
-      setData(await Report.propertyForSale());
+      setData(await ReportService.propertyForSale());
     };
 
     if (!data) loadData();

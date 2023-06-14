@@ -2,7 +2,7 @@ import { Flex } from "@chakra-ui/react";
 import { AgGridReact } from "ag-grid-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { currencyFormatter, dateFormatter } from "../../services/Formatters";
-import MovimentationService from "../../services/cashier/Movimentation";
+import ContractService from "../../services/ContractService";
 
 const defaultColumnData = {
   flex: 1,
@@ -14,49 +14,62 @@ const defaultColumnData = {
 
 const columnDefs = [
   {
-    field: "contractCode",
+    field: "contract",
     headerName: "Nº Contrato",
     width: 127,
     flex: 0,
   },
-  { field: "installmentNumber", width: 120, flex: 0, headerName: "Nº Parcela" },
+  {
+    field: "currentInstallment",
+    width: 120,
+    flex: 1,
+    headerName: "Nº Parcela",
+  },
   {
     field: "dueDate",
     headerName: "Data vencimento",
     valueFormatter: dateFormatter,
     width: 160,
-    flex: 0,
+    flex: 1,
   },
   {
-    field: "installmentValue",
+    field: "amount",
     headerName: "Valor Parcela",
     width: 140,
-    flex: 0,
+    flex: 1,
     valueFormatter: currencyFormatter,
   },
   {
     field: "status",
     headerName: "Status",
     width: 100,
-    flex: 0,
+    flex: 1,
   },
 ];
 
-const RentMovimentationTable = ({
+const RentInstallmentsTable = ({
   setSelected,
   deleteCallback,
   refreshTrigger,
+  contractId,
 }: {
   setSelected?: any;
   deleteCallback?: any;
   refreshTrigger?: any;
+  contractId: number;
 }) => {
   const [data, setData] = useState([]);
   const gridRef = useRef<any>(null);
 
-  const onGridReady = async () => {
-    setData(await MovimentationService.getData());
-  };
+  useEffect(() => {
+    const loadData = async () => {
+      setData(await ContractService.getInstallments(contractId));
+    };
+
+    if (contractId) {
+      loadData();
+    }
+  }, [contractId, data]);
 
   const onSelectionChanged = useCallback(() => {
     const selectedRows = gridRef?.current?.api.getSelectedRows();
@@ -69,12 +82,6 @@ const RentMovimentationTable = ({
       remove: selectedData,
     });
   }, [deleteCallback]);
-
-  useEffect(() => {
-    if (refreshTrigger) {
-      onGridReady();
-    }
-  }, [refreshTrigger]);
 
   return (
     <Flex h="100%">
@@ -90,7 +97,6 @@ const RentMovimentationTable = ({
           defaultColDef={defaultColumnData}
           columnDefs={columnDefs}
           rowData={data}
-          onGridReady={onGridReady}
           rowSelection={"single"}
           onSelectionChanged={onSelectionChanged}
         />
@@ -99,4 +105,4 @@ const RentMovimentationTable = ({
   );
 };
 
-export default RentMovimentationTable;
+export default RentInstallmentsTable;

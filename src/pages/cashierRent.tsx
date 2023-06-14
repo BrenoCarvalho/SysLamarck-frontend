@@ -18,7 +18,7 @@ import { useState } from "react";
 import TenantService from "../services/TenantService";
 import PropertyService from "../services/PropertyService";
 import RentInputs from "../components/Forms/RentInputs.component";
-import RentMovimentationTable from "../components/Tables/RentMovimentationTable.component";
+import RentInstallmentsTable from "../components/Tables/RentInstallmentsTable.component";
 
 const Input = ({ title, placeholder = title, ...props }: any) => {
   return (
@@ -74,6 +74,7 @@ const CashierRent = () => {
     setProperty(null);
 
     const tenant = await TenantService?.get(Number(tenantCode));
+    console.log(tenant);
 
     setTenant(tenant || null);
     setProperty(
@@ -163,7 +164,7 @@ const CashierRent = () => {
           </Flex>
         </Flex>
         <Flex w="75%" flexDirection="column" padding="20px">
-          <RentMovimentationTable />
+          <RentInstallmentsTable contractId={tenant?.contract?.id} />
           <Flex w="100%" gap="4px" mt="20px" mb="5px">
             <Button w="100%">Cancelar multa</Button>
             <Button w="100%">Imprimir recibo</Button>

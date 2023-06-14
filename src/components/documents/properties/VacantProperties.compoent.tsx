@@ -7,7 +7,7 @@ import {
   Image,
 } from "@react-pdf/renderer";
 import { useEffect, useState } from "react";
-import Report from "../../../services/Report";
+import ReportService from "../../../services/Report";
 import {
   currencyFormatter,
   propertyCodeFormatter,
@@ -208,7 +208,7 @@ const VacantProperties = () => {
 
   useEffect(() => {
     const loadData = async () => {
-      setData(await Report.propertyVacant());
+      setData(await ReportService.propertyVacant());
     };
 
     if (!data) loadData();

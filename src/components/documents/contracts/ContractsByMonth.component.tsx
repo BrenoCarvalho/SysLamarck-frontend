@@ -8,7 +8,7 @@ import {
   View,
 } from "@react-pdf/renderer";
 import { useEffect, useState } from "react";
-import Report from "../../../services/Report";
+import ReportService from "../../../services/Report";
 import {
   dateFormatter,
   propertyCodeFormatter,
@@ -238,7 +238,7 @@ const ContractsByMonth = ({
     console.log(mode);
     const loadData = async () => {
       setData(
-        await Report.contractsByMonth(
+        await ReportService.contractsByMonth(
           month,
           mode === "readjustment" ? "start" : "end"
         )

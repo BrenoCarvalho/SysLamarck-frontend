@@ -1,6 +1,6 @@
 import api from "../api";
 
-const Report = {
+const ReportService = {
   propertyForSale: async (): Promise<any> => {
     return api
       .get(`/report/propertyForSale`)
@@ -97,4 +97,4 @@ const Report = {
   },
 };
 
-export default Report;
+export default ReportService;
