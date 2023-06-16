@@ -49,39 +49,17 @@ const columnDefs = [
 
 const RentInstallmentsTable = ({
   setSelected,
-  deleteCallback,
-  refreshTrigger,
-  contractId,
+  data,
 }: {
   setSelected?: any;
-  deleteCallback?: any;
-  refreshTrigger?: any;
-  contractId: number;
+  data: [];
 }) => {
-  const [data, setData] = useState([]);
   const gridRef = useRef<any>(null);
-
-  useEffect(() => {
-    const loadData = async () => {
-      setData(await ContractService.getInstallments(contractId));
-    };
-
-    if (contractId) {
-      loadData();
-    }
-  }, [contractId, data]);
 
   const onSelectionChanged = useCallback(() => {
     const selectedRows = gridRef?.current?.api.getSelectedRows();
     setSelected(selectedRows.length === 1 ? selectedRows[0] : {});
   }, [setSelected]);
-
-  useEffect(() => {
-    const selectedData = gridRef?.current?.api?.getSelectedRows();
-    gridRef?.current?.api?.applyTransaction({
-      remove: selectedData,
-    });
-  }, [deleteCallback]);
 
   return (
     <Flex h="100%">

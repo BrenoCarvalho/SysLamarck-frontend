@@ -38,9 +38,9 @@ const PropertyService = {
   ): Promise<any> => {
     return api
       .get(
-        `/property/${id}?showLocator=${Number(
-          showLocator
-        )}&?showTenant=${Number(showTenant)}`
+        `/property/${id}?showLocator=${Number(showLocator)}&showTenant=${Number(
+          showTenant
+        )}`
       )
       .then((response) => {
         return Promise.resolve(response.data);

@@ -19,7 +19,6 @@ import {
   phoneFormatter,
   propertyCodeFormatter,
 } from "../../../services/formatters";
-import PropertyService from "../../../services/propertyService";
 
 const TenantVisualizationModal = ({
   onClose,

@@ -11,13 +11,17 @@ import {
   NumberDecrementStepper,
   Divider,
   Button,
+  useDisclosure,
 } from "@chakra-ui/react";
 import Page from "../../../components/Page.component";
 import { useState } from "react";
 import TenantService from "../../../services/tenantService";
-import PropertyService from "../../../services/propertyService";
 import RentInputs from "../../../components/inputs/RentInputs.component";
 import RentInstallmentsTable from "../../../components/tables/RentInstallmentsTable.component";
+import ContractService from "../../../services/contractService";
+import { dateFormatter } from "../../../services/formatters";
+import { Form, Formik } from "formik";
+import Alert from "../../../components/modals/Alert.component";
 
 const TenantSelect = ({
   tenantName,
@@ -48,16 +52,92 @@ const TenantSelect = ({
   </FormControl>
 );
 
+const componentNames = {
+  water: "water",
+  eletricity: "eletricity",
+  iptu: "iptu",
+  incomeTax: "incomeTax",
+  condominium: "condominium",
+  specialDiscount: "specialDiscount",
+  rent: "rent",
+  breachOfContractFine: "breachOfContractFine",
+  sundry: "sundry",
+  sundryDescription: "sundryDescription",
+  total: "total",
+  formOfPayment: "formOfPayment",
+};
+
 const ReceiveRent = () => {
+  const {
+    isOpen: dialogIsOpen,
+    onOpen: dialogOnOpen,
+    onClose: dialogOnClose,
+  } = useDisclosure();
+
+  const [dialogError, setDialogError] = useState<boolean>(false);
+
   const [tenant, setTenant] = useState<any>();
+  const [contract, setContract] = useState<any>();
+  const [installments, setInstallments] = useState<[]>([]);
 
-  const updateTenant = async (tenantCode: string | number) => {
+  const initialValues: any = {
+    water: null,
+    eletricity: null,
+    iptu: null,
+    incomeTax: null,
+    condominium: null,
+    specialDiscount: null,
+    rent: null,
+    breachOfContractFine: null,
+    sundry: null,
+    sundryDescription: null,
+    total: null,
+    formOfPayment: null,
+  };
+
+  const updateData = async (tenantId: string | number) => {
     setTenant(null);
+    setContract(null);
+    setInstallments([]);
 
-    const tenant = await TenantService?.get(Number(tenantCode));
-    console.log(tenant);
+    const tenant = await TenantService?.get(Number(tenantId));
+    const contract = await ContractService?.get(
+      Number(tenant?.contract?.id),
+      false,
+      false,
+      true
+    );
+    const installments = await ContractService.getInstallments(contract?.id);
 
-    setTenant(tenant || null);
+    setTenant(tenant ?? null);
+    setContract(contract ?? null);
+    setInstallments(installments ?? null);
+  };
+
+  const payInstallment = (values: any) => {
+    const total = values[componentNames?.total];
+    const formOfPayment = values[componentNames?.formOfPayment];
+
+    delete values[componentNames?.total];
+    delete values[componentNames?.formOfPayment];
+
+    ContractService.payInstallment(
+      contract?.id,
+      "credit",
+      total,
+      formOfPayment,
+      values
+    )
+      .then(() => {
+        setDialogError(false);
+      })
+      .catch(() => {
+        setDialogError(true);
+      })
+      .finally(() => {
+        updateData(tenant?.id);
+        dialogOnOpen();
+      });
   };
 
   return (
@@ -67,88 +147,172 @@ const ReceiveRent = () => {
       paddingBottom="-2"
       gap="4"
     >
-      <Flex
-        w="100%"
-        h="100%"
-        direction={["column", "column", "column", "row"]}
-        bg="#fff"
-        p="1"
-        borderRadius="lg"
-        shadow="lg"
+      <Formik
+        initialValues={initialValues}
+        onSubmit={(values, { resetForm }) => {
+          payInstallment(values);
+          resetForm();
+        }}
       >
-        <Flex
-          w={["100%", "100%", "100%", "35%"]}
-          minW="450px"
-          flexDirection="column"
-          padding="25px"
-          align="center"
-          gap="4"
-        >
-          <Flex w="100%" flexDirection="column" gap="10px">
-            <TenantSelect
-              tenantName={tenant?.fullName || "Não identificado"}
-              updateTenant={updateTenant}
-            />
-            <Flex w="100%" direction="column" gap="4px">
-              <Flex
-                paddingLeft="1"
-                paddingRight="1"
-                width="100%"
-                justifyContent="space-between"
-              >
-                <Text fontSize="sm">
-                  Endereço do imóvel: {tenant?.property?.address}
-                </Text>
-                <Text fontSize="sm">
-                  Nº Contrato: {tenant?.contract?.contractCode}
-                </Text>
-              </Flex>
-              <Flex
-                paddingLeft="1"
-                paddingRight="1"
-                width="100%"
-                justifyContent="space-between"
-              >
-                <Text fontSize="sm">Parcela:</Text>
-                <Text fontSize="sm">Data de vencimento:</Text>
-              </Flex>
-              <Text paddingLeft="1" fontSize="sm">
-                Mês referência:
-              </Text>
-            </Flex>
-          </Flex>
-          <Divider width="100%" />
-          <Flex w="100%" gap="20px">
-            <RentInputs
-              title="Crédito"
-              fieldList={[1, 2, 3, 4, 5, 6, 7, 8, 9]}
-            />
-          </Flex>
-          <Divider />
-          <Flex w="100%" direction="column" gap="8px">
-            <Text fontSize="md" w="100%" textAlign="right" pr="8px">
-              Saldo<Text fontWeight="bold">R$ 0,00</Text>
-            </Text>
+        {({ handleChange, values }) => (
+          <Form>
             <Flex
               w="100%"
-              direction="column"
-              gap="10px"
-              justifyContent="center"
-              textAlign="center"
+              h="100%"
+              direction={["column", "column", "column", "row"]}
+              bg="#fff"
+              p="1"
+              borderRadius="lg"
+              shadow="lg"
             >
-              <ChakraInput placeholder="Forma de pagamento" />
-              <Button>Baixa</Button>
+              <Flex
+                w={["100%", "100%", "100%", "35%"]}
+                minW={["auto", "450px", "450px", "450px"]}
+                flexDirection="column"
+                padding="25px"
+                align="center"
+                gap="4"
+              >
+                <Flex w="100%" flexDirection="column" gap="10px">
+                  <TenantSelect
+                    tenantName={tenant?.fullName || "Não identificado"}
+                    updateTenant={updateData}
+                  />
+                  <Flex w="100%" direction="column" gap="4px">
+                    <Flex
+                      paddingLeft="1"
+                      paddingRight="1"
+                      width="100%"
+                      justifyContent="space-between"
+                    >
+                      <Text
+                        fontSize="sm"
+                        display="flex"
+                        flexDirection="row"
+                        gap="5px"
+                      >
+                        Nº Contrato:{" "}
+                        <Text fontWeight="bold">{tenant?.contract?.id}</Text>
+                      </Text>
+                      <Text
+                        fontSize="sm"
+                        display="flex"
+                        flexDirection="row"
+                        gap="5px"
+                      >
+                        Parcela:{" "}
+                        <Text fontWeight="bold">
+                          {contract?.currentInstallment?.currentInstallment}
+                          {"  "}
+                        </Text>
+                      </Text>
+                    </Flex>
+                    <Flex
+                      paddingLeft="1"
+                      paddingRight="1"
+                      width="100%"
+                      justifyContent="space-between"
+                    >
+                      <Text
+                        fontSize="sm"
+                        display="flex"
+                        flexDirection="row"
+                        gap="5px"
+                      >
+                        Mês referência:{" "}
+                        <Text fontWeight="bold">
+                          {contract?.currentInstallment?.referenceMonth}
+                        </Text>
+                      </Text>
+                      <Text
+                        fontSize="sm"
+                        display="flex"
+                        flexDirection="row"
+                        gap="5px"
+                      >
+                        Data de vencimento:{" "}
+                        <Text fontWeight="bold">
+                          {dateFormatter({
+                            value: contract?.currentInstallment?.dueDate,
+                          })}
+                        </Text>
+                      </Text>
+                    </Flex>
+                    <Flex
+                      paddingLeft="1"
+                      paddingRight="1"
+                      width="100%"
+                      justifyContent="space-between"
+                    >
+                      <Text
+                        fontSize="sm"
+                        display="flex"
+                        flexDirection="row"
+                        gap="5px"
+                      >
+                        Endereço do imóvel:{" "}
+                        <Text fontWeight="bold">
+                          {tenant?.property?.address}
+                        </Text>
+                      </Text>
+                    </Flex>
+                  </Flex>
+                </Flex>
+                <Divider width="100%" />
+                <Flex w="100%" gap="20px">
+                  <RentInputs
+                    title="Crédito"
+                    fieldList={[1, 2, 3, 4, 5, 6, 7, 8, 9]}
+                    componentNames={componentNames}
+                    handleChange={handleChange}
+                    values={values}
+                  />
+                </Flex>
+                <Divider />
+                <Flex w="100%" direction="column" gap="8px">
+                  <Text fontSize="md" w="100%" textAlign="right" pr="8px">
+                    Saldo<Text fontWeight="bold">R$ 0,00</Text>
+                  </Text>
+                  <Flex
+                    w="100%"
+                    direction="column"
+                    gap="10px"
+                    justifyContent="center"
+                    textAlign="center"
+                  >
+                    <ChakraInput
+                      name={componentNames?.formOfPayment}
+                      onChange={handleChange}
+                      value={values[componentNames?.formOfPayment] || ""}
+                      placeholder="Forma de pagamento"
+                    />
+                    <Button type="submit">Baixa</Button>
+                  </Flex>
+                </Flex>
+              </Flex>
+              <Flex
+                display={["none", "none", "flex", "flex"]}
+                w="75%"
+                flexDirection="column"
+                padding="20px"
+              >
+                <RentInstallmentsTable data={installments} />
+              </Flex>
             </Flex>
-          </Flex>
-        </Flex>
-        <Flex w="75%" flexDirection="column" padding="20px">
-          <RentInstallmentsTable contractId={tenant?.contract?.id} />
-          <Flex w="100%" gap="4px" mt="20px" mb="5px">
-            <Button w="100%">Cancelar multa</Button>
-            <Button w="100%">Imprimir recibo</Button>
-          </Flex>
-        </Flex>
-      </Flex>
+          </Form>
+        )}
+      </Formik>
+
+      <Alert
+        onClose={dialogOnClose}
+        isOpen={dialogIsOpen}
+        title={dialogError ? "Erro!" : "Sucesso!"}
+        message={
+          dialogError
+            ? "Falha ao criar movimentação, verifique os campos e tente novamente."
+            : "Movimentação adicionada com sucesso."
+        }
+      />
     </Page>
   );
 };

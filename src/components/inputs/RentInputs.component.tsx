@@ -7,7 +7,9 @@ import {
   Divider,
   Textarea,
 } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
 import InputMask from "react-input-mask";
+import { currencyFormatter } from "../../services/formatters";
 
 const Input = ({ title, placeholder = title, ...props }: any) => {
   return (
@@ -55,12 +57,32 @@ const RentInputs = ({
   fieldList: number[];
   disableComponents?: boolean;
 }) => {
+  useEffect(() => {
+    const valuesToSum = [
+      values?.water,
+      values?.eletricity,
+      values?.iptu,
+      values?.incomeTax,
+      values?.condominium,
+      values?.rent,
+      values?.sundry,
+    ];
+
+    const total = valuesToSum.reduce(
+      (total: any, value: any) => (value > 0 ? total + value : total),
+      0
+    );
+
+    handleChange(componentNames?.total)(total.toString());
+  }, [componentNames?.total, handleChange, values]);
+
   const fields = [
     <Input
       title="Água"
       name={componentNames?.water}
+      type="number"
       onChange={handleChange}
-      value={values ? values[componentNames?.water] : null}
+      value={values[componentNames?.water] || ""}
       inverted={inverted}
       placeholder="R$ 0,00"
       disabled={disableComponents}
@@ -68,8 +90,9 @@ const RentInputs = ({
     <Input
       title="Luz"
       name={componentNames?.eletricity}
+      type="number"
       onChange={handleChange}
-      value={values ? values[componentNames?.eletricity] : null}
+      value={values[componentNames?.eletricity] || ""}
       inverted={inverted}
       placeholder="R$ 0,00"
       disabled={disableComponents}
@@ -77,8 +100,9 @@ const RentInputs = ({
     <Input
       title="IPTU"
       name={componentNames?.iptu}
+      type="number"
       onChange={handleChange}
-      value={values ? values[componentNames?.iptu] : null}
+      value={values[componentNames?.iptu] || ""}
       inverted={inverted}
       placeholder="R$ 0,00"
       disabled={disableComponents}
@@ -86,8 +110,9 @@ const RentInputs = ({
     <Input
       title="Imposto de renda"
       name={componentNames?.incomeTax}
+      type="number"
       onChange={handleChange}
-      value={values ? values[componentNames?.incomeTax] : null}
+      value={values[componentNames?.incomeTax] || ""}
       inverted={inverted}
       placeholder="R$ 0,00"
       disabled={disableComponents}
@@ -95,17 +120,19 @@ const RentInputs = ({
     <Input
       title="Condomínio"
       name={componentNames?.condominium}
+      type="number"
       onChange={handleChange}
-      value={values ? values[componentNames?.condominium] : null}
+      value={values[componentNames?.condominium] || ""}
       inverted={inverted}
       placeholder="R$ 0,00"
       disabled={disableComponents}
     />, // 5
     <Input
       title="Desconto especial"
-      name={componentNames?.commission}
+      name={componentNames?.specialDiscount}
+      type="number"
       onChange={handleChange}
-      value={values ? values[componentNames?.commission] : null}
+      value={values[componentNames?.specialDiscount] || ""}
       inverted={inverted}
       placeholder="R$ 0,00"
       disabled={disableComponents}
@@ -113,8 +140,9 @@ const RentInputs = ({
     <Input
       title="Aluguel"
       name={componentNames?.rent}
+      type="number"
       onChange={handleChange}
-      value={values ? values[componentNames?.rent] : null}
+      value={values[componentNames?.rent] || ""}
       inverted={inverted}
       placeholder="R$ 0,00"
       disabled={disableComponents}
@@ -122,8 +150,9 @@ const RentInputs = ({
     <Input
       title="Multa romp. contrato"
       name={componentNames?.breachOfContractFine}
+      type="number"
       onChange={handleChange}
-      value={values ? values[componentNames?.breachOfContractFine] : null}
+      value={values[componentNames?.breachOfContractFine] || ""}
       inverted={inverted}
       placeholder="R$ 0,00"
       disabled={disableComponents}
@@ -131,8 +160,9 @@ const RentInputs = ({
     <Input
       title="Diversos"
       name={componentNames?.sundry}
+      type="number"
       onChange={handleChange}
-      value={values ? values[componentNames?.sundry] : null}
+      value={values[componentNames?.sundry] || ""}
       inverted={inverted}
       placeholder="R$ 0,00"
       disabled={disableComponents}
@@ -140,8 +170,9 @@ const RentInputs = ({
     <Input
       title="Taxa de administração"
       name={componentNames?.administrationFee}
+      type="number"
       onChange={handleChange}
-      value={values ? values[componentNames?.administrationFee] : null}
+      value={values[componentNames?.administrationFee] || ""}
       inverted={inverted}
       disabled
       placeholder="R$ 0,00"
@@ -149,8 +180,9 @@ const RentInputs = ({
     <Input
       title="Taxa de locação"
       name={componentNames?.leaseFee}
+      type="number"
       onChange={handleChange}
-      value={values ? values[componentNames?.leaseFee] : null}
+      value={values[componentNames?.leaseFee] || ""}
       inverted={inverted}
       placeholder="R$ 0,00"
       disabled={disableComponents}
@@ -181,6 +213,9 @@ const RentInputs = ({
           size="sm"
           resize="unset"
           disabled={disableComponents}
+          name={componentNames?.sundryDescription}
+          onChange={handleChange}
+          value={values[componentNames?.sundryDescription] || ""}
         />
         <Text
           fontSize="sm"
@@ -191,7 +226,7 @@ const RentInputs = ({
         >
           Total {title}
           <Text color="black" fontWeight="bold">
-            R$ 0,00
+            {currencyFormatter({ value: values[componentNames?.total] ?? 0 })}
           </Text>
         </Text>
       </Flex>
