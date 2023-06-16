@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-import api from "../../api";
+import api from "../../services/api";
 
 export default function useAuth() {
   const [user, setUser] = useState(null);

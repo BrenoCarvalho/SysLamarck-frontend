@@ -13,28 +13,11 @@ import {
   Button,
 } from "@chakra-ui/react";
 import Page from "../../../components/Page.component";
-import InputMask from "react-input-mask";
 import { useState } from "react";
 import TenantService from "../../../services/tenantService";
 import PropertyService from "../../../services/propertyService";
 import RentInputs from "../../../components/inputs/RentInputs.component";
 import RentInstallmentsTable from "../../../components/tables/RentInstallmentsTable.component";
-
-const Input = ({ title, placeholder = title, ...props }: any) => {
-  return (
-    <FormControl w="100%">
-      <FormLabel
-        fontSize="sm"
-        textOverflow="ellipsis"
-        whiteSpace="nowrap"
-        overflow="hidden"
-      >
-        {title}
-      </FormLabel>
-      <ChakraInput as={InputMask} placeholder={placeholder} {...props} />
-    </FormControl>
-  );
-};
 
 const TenantSelect = ({
   tenantName,
@@ -67,18 +50,14 @@ const TenantSelect = ({
 
 const ReceiveRent = () => {
   const [tenant, setTenant] = useState<any>();
-  const [property, setProperty] = useState<any>();
 
   const updateTenant = async (tenantCode: string | number) => {
     setTenant(null);
-    setProperty(null);
 
     const tenant = await TenantService?.get(Number(tenantCode));
+    console.log(tenant);
 
     setTenant(tenant || null);
-    setProperty(
-      (await PropertyService.getByPropertyCode(tenant?.propertyCode)) || null
-    );
   };
 
   return (
@@ -118,7 +97,7 @@ const ReceiveRent = () => {
                 justifyContent="space-between"
               >
                 <Text fontSize="sm">
-                  Endereço do imóvel: {property?.address}
+                  Endereço do imóvel: {tenant?.property?.address}
                 </Text>
                 <Text fontSize="sm">
                   Nº Contrato: {tenant?.contract?.contractCode}

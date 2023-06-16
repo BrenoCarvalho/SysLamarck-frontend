@@ -1,4 +1,4 @@
-import api from "../api";
+import api from "./api";
 
 const PropertyService = {
   create: async (data: any) => {
