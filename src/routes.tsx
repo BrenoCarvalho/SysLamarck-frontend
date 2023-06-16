@@ -4,22 +4,22 @@ import {
   Route,
 } from "react-router-dom";
 import Home from "./pages/home";
-import LocatorRegister from "./pages/locatorRegister";
-import ImmobileRegister from "./pages/immobileRegister";
-import LocatarioRegister from "./pages/locatarioRegister";
-import LocatorSearch from "./pages/locatorSearch";
-import LocatorEdit from "./pages/locatorEdit";
+import LocatorCreation from "./pages/locator/locatorCreation";
+import PropertyCreation from "./pages/property/propertyCreation";
+import TenantCreation from "./pages/tenant/tenantCreation";
+import LocatorSearch from "./pages/locator/locatorSearch";
+import LocatorEdit from "./pages/locator/locatorEdit";
 import Login from "./pages/login";
 import { Context } from "./context/AuthContext";
 import { useContext } from "react";
-import PropertySearch from "./pages/propertySearch";
-import PropertyEdit from "./pages/propertyEdit";
-import TenantSearch from "./pages/tenantSearch";
-import TenantEdit from "./pages/tenantEdit";
+import PropertySearch from "./pages/property/propertySearch";
+import PropertyEdit from "./pages/property/propertyEdit";
+import TenantSearch from "./pages/tenant/tenantSearch";
+import TenantEdit from "./pages/tenant/tenantEdit";
 import Reports from "./pages/reports";
-import CashierMovimentation from "./pages/cashierMovimentation";
-import CashierRent from "./pages/cashierRent";
-import CashierTransferRent from "./pages/cashierTransferRent";
+import GenericTransaction from "./pages/cashier/generic";
+import ReceiveRent from "./pages/cashier/rent/receiveRent";
+import TransferRent from "./pages/cashier/rent/transferRent";
 
 const Private = ({ Item }: any) => {
   const { user } = useContext(Context);
@@ -33,15 +33,15 @@ const Routes = () => {
         <Route path="/" element={<Private Item={Home} />} />
         <Route
           path="/cadastro/locador"
-          element={<Private Item={LocatorRegister} />}
+          element={<Private Item={LocatorCreation} />}
         />
         <Route
           path="/cadastro/imovel"
-          element={<Private Item={ImmobileRegister} />}
+          element={<Private Item={PropertyCreation} />}
         />
         <Route
           path="/cadastro/locatario"
-          element={<Private Item={LocatarioRegister} />}
+          element={<Private Item={TenantCreation} />}
         />
         <Route
           path="/consulta/locador"
@@ -70,15 +70,15 @@ const Routes = () => {
         <Route path="/relatorios" element={<Private Item={Reports} />} />
         <Route
           path="/caixa/movimentacao"
-          element={<Private Item={CashierMovimentation} />}
+          element={<Private Item={GenericTransaction} />}
         />
         <Route
           path="/caixa/aluguel/recebimento"
-          element={<Private Item={CashierRent} />}
+          element={<Private Item={ReceiveRent} />}
         />
         <Route
           path="/caixa/aluguel/repasse"
-          element={<Private Item={CashierTransferRent} />}
+          element={<Private Item={TransferRent} />}
         />
       </RoutesComponent>
     </BrowserRouter>

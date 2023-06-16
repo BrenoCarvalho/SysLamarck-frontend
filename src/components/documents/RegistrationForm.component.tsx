@@ -7,11 +7,11 @@ import {
   Image,
 } from "@react-pdf/renderer";
 import { useEffect, useState } from "react";
-import ReportService from "../../services/Report";
+import ReportService from "../../services/reportService";
 import {
   dateFormatter,
   propertyCodeFormatter,
-} from "../../services/Formatters";
+} from "../../services/formatters";
 
 Font.register({
   family: "Inter",

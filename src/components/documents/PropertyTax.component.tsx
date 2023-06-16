@@ -8,8 +8,8 @@ import {
   View,
 } from "@react-pdf/renderer";
 import { useEffect, useState } from "react";
-import ReportService from "../../services/Report";
-import { propertyCodeFormatter } from "../../services/Formatters";
+import ReportService from "../../services/reportService";
+import { propertyCodeFormatter } from "../../services/formatters";
 
 Font.register({
   family: "Inter",

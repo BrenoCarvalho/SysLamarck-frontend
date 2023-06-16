@@ -2,14 +2,14 @@ import Page from "../components/Page.component";
 import { Button, Divider, Flex, Text, useDisclosure } from "@chakra-ui/react";
 import { AiOutlineHome } from "react-icons/ai";
 import { CgFileDocument, CgMoreO } from "react-icons/cg";
-import ReportViewer from "../components/Modals/Reports/ReportViewer.component";
+import ReportViewer from "../components/modals/reports/ReportViewer.component";
 import PropertiesForSale from "../components/documents/properties/PropertiesForSale.compoent";
-import PropertiesByLocatorModal from "../components/Modals/Reports/PropertiesByLocator.component";
+import PropertiesByLocatorModal from "../components/modals/reports/PropertiesByLocator.component";
 import VacantProperties from "../components/documents/properties/VacantProperties.compoent";
-import ContractsByPeriodModal from "../components/Modals/Reports/ContractsByPeriod.component";
+import ContractsByPeriodModal from "../components/modals/reports/ContractsByPeriod.component";
 import RgiEdp from "../components/documents/RgiEdp.component";
 import PropertyTax from "../components/documents/PropertyTax.component";
-import ContractsByMonthModal from "../components/Modals/Reports/ContractsByMonth.component";
+import ContractsByMonthModal from "../components/modals/reports/ContractsByMonth.component";
 import RegistrationForm from "../components/documents/RegistrationForm.component";
 
 const PropertySection = () => {
