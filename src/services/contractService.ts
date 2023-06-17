@@ -22,6 +22,16 @@ const ContractService = {
         return Promise.reject(error);
       });
   },
+  getInstallment: async (id: number): Promise<any> => {
+    return api
+      .get(`/contract/installment/${id}`)
+      .then((response) => {
+        return Promise.resolve(response?.data);
+      })
+      .catch((error) => {
+        return Promise.reject(error);
+      });
+  },
   getInstallments: async (contractId: number): Promise<any> => {
     return api
       .get(`/contract/installments/${contractId}`)

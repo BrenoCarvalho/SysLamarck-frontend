@@ -5,7 +5,6 @@ const dateFormatter = ({ value }: { value: any }) => {
     ? `${splited_date[2]}/${splited_date[1]}/${splited_date[0]}`
     : "";
 };
-
 const cpfFormatter = ({ value }: { value: any }) => {
   if (value?.indexOf(".") === -1) {
     if (value?.length <= 11) {
@@ -41,6 +40,16 @@ const propertyCodeFormatter = ({ value }: { value: string }) => {
   return value?.replace(/(\d{3})/, "$1/");
 };
 
+const installmentStatusFormatter = ({ value }: { value: string }) => {
+  const statusNames: any = {
+    Pg: "Pago",
+    Dv: "Aguardando pagamento",
+    Ca: "Carência",
+  };
+
+  return statusNames[value];
+};
+
 const currencyFormatter = ({ value }: { value: any }) => {
   if (!value) {
     return "R$ 0,00";
@@ -62,4 +71,5 @@ export {
   propertyCodeFormatter,
   currencyFormatter,
   transactionTypeFormatter,
+  installmentStatusFormatter,
 };

@@ -1,8 +1,28 @@
 import { Flex } from "@chakra-ui/react";
 import { AgGridReact } from "ag-grid-react";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useRef } from "react";
 import { currencyFormatter, dateFormatter } from "../../services/formatters";
-import ContractService from "../../services/contractService";
+import { FaClock } from "react-icons/fa";
+import { BsFillCheckCircleFill } from "react-icons/bs";
+import { HiCheckBadge } from "react-icons/hi2";
+
+const statusIcons: any = {
+  Dv: (
+    <Flex w="100%" h="100%" align="center" paddingLeft="6px">
+      <FaClock fontSize="22px" color="orange" />
+    </Flex>
+  ),
+  Pg: (
+    <Flex w="100%" h="100%" align="center" paddingLeft="6px">
+      <BsFillCheckCircleFill fontSize="22px" color="green" />
+    </Flex>
+  ),
+  Ca: (
+    <Flex w="100%" h="100%" align="center" paddingLeft="3px">
+      <HiCheckBadge fontSize="28px" color="purple" />
+    </Flex>
+  ),
+};
 
 const defaultColumnData = {
   flex: 1,
@@ -14,16 +34,16 @@ const defaultColumnData = {
 
 const columnDefs = [
   {
-    field: "contract",
-    headerName: "Nº Contrato",
-    width: 127,
-    flex: 0,
-  },
-  {
     field: "currentInstallment",
     width: 120,
-    flex: 1,
+    flex: 0,
     headerName: "Nº Parcela",
+  },
+  {
+    field: "referenceMonth",
+    headerName: "Mês referência",
+    width: 160,
+    flex: 1,
   },
   {
     field: "dueDate",
@@ -34,7 +54,7 @@ const columnDefs = [
   },
   {
     field: "amount",
-    headerName: "Valor Parcela",
+    headerName: "Valor",
     width: 140,
     flex: 1,
     valueFormatter: currencyFormatter,
@@ -42,6 +62,9 @@ const columnDefs = [
   {
     field: "status",
     headerName: "Status",
+    cellRenderer: ({ value }: { value: string }) => {
+      return statusIcons[value];
+    },
     width: 100,
     flex: 1,
   },

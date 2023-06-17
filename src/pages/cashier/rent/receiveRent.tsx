@@ -2,13 +2,6 @@ import {
   Flex,
   Text,
   Input as ChakraInput,
-  FormLabel,
-  FormControl,
-  NumberInput,
-  NumberInputField,
-  NumberInputStepper,
-  NumberIncrementStepper,
-  NumberDecrementStepper,
   Divider,
   Button,
   useDisclosure,
@@ -22,35 +15,7 @@ import ContractService from "../../../services/contractService";
 import { dateFormatter } from "../../../services/formatters";
 import { Form, Formik } from "formik";
 import Alert from "../../../components/modals/Alert.component";
-
-const TenantSelect = ({
-  tenantName,
-  updateTenant,
-}: {
-  tenantName: string;
-  updateTenant: any;
-}) => (
-  <FormControl w="100%">
-    <FormLabel fontSize="sm">
-      Locatário:{" "}
-      {tenantName.length >= 39
-        ? `${tenantName.substring(0, 36)}...`
-        : tenantName}
-    </FormLabel>
-    <NumberInput
-      onChange={(value) => {
-        updateTenant(value);
-      }}
-      min={0}
-    >
-      <NumberInputField />
-      <NumberInputStepper>
-        <NumberIncrementStepper />
-        <NumberDecrementStepper />
-      </NumberInputStepper>
-    </NumberInput>
-  </FormControl>
-);
+import TenantSelect from "../../../components/TenantSelect.component";
 
 const componentNames = {
   water: "water",
@@ -266,13 +231,10 @@ const ReceiveRent = () => {
                     componentNames={componentNames}
                     handleChange={handleChange}
                     values={values}
+                    disableComponents={!tenant}
                   />
                 </Flex>
-                <Divider />
                 <Flex w="100%" direction="column" gap="8px">
-                  <Text fontSize="md" w="100%" textAlign="right" pr="8px">
-                    Saldo<Text fontWeight="bold">R$ 0,00</Text>
-                  </Text>
                   <Flex
                     w="100%"
                     direction="column"
@@ -285,8 +247,11 @@ const ReceiveRent = () => {
                       onChange={handleChange}
                       value={values[componentNames?.formOfPayment] || ""}
                       placeholder="Forma de pagamento"
+                      disabled={!tenant}
                     />
-                    <Button type="submit">Baixa</Button>
+                    <Button type="submit" disabled={!tenant}>
+                      Baixa
+                    </Button>
                   </Flex>
                 </Flex>
               </Flex>

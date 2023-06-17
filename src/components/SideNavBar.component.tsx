@@ -5,7 +5,7 @@ import { AiOutlineHome, AiOutlineIdcard, AiOutlineTeam } from "react-icons/ai";
 import { BiDollarCircle, BiSearch, BiShow, BiTransfer } from "react-icons/bi";
 import { RiUserSettingsLine } from "react-icons/ri";
 import { IoMdArrowDropdown, IoMdArrowDropleft } from "react-icons/io";
-import { TbReportSearch } from "react-icons/tb";
+import { TbFileInvoice, TbReportSearch } from "react-icons/tb";
 import {
   MdCallMade,
   MdCallReceived,
@@ -205,6 +205,7 @@ const SideNavBar = () => {
               isGroupItem={true}
             />
           </Group>
+          <Item href="/parcelas" icon={<TbFileInvoice />} name="Parcelas" />
           <Item
             href="/relatorios"
             icon={<TbReportSearch />}

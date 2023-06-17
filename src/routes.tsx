@@ -20,6 +20,7 @@ import Reports from "./pages/reports";
 import GenericTransaction from "./pages/cashier/generic";
 import ReceiveRent from "./pages/cashier/rent/receiveRent";
 import TransferRent from "./pages/cashier/rent/transferRent";
+import RentInstallments from "./pages/rentInstallments";
 
 const Private = ({ Item }: any) => {
   const { user } = useContext(Context);
@@ -67,6 +68,7 @@ const Routes = () => {
           path="/editar/locatario/:id"
           element={<Private Item={TenantEdit} />}
         />
+        <Route path="/parcelas" element={<Private Item={RentInstallments} />} />
         <Route path="/relatorios" element={<Private Item={Reports} />} />
         <Route
           path="/caixa/movimentacao"
