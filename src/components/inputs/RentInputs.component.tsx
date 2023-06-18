@@ -74,7 +74,17 @@ const RentInputs = ({
     );
 
     handleChange(componentNames?.total)(total.toString());
-  }, [componentNames?.total, handleChange, values]);
+  }, [
+    componentNames?.total,
+    handleChange,
+    values?.water,
+    values?.eletricity,
+    values?.iptu,
+    values?.incomeTax,
+    values?.condominium,
+    values?.rent,
+    values?.sundry,
+  ]);
 
   const fields = [
     <Input
