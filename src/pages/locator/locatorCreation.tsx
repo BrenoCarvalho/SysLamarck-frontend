@@ -7,6 +7,7 @@ import ResidentialInputs from "../../components/inputs/basics/ResidentialInputs.
 import Page from "../../components/Page.component";
 import LocatorService from "../../services/locatorService";
 import Alert from "../../components/modals/Alert.component";
+import { useNavigate } from "react-router-dom";
 
 const componentNames = {
   locator: {
@@ -40,6 +41,8 @@ const componentNames = {
 };
 
 const LocatorCreation = () => {
+  const navigate = useNavigate();
+
   const {
     isOpen: sucessDialogIsOpen,
     onOpen: sucessDialogOnOpen,
@@ -153,7 +156,10 @@ const LocatorCreation = () => {
       </Formik>
 
       <Alert
-        onClose={sucessDialogOnClose}
+        onClose={() => {
+          sucessDialogOnClose();
+          navigate("/consulta/locador");
+        }}
         isOpen={sucessDialogIsOpen}
         title="Sucesso!"
         message={"Locador adicionado com sucesso."}

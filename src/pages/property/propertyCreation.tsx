@@ -17,6 +17,7 @@ import Page from "../../components/Page.component";
 import { Form, Formik } from "formik";
 import PropertyService from "../../services/propertyService";
 import Alert from "../../components/modals/Alert.component";
+import { useNavigate } from "react-router-dom";
 
 const componentNames = {
   propertyData: {
@@ -55,6 +56,8 @@ const componentNames = {
 };
 
 const PropertyCreation = () => {
+  const navigate = useNavigate();
+
   const {
     isOpen: sucessDialogIsOpen,
     onOpen: sucessDialogOnOpen,
@@ -197,7 +200,10 @@ const PropertyCreation = () => {
       </Formik>
 
       <Alert
-        onClose={sucessDialogOnClose}
+        onClose={() => {
+          sucessDialogOnClose();
+          navigate("/consulta/imovel");
+        }}
         isOpen={sucessDialogIsOpen}
         title="Sucesso!"
         message={"Imóvel adicionado com sucesso."}

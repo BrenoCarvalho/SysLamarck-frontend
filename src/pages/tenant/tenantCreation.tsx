@@ -25,6 +25,7 @@ import Alert from "../../components/modals/Alert.component";
 import Residents from "../../components/Residents.component";
 import ReportViewer from "../../components/modals/reports/ReportViewer.component";
 import RegistrationForm from "../../components/documents/RegistrationForm.component";
+import { useNavigate } from "react-router-dom";
 
 const componentNames = {
   property: {
@@ -163,6 +164,8 @@ const componentNames = {
 };
 
 const TenantCreation = () => {
+  const navigate = useNavigate();
+
   const initialValues = {
     propertyId: null,
     propertyCode: null,
@@ -559,7 +562,8 @@ const TenantCreation = () => {
       <Alert
         onClose={() => {
           sucessDialogOnClose();
-          onOpenRegistrationForm();
+          // onOpenRegistrationForm();
+          navigate("/consulta/locatario");
         }}
         isOpen={sucessDialogIsOpen}
         title="Sucesso!"

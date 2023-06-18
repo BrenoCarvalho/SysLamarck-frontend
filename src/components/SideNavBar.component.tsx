@@ -204,13 +204,13 @@ const SideNavBar = () => {
               icon={<RiUserSettingsLine />}
               isGroupItem={true}
             />
+            <Item
+              href="/parcelas"
+              icon={<TbFileInvoice />}
+              name="Parcelas"
+              isGroupItem
+            />
           </Group>
-          <Item href="/parcelas" icon={<TbFileInvoice />} name="Parcelas" />
-          <Item
-            href="/relatorios"
-            icon={<TbReportSearch />}
-            name="Relatórios"
-          />
           <Group name="Caixa" icon={<BiDollarCircle />}>
             <Item
               href="/caixa/movimentacao"
@@ -237,6 +237,11 @@ const SideNavBar = () => {
               isGroupItem={true}
             />
           </Group>
+          <Item
+            href="/relatorios"
+            icon={<TbReportSearch />}
+            name="Relatórios"
+          />
         </Flex>
         {/* settings */}
         <Flex
