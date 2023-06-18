@@ -7,7 +7,7 @@ import {
   Divider,
   Textarea,
 } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import InputMask from "react-input-mask";
 import { currencyFormatter } from "../../services/formatters";
 

@@ -4,7 +4,6 @@ import {
   Input as ChakraInput,
   Divider,
   Button,
-  useDisclosure,
 } from "@chakra-ui/react";
 import Page from "../../../components/Page.component";
 import { useEffect, useState } from "react";
@@ -14,7 +13,6 @@ import RentInstallmentsTable from "../../../components/tables/RentInstallmentsTa
 import TenantSelect from "../../../components/TenantSelect.component";
 import { Form, Formik } from "formik";
 import ContractService from "../../../services/contractService";
-import Alert from "../../../components/modals/Alert.component";
 import { currencyFormatter, dateFormatter } from "../../../services/formatters";
 
 const componentNames = {
@@ -33,14 +31,6 @@ const componentNames = {
 };
 
 const TransferRent = () => {
-  const {
-    isOpen: dialogIsOpen,
-    onOpen: dialogOnOpen,
-    onClose: dialogOnClose,
-  } = useDisclosure();
-
-  const [dialogError, setDialogError] = useState<boolean>(false);
-
   const [tenant, setTenant] = useState<any>();
   const [contract, setContract] = useState<any>();
   const [installments, setInstallments] = useState<[]>([]);
@@ -271,17 +261,6 @@ const TransferRent = () => {
           </Form>
         )}
       </Formik>
-
-      <Alert
-        onClose={dialogOnClose}
-        isOpen={dialogIsOpen}
-        title={dialogError ? "Erro!" : "Sucesso!"}
-        message={
-          dialogError
-            ? "Falha ao criar movimentação, verifique os campos e tente novamente."
-            : "Movimentação adicionada com sucesso."
-        }
-      />
     </Page>
   );
 };
