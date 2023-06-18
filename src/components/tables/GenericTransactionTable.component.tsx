@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import {
   currencyFormatter,
   dateFormatter,
+  timeFormatter,
   transactionTypeFormatter,
 } from "../../services/formatters";
 import TransactionService from "../../services/transactionService";
@@ -28,6 +29,13 @@ const columnDefs = [
     field: "createdAt",
     headerName: "Data",
     valueFormatter: dateFormatter,
+    width: 160,
+    flex: 0,
+  },
+  {
+    field: "createdAt",
+    headerName: "Hora",
+    valueFormatter: timeFormatter,
     width: 160,
     flex: 0,
   },
