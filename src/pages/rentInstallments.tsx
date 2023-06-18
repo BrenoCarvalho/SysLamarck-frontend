@@ -121,7 +121,7 @@ const RentInstallments = () => {
         <Flex justifyContent="space-between" padding="2">
           <Flex ml="10px" h="100%" align="center" gap="2">
             <Switch />
-            <Text>Mostrar parcleas antigas</Text>
+            <Text>Mostrar parcelas antigas</Text>
           </Flex>
           <Flex mt={2} gap="2">
             <Button
