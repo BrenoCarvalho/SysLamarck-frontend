@@ -45,7 +45,7 @@ const ReceiveRent = () => {
   const [contract, setContract] = useState<any>();
   const [installments, setInstallments] = useState<[]>([]);
 
-  const initialValues: any = {
+  const [initialValues, setInitialValues] = useState<any>({
     water: null,
     eletricity: null,
     iptu: null,
@@ -58,7 +58,7 @@ const ReceiveRent = () => {
     sundryDescription: null,
     total: null,
     formOfPayment: null,
-  };
+  });
 
   const updateData = async (tenantId: string | number) => {
     setTenant(null);
@@ -77,6 +77,7 @@ const ReceiveRent = () => {
     setTenant(tenant ?? null);
     setContract(contract ?? null);
     setInstallments(installments ?? null);
+    setInitialValues({ ...initialValues, rent: contract?.leaseAmount });
   };
 
   const payInstallment = (values: any) => {
@@ -114,6 +115,7 @@ const ReceiveRent = () => {
     >
       <Formik
         initialValues={initialValues}
+        enableReinitialize={true}
         onSubmit={(values, { resetForm }) => {
           payInstallment(values);
           resetForm();

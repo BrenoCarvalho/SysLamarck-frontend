@@ -209,7 +209,7 @@ const TransferRent = () => {
                 <Flex w="100%" gap="20px">
                   <RentInputs
                     title="Débito"
-                    fieldList={[1, 2, 3, 4, 5, 6, 7, 8, 9]}
+                    fieldList={[1, 2, 3, 4, 5, 10, 11, 9]}
                     componentNames={componentNames}
                     handleChange={handleChange}
                     values={values}

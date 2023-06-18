@@ -10,8 +10,17 @@ import {
 import { useEffect } from "react";
 import InputMask from "react-input-mask";
 import { currencyFormatter } from "../../services/formatters";
+import CurrencyInput from "react-currency-input-field";
 
-const Input = ({ title, placeholder = title, ...props }: any) => {
+const Input = ({
+  currencyInput = false,
+  handleChange,
+  title,
+  name,
+  placeholder = title,
+  values,
+  ...props
+}: any) => {
   return (
     <FormControl
       display="flex"
@@ -29,11 +38,25 @@ const Input = ({ title, placeholder = title, ...props }: any) => {
         {title}
       </FormLabel>
       <ChakraInput
-        as={InputMask}
+        as={currencyInput ? CurrencyInput : InputMask}
         size="sm"
         minW="100px"
         w="40%"
-        placeholder={placeholder}
+        placeholder={currencyInput ? "R$ 0,00" : placeholder}
+        onChange={currencyInput ? null : handleChange}
+        name={name}
+        intlConfig={{ locale: "pt-BR", currency: "BRL" }}
+        decimalSeparator=","
+        groupSeparator="."
+        value={values[name]?.toString()?.replaceAll(".", ",") ?? ""}
+        onValueChange={
+          currencyInput
+            ? (value: string | undefined) =>
+                handleChange(name)(
+                  value?.replaceAll(".", "").replaceAll(",", ".") ?? ""
+                )
+            : null
+        }
         {...props}
       />
     </FormControl>
@@ -69,7 +92,8 @@ const RentInputs = ({
     ];
 
     const total = valuesToSum.reduce(
-      (total: any, value: any) => (value > 0 ? total + value : total),
+      (total: any, value: any) =>
+        Number(value) > 0 ? total + Number(value) : total,
       0
     );
 
@@ -90,111 +114,100 @@ const RentInputs = ({
     <Input
       title="Água"
       name={componentNames?.water}
-      type="number"
-      onChange={handleChange}
-      value={values[componentNames?.water] || ""}
+      handleChange={handleChange}
+      currencyInput
       inverted={inverted}
-      placeholder="R$ 0,00"
+      values={values}
       disabled={disableComponents}
     />, // 1
     <Input
       title="Luz"
       name={componentNames?.eletricity}
-      type="number"
-      onChange={handleChange}
-      value={values[componentNames?.eletricity] || ""}
+      handleChange={handleChange}
+      currencyInput
       inverted={inverted}
-      placeholder="R$ 0,00"
+      values={values}
       disabled={disableComponents}
     />, // 2
     <Input
       title="IPTU"
       name={componentNames?.iptu}
-      type="number"
-      onChange={handleChange}
-      value={values[componentNames?.iptu] || ""}
+      handleChange={handleChange}
+      currencyInput
       inverted={inverted}
-      placeholder="R$ 0,00"
+      values={values}
       disabled={disableComponents}
     />, // 3
     <Input
       title="Imposto de renda"
       name={componentNames?.incomeTax}
-      type="number"
-      onChange={handleChange}
-      value={values[componentNames?.incomeTax] || ""}
+      handleChange={handleChange}
+      currencyInput
       inverted={inverted}
-      placeholder="R$ 0,00"
+      values={values}
       disabled={disableComponents}
     />, // 4
     <Input
       title="Condomínio"
       name={componentNames?.condominium}
-      type="number"
-      onChange={handleChange}
-      value={values[componentNames?.condominium] || ""}
+      handleChange={handleChange}
+      currencyInput
       inverted={inverted}
-      placeholder="R$ 0,00"
+      values={values}
       disabled={disableComponents}
     />, // 5
     <Input
       title="Desconto especial"
       name={componentNames?.specialDiscount}
-      type="number"
-      onChange={handleChange}
-      value={values[componentNames?.specialDiscount] || ""}
+      handleChange={handleChange}
+      currencyInput
       inverted={inverted}
-      placeholder="R$ 0,00"
-      disabled={disableComponents}
+      values={values}
+      disabled={true}
     />, // 6
     <Input
       title="Aluguel"
       name={componentNames?.rent}
-      type="number"
-      onChange={handleChange}
-      value={values[componentNames?.rent] || ""}
+      handleChange={handleChange}
+      currencyInput
       inverted={inverted}
-      placeholder="R$ 0,00"
+      values={values}
       disabled={disableComponents}
     />, // 7
     <Input
       title="Multa romp. contrato"
       name={componentNames?.breachOfContractFine}
-      type="number"
-      onChange={handleChange}
-      value={values[componentNames?.breachOfContractFine] || ""}
+      handleChange={handleChange}
+      currencyInput
       inverted={inverted}
-      placeholder="R$ 0,00"
+      values={values}
       disabled={disableComponents}
     />, // 8
     <Input
       title="Diversos"
       name={componentNames?.sundry}
-      type="number"
-      onChange={handleChange}
-      value={values[componentNames?.sundry] || ""}
+      handleChange={handleChange}
+      currencyInput
       inverted={inverted}
-      placeholder="R$ 0,00"
+      values={values}
       disabled={disableComponents}
     />, // 9
     <Input
       title="Taxa de administração"
       name={componentNames?.administrationFee}
-      type="number"
-      onChange={handleChange}
-      value={values[componentNames?.administrationFee] || ""}
+      handleChange={handleChange}
+      currencyInput
       inverted={inverted}
+      values={values}
       disabled
-      placeholder="R$ 0,00"
     />, // 10
     <Input
       title="Taxa de locação"
       name={componentNames?.leaseFee}
-      type="number"
-      onChange={handleChange}
-      value={values[componentNames?.leaseFee] || ""}
+      handleChange={handleChange}
+      currencyInput
       inverted={inverted}
-      placeholder="R$ 0,00"
+      values={values}
       disabled={disableComponents}
     />, // 11
   ];
