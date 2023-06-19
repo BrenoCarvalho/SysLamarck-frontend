@@ -17,10 +17,11 @@ import PropertyEdit from "./pages/property/propertyEdit";
 import TenantSearch from "./pages/tenant/tenantSearch";
 import TenantEdit from "./pages/tenant/tenantEdit";
 import Reports from "./pages/reports";
-import GenericTransaction from "./pages/cashier/generic";
+import GenericTransaction from "./pages/cashier/genericTransaction";
 import ReceiveRent from "./pages/cashier/rent/receiveRent";
 import TransferRent from "./pages/cashier/rent/transferRent";
 import RentInstallments from "./pages/rentInstallments";
+import ViewTransactions from "./pages/cashier/viewTransactions";
 
 const Private = ({ Item }: any) => {
   const { user } = useContext(Context);
@@ -81,6 +82,10 @@ const Routes = () => {
         <Route
           path="/caixa/aluguel/repasse"
           element={<Private Item={TransferRent} />}
+        />
+        <Route
+          path="/caixa/visualizar"
+          element={<Private Item={ViewTransactions} />}
         />
       </RoutesComponent>
     </BrowserRouter>

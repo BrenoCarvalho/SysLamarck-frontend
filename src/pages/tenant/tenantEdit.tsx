@@ -338,7 +338,7 @@ const TenantEdit = () => {
   }, [additionalRenter, bailTypesName, initialValues, navigate, params.id]);
 
   return (
-    <Page title="Editar locatário" direction="column">
+    <Page menuGroup="Editar" title="locatário" direction="column">
       {/* Form */}
       <Formik
         initialValues={initialValues}

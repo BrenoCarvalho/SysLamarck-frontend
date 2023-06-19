@@ -32,27 +32,6 @@ const Input = ({
   );
 };
 
-const InputDate = ({ title, width = "100%", ...props }: any) => {
-  return (
-    <FormControl w={width}>
-      <FormLabel
-        fontSize="sm"
-        textOverflow="ellipsis"
-        whiteSpace="nowrap"
-        overflow="hidden"
-      >
-        {title}
-      </FormLabel>
-      <ChakraInput
-        placeholder="Selecione a data"
-        size="md"
-        type="date"
-        {...props}
-      />
-    </FormControl>
-  );
-};
-
 const SwitchButton = ({ title, width = "100%", ...props }: any) => {
   return (
     <FormControl alignItems="center" mr="6" width={width}>

@@ -79,7 +79,7 @@ const LocatorCreation = () => {
   };
 
   return (
-    <Page title="Cadastro de Locador" direction="column">
+    <Page menuGroup="Cadastro" title="Locador" direction="column">
       {/* Form */}
       <Formik
         initialValues={initialValues}

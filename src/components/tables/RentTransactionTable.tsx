@@ -19,77 +19,75 @@ const defaultColumnData = {
 
 const columnDefs = [
   {
-    field: "id",
-    headerName: "Nº Lançamento",
+    field: "installment.currentInstallment",
+    headerName: "Nº Parcela",
     width: 148,
     flex: 0,
   },
-  { field: "description", headerName: "Descrição" },
   {
-    field: "createdAt",
-    headerName: "Data",
-    valueFormatter: dateFormatter,
-    width: 160,
-    flex: 0,
+    field: "installment.contract.tenant.property.locator.fullName",
+    headerName: "Locador",
+    flex: 1,
   },
   {
-    field: "createdAt",
-    headerName: "Hora",
-    valueFormatter: timeFormatter,
-    width: 160,
-    flex: 0,
+    field: "installment.contract.tenant.fullName",
+    headerName: "Locatário",
+    flex: 1,
+  },
+  {
+    field: "installment.dueDate",
+    headerName: "Data Vencimento",
+    valueFormatter: dateFormatter,
+    flex: 1,
   },
   {
     field: "type",
     headerName: "Tipo",
-    width: 130,
-    flex: 0,
+    flex: 1,
     valueFormatter: transactionTypeFormatter,
   },
   {
     field: "amount",
     headerName: "Valor",
-    width: 130,
-    flex: 0,
     valueFormatter: currencyFormatter,
+    flex: 1,
+  },
+  {
+    field: "createdAt",
+    headerName: "Hora",
+    valueFormatter: timeFormatter,
+    flex: 1,
+  },
+  {
+    field: "formOfPayment",
+    headerName: "Forma de Pagamento",
+    flex: 1,
   },
 ];
 
-const GenericTransactionTable = ({
+const RentTransactionTable = ({
   setSelected,
-  deleteCallback,
-  refreshTrigger,
   readyData,
 }: {
   setSelected?: any;
-  deleteCallback?: any;
-  refreshTrigger?: any;
   readyData?: any;
 }) => {
   const [data, setData] = useState([]);
   const gridRef = useRef<any>(null);
 
   const onGridReady = async () => {
-    setData(await TransactionService.getTransactions({ category: "generic" }));
+    setData(
+      await TransactionService.getTransactions({
+        category: "rent",
+        allRelations: true,
+      })
+    );
   };
 
   const onSelectionChanged = useCallback(() => {
     const selectedRows = gridRef?.current?.api.getSelectedRows();
     setSelected(selectedRows.length === 1 ? selectedRows[0] : {});
   }, [setSelected]);
-
-  useEffect(() => {
-    const selectedData = gridRef?.current?.api?.getSelectedRows();
-    gridRef?.current?.api?.applyTransaction({
-      remove: selectedData,
-    });
-  }, [deleteCallback]);
-
-  useEffect(() => {
-    if (refreshTrigger) {
-      onGridReady();
-    }
-  }, [refreshTrigger]);
 
   return (
     <Flex w="100%" h="100%">
@@ -111,4 +109,4 @@ const GenericTransactionTable = ({
   );
 };
 
-export default GenericTransactionTable;
+export default RentTransactionTable;

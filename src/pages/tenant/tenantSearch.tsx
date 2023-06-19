@@ -42,7 +42,8 @@ const TenantSearch = () => {
 
   return (
     <Page
-      title="Consulta de locatário"
+      menuGroup="Consulta"
+      title="Locatário"
       direction="column"
       hScreenSize
       paddingBottom="-2"

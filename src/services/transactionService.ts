@@ -11,9 +11,21 @@ const TransactionService = {
         return Promise.reject(error);
       });
   },
-  getTransactions: async (type: "generic" | "rentInstallment"): Promise<[]> => {
+  getTransactions: async ({
+    category,
+    start,
+    end,
+    allRelations,
+  }: {
+    category: "rent" | "generic";
+    start?: Date | null;
+    end?: Date | null;
+    allRelations?: boolean;
+  }): Promise<[]> => {
     return api
-      .get(`/transaction/${type}`)
+      .get(
+        `/transaction/${category}?start=${start}&end=${end}&allRelations=${allRelations}`
+      )
       .then((response) => {
         return Promise.resolve(response.data);
       })

@@ -325,7 +325,7 @@ const TenantCreation = () => {
   }, [initialValues?.propertyCode, propertyAddress]);
 
   return (
-    <Page title="Cadastro de Locatário" direction="column">
+    <Page menuGroup="Cadastro" title="Locatário" direction="column">
       {/* Container */}
       <Formik
         initialValues={initialValues}

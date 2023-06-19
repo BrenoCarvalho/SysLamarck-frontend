@@ -85,7 +85,7 @@ const RentInstallmentsTable = ({
   }, [setSelected]);
 
   return (
-    <Flex h="100%">
+    <Flex w="100%" h="100%">
       <div
         className="ag-theme-alpine customStyle"
         style={{

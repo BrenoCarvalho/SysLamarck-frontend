@@ -102,6 +102,7 @@ const ReceiveRent = () => {
 
   return (
     <Page
+      menuGroup="Caixa"
       title="Recebimento de Aluguel"
       direction="column"
       paddingBottom="-2"

@@ -43,7 +43,8 @@ const PropertySearch = () => {
 
   return (
     <Page
-      title="Consulta de imóvel"
+      menuGroup="Consulta"
+      title="Imóvel"
       direction="column"
       hScreenSize
       paddingBottom="-2"

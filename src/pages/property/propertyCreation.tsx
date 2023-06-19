@@ -99,7 +99,7 @@ const PropertyCreation = () => {
   };
 
   return (
-    <Page title="Cadastro de Imóvel" direction="column">
+    <Page menuGroup="Cadastro" title="Imóvel" direction="column">
       {/* Container */}
       <Formik
         initialValues={initialValues}

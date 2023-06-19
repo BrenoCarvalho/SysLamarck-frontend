@@ -18,7 +18,7 @@ const cpfFormatter = ({ value }: { value: any }) => {
 };
 
 const timeFormatter = ({ value }: { value: any }) => {
-  return value.split("T")[1].split(".")[0];
+  return value?.split("T")[1]?.split(".")[0];
 };
 
 const transactionTypeFormatter = ({ value }: { value: any }) => {

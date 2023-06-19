@@ -73,7 +73,7 @@ const LocatorEdit = () => {
   }, [initialValues, navigate, params.id]);
 
   return (
-    <Page title="Editar Locador" direction="column">
+    <Page menuGroup="Editar" title="Locador" direction="column">
       {/* Form */}
       <Formik
         initialValues={initialValues}

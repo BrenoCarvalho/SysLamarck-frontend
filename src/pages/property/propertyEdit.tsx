@@ -90,7 +90,7 @@ const PropertyEdit = () => {
   }, [initialValues, navigate, params.id]);
 
   return (
-    <Page title="Editar Imóvel" direction="column">
+    <Page menuGroup="Editar" title="Imóvel" direction="column">
       {/* Form */}
       <Formik
         initialValues={initialValues}

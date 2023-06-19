@@ -7,10 +7,12 @@ const Header = ({
   showMenu,
   setShowMenu,
   title,
+  menuGroup,
 }: {
   showMenu: any;
   setShowMenu: any;
   title: string;
+  menuGroup: string;
 }) => {
   return (
     <>
@@ -22,9 +24,22 @@ const Header = ({
         ml={["2", "2", "0", "0"]}
         mr={["2", "2", "0", "0"]}
       >
-        <Text fontWeight="semibold" fontSize="lg">
-          {title}
-        </Text>
+        {menuGroup ? (
+          <Text
+            display="flex"
+            fontWeight="semibold"
+            fontSize="lg"
+            gap="2.5"
+            flexDirection="row"
+          >
+            {menuGroup} <Text fontWeight="normal">{menuGroup ? "/" : ""}</Text>
+            <Text fontWeight="normal">{title}</Text>
+          </Text>
+        ) : (
+          <Text fontWeight="semibold" fontSize="lg">
+            {title}
+          </Text>
+        )}
         <IconButton
           visibility={["visible", "visible", "hidden", "hidden"]}
           aria-label="Menu"
@@ -44,7 +59,13 @@ const Header = ({
   );
 };
 
-const Page = ({ children, title, hScreenSize = false, ...props }: any) => {
+const Page = ({
+  children,
+  title,
+  menuGroup,
+  hScreenSize = false,
+  ...props
+}: any) => {
   const [showMenu, setShowMenu] = useState(
     window.innerWidth < 768 ? false : true
   );
@@ -70,7 +91,12 @@ const Page = ({ children, title, hScreenSize = false, ...props }: any) => {
           direction="column"
           p={["4", "4", "8", "8"]}
         >
-          <Header showMenu={showMenu} setShowMenu={setShowMenu} title={title} />
+          <Header
+            menuGroup={menuGroup}
+            showMenu={showMenu}
+            setShowMenu={setShowMenu}
+            title={title}
+          />
           <Flex w="100%" h="100%" paddingY="6" {...props}>
             {children}
           </Flex>

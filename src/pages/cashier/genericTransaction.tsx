@@ -89,7 +89,8 @@ const GenericTransaction = () => {
 
   return (
     <Page
-      title="Movimentações"
+      menuGroup="Caixa"
+      title="Movimentações Gerais"
       direction="column"
       hScreenSize
       paddingBottom="-2"
@@ -166,9 +167,6 @@ const GenericTransaction = () => {
             }
           >
             Remover
-          </Button>
-          <Button width="160px" type="submit">
-            Fechar caixa
           </Button>
         </Flex>
       </Flex>

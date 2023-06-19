@@ -42,7 +42,8 @@ const LocatorSearch = () => {
 
   return (
     <Page
-      title="Consulta de Locador"
+      menuGroup="Consulta"
+      title="Locador"
       direction="column"
       hScreenSize
       paddingBottom="-2"

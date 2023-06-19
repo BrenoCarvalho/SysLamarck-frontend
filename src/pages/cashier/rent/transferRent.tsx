@@ -123,6 +123,7 @@ const TransferRent = () => {
 
   return (
     <Page
+      menuGroup="Caixa"
       title="Repasse de Aluguel"
       direction="column"
       paddingBottom="-2"
