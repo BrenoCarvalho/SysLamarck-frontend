@@ -25,10 +25,6 @@ const transactionTypeFormatter = ({ value }: { value: any }) => {
   return value === "credit" ? "Crédito" : "Débito";
 };
 
-// const rgFormatter = ({ value }: { value: any }) => {
-//   return value?.replace(/(\d{2})(\d{3})(\d{3})(\d{1})/, "$1.$2.$3-$4");
-// };
-
 const phoneFormatter = ({ value }: { value: any }) => {
   return value?.replace(
     value?.length <= 10 ? /(\d{2})(\d{4})/ : /(\d{2})(\d{5})/,

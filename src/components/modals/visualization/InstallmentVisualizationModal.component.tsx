@@ -37,7 +37,11 @@ const InstallmentVisualizationModal = ({
           installment?.transaction[0]?.data ?? {}
         );
 
-        const paymentTransactionDataNames: any = {
+        const tranferRentData = Object.entries(
+          installment?.transaction[1]?.data ?? {}
+        );
+
+        const names: any = {
           water: "Água",
           eletricity: "Luz",
           iptu: "IPTU",
@@ -46,16 +50,23 @@ const InstallmentVisualizationModal = ({
           specialDiscount: "Desconto especial",
           breachOfContractFine: "Multa romp. de contrato",
           rent: "Aluguel",
+          administrationFee: "Taxa de administração",
+          leaseFee: "Taxa de locação",
           sundry: "Diversos",
           sundryDescription: "Descrição de diversos",
         };
 
         const paymentTransactionDataFormatted = paymentTransactionData?.map(
           (data: any) => [
-            paymentTransactionDataNames[data[0]],
+            names[data[0]],
             Number(data[1]) ? currencyFormatter({ value: data[1] }) : data[1],
           ]
         );
+
+        const transferRentDataFormatted = tranferRentData?.map((data: any) => [
+          names[data[0]],
+          Number(data[1]) ? currencyFormatter({ value: data[1] }) : data[1],
+        ]);
 
         const paymentData =
           installment?.status === "Pg"
@@ -73,11 +84,35 @@ const InstallmentVisualizationModal = ({
                     value: installment?.transaction[0]?.amount,
                   }),
                 ],
+                ...paymentTransactionDataFormatted,
                 [
                   "Forma de pagamento",
                   installment?.transaction[0]?.formOfPayment,
                 ],
-                ...paymentTransactionDataFormatted,
+              ]
+            : [];
+
+        const transferRentData =
+          installment?.transaction?.length > 1
+            ? [
+                ["Transferência de aluguel"],
+                [
+                  "Data",
+                  dateFormatter({
+                    value: installment?.transaction[1]?.createdAt.toString(),
+                  }),
+                ],
+                [
+                  "Total pago",
+                  currencyFormatter({
+                    value: installment?.transaction[1]?.amount,
+                  }),
+                ],
+                ...transferRentDataFormatted,
+                [
+                  "Forma de pagamento",
+                  installment?.transaction[1]?.formOfPayment,
+                ],
               ]
             : [];
 
@@ -93,6 +128,7 @@ const InstallmentVisualizationModal = ({
             installmentStatusFormatter({ value: installment?.status }),
           ],
           ...paymentData,
+          ...transferRentData,
         ]);
       };
       loadData();

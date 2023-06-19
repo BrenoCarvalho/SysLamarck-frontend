@@ -87,13 +87,7 @@ const ReceiveRent = () => {
     delete values[componentNames?.total];
     delete values[componentNames?.formOfPayment];
 
-    ContractService.payInstallment(
-      contract?.id,
-      "credit",
-      total,
-      formOfPayment,
-      values
-    )
+    ContractService.payInstallment(contract?.id, total, formOfPayment, values)
       .then(() => {
         setDialogError(false);
       })

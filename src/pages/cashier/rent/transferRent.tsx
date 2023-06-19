@@ -4,6 +4,7 @@ import {
   Input as ChakraInput,
   Divider,
   Button,
+  useDisclosure,
 } from "@chakra-ui/react";
 import Page from "../../../components/Page.component";
 import { useEffect, useState } from "react";
@@ -14,6 +15,7 @@ import TenantSelect from "../../../components/TenantSelect.component";
 import { Form, Formik } from "formik";
 import ContractService from "../../../services/contractService";
 import { currencyFormatter, dateFormatter } from "../../../services/formatters";
+import Alert from "../../../components/modals/Alert.component";
 
 const componentNames = {
   water: "water",
@@ -21,9 +23,8 @@ const componentNames = {
   iptu: "iptu",
   incomeTax: "incomeTax",
   condominium: "condominium",
-  specialDiscount: "specialDiscount",
-  rent: "rent",
-  breachOfContractFine: "breachOfContractFine",
+  administrationFee: "administrationFee",
+  leaseFee: "leaseFee",
   sundry: "sundry",
   sundryDescription: "sundryDescription",
   total: "total",
@@ -31,6 +32,14 @@ const componentNames = {
 };
 
 const TransferRent = () => {
+  const {
+    isOpen: dialogIsOpen,
+    onOpen: dialogOnOpen,
+    onClose: dialogOnClose,
+  } = useDisclosure();
+
+  const [dialogError, setDialogError] = useState<boolean>(false);
+
   const [tenant, setTenant] = useState<any>();
   const [contract, setContract] = useState<any>();
   const [installments, setInstallments] = useState<[]>([]);
@@ -55,9 +64,8 @@ const TransferRent = () => {
     iptu: null,
     incomeTax: null,
     condominium: null,
-    specialDiscount: null,
-    rent: null,
-    breachOfContractFine: null,
+    administrationFee: null,
+    leaseFee: null,
     sundry: null,
     sundryDescription: null,
     total: null,
@@ -88,6 +96,31 @@ const TransferRent = () => {
     setInstallments(installments ?? null);
   };
 
+  const transferRent = (values: any) => {
+    const total = values[componentNames?.total];
+    const formOfPayment = values[componentNames?.formOfPayment];
+
+    delete values[componentNames?.total];
+    delete values[componentNames?.formOfPayment];
+
+    ContractService.transferRent(
+      installmentSelected?.id,
+      total,
+      formOfPayment,
+      values
+    )
+      .then(() => {
+        setDialogError(false);
+      })
+      .catch(() => {
+        setDialogError(true);
+      })
+      .finally(() => {
+        updateData(tenant?.id);
+        dialogOnOpen();
+      });
+  };
+
   return (
     <Page
       title="Repasse de Aluguel"
@@ -98,6 +131,7 @@ const TransferRent = () => {
       <Formik
         initialValues={initialValues}
         onSubmit={(values, { resetForm }) => {
+          transferRent(values);
           resetForm();
         }}
       >
@@ -261,6 +295,17 @@ const TransferRent = () => {
           </Form>
         )}
       </Formik>
+
+      <Alert
+        onClose={dialogOnClose}
+        isOpen={dialogIsOpen}
+        title={dialogError ? "Erro!" : "Sucesso!"}
+        message={
+          dialogError
+            ? "Falha ao criar movimentação, verifique os campos e tente novamente."
+            : "Movimentação adicionada com sucesso."
+        }
+      />
     </Page>
   );
 };

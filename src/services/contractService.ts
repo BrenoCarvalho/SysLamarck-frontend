@@ -44,14 +44,31 @@ const ContractService = {
   },
   payInstallment: async (
     contractId: number,
-    type: "credit" | "debit",
     amount: number,
     formOfPayment: string,
     data: any
   ) => {
     return api
       .post(`/contract/payInstallment/${contractId}`, {
-        type,
+        amount,
+        formOfPayment,
+        data,
+      })
+      .then((response) => {
+        return Promise.resolve(response);
+      })
+      .catch((error) => {
+        return Promise.reject(error);
+      });
+  },
+  transferRent: async (
+    installmentId: number,
+    amount: number,
+    formOfPayment: string,
+    data: any
+  ) => {
+    return api
+      .post(`/contract/transferRent/${installmentId}`, {
         amount,
         formOfPayment,
         data,

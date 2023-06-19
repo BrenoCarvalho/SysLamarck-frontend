@@ -15,6 +15,7 @@ const Header = ({
   return (
     <>
       <Flex
+        mt="-10px"
         justifyContent="space-between"
         align="center"
         mb="3"
