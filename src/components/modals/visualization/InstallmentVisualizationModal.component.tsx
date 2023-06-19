@@ -19,6 +19,21 @@ import {
 } from "../../../services/formatters";
 import ContractService from "../../../services/contractService";
 
+const names: any = {
+  water: "Água",
+  eletricity: "Luz",
+  iptu: "IPTU",
+  incomeTax: "Imposto de renda",
+  condominium: "Condomínio",
+  specialDiscount: "Desconto especial",
+  breachOfContractFine: "Multa romp. de contrato",
+  rent: "Aluguel",
+  administrationFee: "Taxa de administração",
+  leaseFee: "Taxa de locação",
+  sundry: "Diversos",
+  sundryDescription: "Descrição de diversos",
+};
+
 const InstallmentVisualizationModal = ({
   onClose,
   isOpen,
@@ -33,86 +48,62 @@ const InstallmentVisualizationModal = ({
           installmentSelected?.id
         );
 
-        const paymentTransactionData = Object.entries(
-          installment?.transaction[0]?.data ?? {}
-        );
+        const receiveRentTransaction = installment?.transaction[0] ?? null;
+        const transferRentTransaction = installment?.transaction[1] ?? null;
 
-        const tranferRentData = Object.entries(
-          installment?.transaction[1]?.data ?? {}
-        );
-
-        const names: any = {
-          water: "Água",
-          eletricity: "Luz",
-          iptu: "IPTU",
-          incomeTax: "Imposto de renda",
-          condominium: "Condomínio",
-          specialDiscount: "Desconto especial",
-          breachOfContractFine: "Multa romp. de contrato",
-          rent: "Aluguel",
-          administrationFee: "Taxa de administração",
-          leaseFee: "Taxa de locação",
-          sundry: "Diversos",
-          sundryDescription: "Descrição de diversos",
-        };
-
-        const paymentTransactionDataFormatted = paymentTransactionData?.map(
-          (data: any) => [
-            names[data[0]],
-            Number(data[1]) ? currencyFormatter({ value: data[1] }) : data[1],
-          ]
-        );
-
-        const transferRentDataFormatted = tranferRentData?.map((data: any) => [
-          names[data[0]],
-          Number(data[1]) ? currencyFormatter({ value: data[1] }) : data[1],
-        ]);
-
-        const paymentData =
+        const receiveRent =
           installment?.status === "Pg"
             ? [
                 ["Dados do pagamento"],
                 [
                   "Data",
                   dateFormatter({
-                    value: installment?.transaction[0]?.createdAt.toString(),
+                    value: receiveRentTransaction?.createdAt.toString(),
                   }),
                 ],
                 [
                   "Total pago",
                   currencyFormatter({
-                    value: installment?.transaction[0]?.amount,
+                    value: receiveRentTransaction?.amount,
                   }),
                 ],
-                ...paymentTransactionDataFormatted,
-                [
-                  "Forma de pagamento",
-                  installment?.transaction[0]?.formOfPayment,
-                ],
+                ...Object.entries(receiveRentTransaction?.data ?? {})?.map(
+                  (data: any) => [
+                    names[data[0]],
+                    Number(data[1])
+                      ? currencyFormatter({ value: data[1] })
+                      : data[1],
+                  ]
+                ),
+                ["Forma de pagamento", receiveRentTransaction?.formOfPayment],
               ]
             : [];
 
-        const transferRentData =
+        const transferRent =
           installment?.transaction?.length > 1
             ? [
                 ["Transferência de aluguel"],
                 [
                   "Data",
                   dateFormatter({
-                    value: installment?.transaction[1]?.createdAt.toString(),
+                    value: transferRentTransaction?.createdAt.toString(),
                   }),
                 ],
                 [
                   "Total pago",
                   currencyFormatter({
-                    value: installment?.transaction[1]?.amount,
+                    value: transferRentTransaction?.amount,
                   }),
                 ],
-                ...transferRentDataFormatted,
-                [
-                  "Forma de pagamento",
-                  installment?.transaction[1]?.formOfPayment,
-                ],
+                ...Object.entries(transferRentTransaction?.data ?? {})?.map(
+                  (data: any) => [
+                    names[data[0]],
+                    Number(data[1])
+                      ? currencyFormatter({ value: data[1] })
+                      : data[1],
+                  ]
+                ),
+                ["Forma de pagamento", transferRentTransaction?.formOfPayment],
               ]
             : [];
 
@@ -127,8 +118,8 @@ const InstallmentVisualizationModal = ({
             "Status",
             installmentStatusFormatter({ value: installment?.status }),
           ],
-          ...paymentData,
-          ...transferRentData,
+          ...receiveRent,
+          ...transferRent,
         ]);
       };
       loadData();
