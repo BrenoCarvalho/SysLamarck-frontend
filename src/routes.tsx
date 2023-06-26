@@ -10,21 +10,22 @@ import TenantCreation from "./pages/tenant/tenantCreation";
 import LocatorSearch from "./pages/locator/locatorSearch";
 import LocatorEdit from "./pages/locator/locatorEdit";
 import Login from "./pages/login";
-import { Context } from "./context/AuthContext";
+import { AuthContext } from "./context/AuthContext";
 import { useContext } from "react";
 import PropertySearch from "./pages/property/propertySearch";
 import PropertyEdit from "./pages/property/propertyEdit";
 import TenantSearch from "./pages/tenant/tenantSearch";
 import TenantEdit from "./pages/tenant/tenantEdit";
 import Reports from "./pages/reports";
-import GenericTransaction from "./pages/cashier/genericTransaction";
+import Movimentation from "./pages/cashier/movimentation";
 import ReceiveRent from "./pages/cashier/rent/receiveRent";
 import TransferRent from "./pages/cashier/rent/transferRent";
 import RentInstallments from "./pages/rentInstallments";
-import ViewTransactions from "./pages/cashier/viewTransactions";
+import ViewCashier from "./pages/cashier/viewCashier";
+import { CashierProvider } from "./context/CashierContext";
 
 const Private = ({ Item }: any) => {
-  const { user } = useContext(Context);
+  const { user } = useContext(AuthContext);
   return user ? <Item /> : <Login />;
 };
 
@@ -72,20 +73,32 @@ const Routes = () => {
         <Route path="/parcelas" element={<Private Item={RentInstallments} />} />
         <Route path="/relatorios" element={<Private Item={Reports} />} />
         <Route
-          path="/caixa/movimentacao"
-          element={<Private Item={GenericTransaction} />}
+          path="/caixa/movimentacoes"
+          element={
+            <CashierProvider>
+              <Private Item={Movimentation} />
+            </CashierProvider>
+          }
         />
         <Route
           path="/caixa/aluguel/recebimento"
-          element={<Private Item={ReceiveRent} />}
+          element={
+            <CashierProvider>
+              <Private Item={ReceiveRent} />
+            </CashierProvider>
+          }
         />
         <Route
           path="/caixa/aluguel/repasse"
-          element={<Private Item={TransferRent} />}
+          element={
+            <CashierProvider>
+              <Private Item={TransferRent} />
+            </CashierProvider>
+          }
         />
         <Route
           path="/caixa/visualizar"
-          element={<Private Item={ViewTransactions} />}
+          element={<Private Item={ViewCashier} />}
         />
       </RoutesComponent>
     </BrowserRouter>

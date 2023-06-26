@@ -2,16 +2,16 @@ import React, { createContext } from "react";
 
 import useAuth from "./hooks/useAuth";
 
-const Context = createContext<any>(null);
+const AuthContext = createContext<any>(null);
 
 const AuthProvider = ({ children }: any) => {
   const { user, handleLogin, handleLogout } = useAuth();
 
   return (
-    <Context.Provider value={{ user, handleLogin, handleLogout }}>
+    <AuthContext.Provider value={{ user, handleLogin, handleLogout }}>
       {children}
-    </Context.Provider>
+    </AuthContext.Provider>
   );
 };
 
-export { Context, AuthProvider };
+export { AuthContext, AuthProvider };

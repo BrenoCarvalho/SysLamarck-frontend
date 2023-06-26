@@ -97,7 +97,7 @@ const RentInstallmentsTable = ({
           ref={gridRef}
           defaultColDef={defaultColumnData}
           columnDefs={columnDefs}
-          rowData={data}
+          rowData={data ?? []}
           rowSelection={"single"}
           onSelectionChanged={onSelectionChanged}
         />

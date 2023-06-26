@@ -7,7 +7,7 @@ import {
   timeFormatter,
   transactionTypeFormatter,
 } from "../../services/formatters";
-import TransactionService from "../../services/transactionService";
+import CashierService from "../../services/cashierService";
 
 const defaultColumnData = {
   flex: 1,
@@ -77,7 +77,7 @@ const RentTransactionTable = ({
 
   const onGridReady = async () => {
     setData(
-      await TransactionService.getTransactions({
+      await CashierService.Transaction.getAll({
         category: "rent",
         allRelations: true,
       })

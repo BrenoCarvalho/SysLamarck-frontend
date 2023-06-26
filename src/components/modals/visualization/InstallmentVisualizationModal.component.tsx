@@ -17,7 +17,7 @@ import {
   dateFormatter,
   installmentStatusFormatter,
 } from "../../../services/formatters";
-import ContractService from "../../../services/contractService";
+import TenantService from "../../../services/tenantService";
 
 const names: any = {
   water: "Água",
@@ -37,6 +37,7 @@ const names: any = {
 const InstallmentVisualizationModal = ({
   onClose,
   isOpen,
+  tenantId,
   installmentSelected,
 }: any) => {
   const [data, setData] = useState<any>(null);
@@ -44,9 +45,10 @@ const InstallmentVisualizationModal = ({
   useEffect(() => {
     if (isOpen) {
       const loadData = async () => {
-        const installment = await ContractService.getInstallment(
-          installmentSelected?.id
-        );
+        const installment = await TenantService.Contract.Installment.get({
+          tenantId: tenantId,
+          installmentId: installmentSelected?.id,
+        });
 
         const receiveRentTransaction = installment?.transaction[0] ?? null;
         const transferRentTransaction = installment?.transaction[1] ?? null;
@@ -124,7 +126,7 @@ const InstallmentVisualizationModal = ({
       };
       loadData();
     }
-  }, [isOpen, installmentSelected?.id]);
+  }, [isOpen, tenantId, installmentSelected?.id]);
 
   return (
     <Modal onClose={onClose} isOpen={isOpen} scrollBehavior="inside" isCentered>

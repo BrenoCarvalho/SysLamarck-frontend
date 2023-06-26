@@ -1,4 +1,4 @@
-import { Divider, Flex, IconButton, Text } from "@chakra-ui/react";
+import { Button, Divider, Flex, IconButton, Text } from "@chakra-ui/react";
 import SideNavBar from "./SideNavBar.component";
 import { useState } from "react";
 import { HiMenu } from "react-icons/hi";
@@ -8,11 +8,13 @@ const Header = ({
   setShowMenu,
   title,
   menuGroup,
+  rightButton = null,
 }: {
   showMenu: any;
   setShowMenu: any;
   title: string;
   menuGroup: string;
+  rightButton?: any;
 }) => {
   return (
     <>
@@ -40,8 +42,9 @@ const Header = ({
             {title}
           </Text>
         )}
+        {rightButton}
         <IconButton
-          visibility={["visible", "visible", "hidden", "hidden"]}
+          display={["flex", "flex", "none", "none"]}
           aria-label="Menu"
           bgColor="transparent"
           _hover={{ bg: "transparent" }}
@@ -64,6 +67,7 @@ const Page = ({
   title,
   menuGroup,
   hScreenSize = false,
+  rightButton = null,
   ...props
 }: any) => {
   const [showMenu, setShowMenu] = useState(
@@ -96,6 +100,7 @@ const Page = ({
             showMenu={showMenu}
             setShowMenu={setShowMenu}
             title={title}
+            rightButton={rightButton}
           />
           <Flex w="100%" h="100%" paddingY="6" {...props}>
             {children}

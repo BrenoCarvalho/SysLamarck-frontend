@@ -1,10 +1,10 @@
 import { useContext } from "react";
 import Page from "../components/Page.component";
-import { Context } from "../context/AuthContext";
+import { AuthContext } from "../context/AuthContext";
 import { Divider, Flex, Text } from "@chakra-ui/react";
 
 const Home = () => {
-  const { user } = useContext(Context);
+  const { user } = useContext(AuthContext);
 
   const date = new Date(user?.createdAt);
 

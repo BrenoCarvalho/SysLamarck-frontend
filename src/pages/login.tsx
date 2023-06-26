@@ -1,9 +1,9 @@
 import { Button, Flex, Input, Text } from "@chakra-ui/react";
 import { useContext, useState } from "react";
-import { Context } from "../context/AuthContext";
+import { AuthContext } from "../context/AuthContext";
 
 const Login = () => {
-  const { handleLogin } = useContext(Context);
+  const { handleLogin } = useContext(AuthContext);
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");

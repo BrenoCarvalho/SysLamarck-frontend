@@ -7,7 +7,7 @@ import {
   timeFormatter,
   transactionTypeFormatter,
 } from "../../services/formatters";
-import TransactionService from "../../services/transactionService";
+import CashierService from "../../services/cashierService";
 
 const defaultColumnData = {
   flex: 1,
@@ -70,7 +70,7 @@ const GenericTransactionTable = ({
   const gridRef = useRef<any>(null);
 
   const onGridReady = async () => {
-    setData(await TransactionService.getTransactions({ category: "generic" }));
+    setData(await CashierService.Transaction.getAll({ category: "generic" }));
   };
 
   const onSelectionChanged = useCallback(() => {
@@ -95,7 +95,7 @@ const GenericTransactionTable = ({
     <Flex w="100%" h="100%">
       <div
         className="ag-theme-alpine customStyle"
-        style={{ height: "100%", width: "100%" }}
+        style={{ width: "100%", height: "100%" }}
       >
         <AgGridReact
           ref={gridRef}

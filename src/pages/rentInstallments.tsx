@@ -3,10 +3,8 @@ import { Button, Flex, Switch, Text, useDisclosure } from "@chakra-ui/react";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
 import { useState } from "react";
-import { dateFormatter } from "../services/formatters";
 import RentInstallmentsTable from "../components/tables/RentInstallmentsTable.component";
 import TenantService from "../services/tenantService";
-import ContractService from "../services/contractService";
 import TenantSelect from "../components/TenantSelect.component";
 import InstallmentVisualizationModal from "../components/modals/visualization/InstallmentVisualizationModal.component";
 
@@ -28,17 +26,17 @@ const RentInstallments = () => {
     setInstallments([]);
 
     const tenant = await TenantService?.get(Number(tenantId));
-    const contract = await ContractService?.get(
-      Number(tenant?.contract?.id),
-      false,
-      false,
-      true
-    );
-    const installments = await ContractService.getInstallments(contract?.id);
+    let installments = await TenantService.Contract.Installment.getAll({
+      tenantId: tenant?.id,
+    });
+
+    if (typeof installments === "string") {
+      installments = [];
+    }
 
     setTenant(tenant ?? null);
     setContract(contract ?? null);
-    setInstallments(installments ?? null);
+    setInstallments(installments);
   };
 
   return (
@@ -74,34 +72,6 @@ const RentInstallments = () => {
               <Text fontSize="sm" display="flex" flexDirection="row" gap="5px">
                 Nº Contrato:{" "}
                 <Text fontWeight="bold">{tenant?.contract?.id}</Text>
-              </Text>
-              <Text fontSize="sm" display="flex" flexDirection="row" gap="5px">
-                Parcela:{" "}
-                <Text fontWeight="bold">
-                  {contract?.currentInstallment?.currentInstallment}
-                  {"  "}
-                </Text>
-              </Text>
-            </Flex>
-            <Flex
-              paddingLeft="1"
-              paddingRight="1"
-              width="100%"
-              justifyContent="space-between"
-            >
-              <Text fontSize="sm" display="flex" flexDirection="row" gap="5px">
-                Mês referência:{" "}
-                <Text fontWeight="bold">
-                  {contract?.currentInstallment?.referenceMonth}
-                </Text>
-              </Text>
-              <Text fontSize="sm" display="flex" flexDirection="row" gap="5px">
-                Data de vencimento:{" "}
-                <Text fontWeight="bold">
-                  {dateFormatter({
-                    value: contract?.currentInstallment?.dueDate,
-                  })}
-                </Text>
               </Text>
             </Flex>
             <Flex

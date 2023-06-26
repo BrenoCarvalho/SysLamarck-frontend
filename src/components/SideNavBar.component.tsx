@@ -15,7 +15,7 @@ import {
   MdPersonOutline,
 } from "react-icons/md";
 import { useContext } from "react";
-import { Context } from "../context/AuthContext";
+import { AuthContext } from "../context/AuthContext";
 
 const Group = ({ name, icon, children }: any) => {
   const [isOpen, setOpen] = useState(false);
@@ -109,7 +109,7 @@ const Item = ({ href, name, icon, isGroupItem = false }: itemInterface) => {
 };
 
 const SideNavBar = () => {
-  const { handleLogout } = useContext(Context);
+  const { handleLogout } = useContext(AuthContext);
 
   return (
     <Flex
@@ -213,9 +213,9 @@ const SideNavBar = () => {
           </Group>
           <Group name="Caixa" icon={<BiDollarCircle />}>
             <Item
-              href="/caixa/movimentacao"
+              href="/caixa/movimentacoes"
               icon={<BiTransfer />}
-              name="Geral"
+              name="Movimenta..."
               isGroupItem={true}
             />
             <Item

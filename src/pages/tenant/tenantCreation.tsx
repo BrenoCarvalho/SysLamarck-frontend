@@ -410,13 +410,13 @@ const TenantCreation = () => {
                   />
                 ) : null}
 
-                <Residents residents={residents} setResidents={setResidents} />
-
                 <ContractInputs
                   componentNames={componentNames.contract}
                   handleChange={handleChange}
                   values={values}
                 />
+
+                <Residents residents={residents} setResidents={setResidents} />
               </Flex>
 
               {/* Right Side */}
