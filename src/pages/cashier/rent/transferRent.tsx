@@ -72,8 +72,6 @@ const TransferRent = () => {
     const receiveTransaction =
       installment.transaction?.length > 0 ? installment.transaction[0] : null;
 
-    console.log(receiveTransaction);
-
     const administrationFee =
       (Number(receiveTransaction?.data?.rent ?? "0") +
         Number(receiveTransaction?.data?.iptu ?? "0") +

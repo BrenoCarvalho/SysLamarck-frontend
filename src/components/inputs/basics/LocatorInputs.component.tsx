@@ -38,8 +38,6 @@ const LocatorInputs = ({
             value={values?.provisionService}
           >
             <option>Leomar</option>
-            <option>Glaucia</option>
-            <option>Luiza</option>
             <option>Imobiliária</option>
           </Select>
         </FormControl>
