@@ -17,6 +17,9 @@ import { currencyFormatter } from "../../../services/formatters";
 import Alert from "../../../components/modals/Alert.component";
 import CashierControl from "../../../components/CashierControl.component";
 import { CashierContext } from "../../../context/CashierContext";
+import { MdSave } from "react-icons/md";
+import { FiDownload } from "react-icons/fi";
+import CashierService from "../../../services/cashierService";
 
 const componentNames = {
   water: "water",
@@ -32,6 +35,20 @@ const componentNames = {
   formOfPayment: "formOfPayment",
 };
 
+const defaultInitialValues = {
+  water: null,
+  eletricity: null,
+  iptu: null,
+  incomeTax: null,
+  condominium: null,
+  administrationFee: null,
+  leaseFee: null,
+  sundry: null,
+  sundryDescription: null,
+  total: null,
+  formOfPayment: null,
+};
+
 const TransferRent = () => {
   const { openedCashier } = useContext(CashierContext);
 
@@ -43,25 +60,22 @@ const TransferRent = () => {
 
   const [dialogError, setDialogError] = useState<boolean>(false);
 
+  const {
+    isOpen: saveTemplateDialogIsOpen,
+    onOpen: saveTemplateDialogOnOpen,
+    onClose: saveTemplateDialogOnClose,
+  } = useDisclosure();
+
+  const [saveTemplateDialogError, setSaveTemplateDialogError] =
+    useState<boolean>(false);
+
   const [tenant, setTenant] = useState<any>();
   const [contract, setContract] = useState<any>();
   const [installments, setInstallments] = useState<[]>([]);
   const [installmentSelected, setInstallmentSelected] = useState<any>();
   const [balance, setBalance] = useState<number>(0);
 
-  const [initialValues, setInitialValues] = useState<any>({
-    water: null,
-    eletricity: null,
-    iptu: null,
-    incomeTax: null,
-    condominium: null,
-    administrationFee: null,
-    leaseFee: null,
-    sundry: null,
-    sundryDescription: null,
-    total: null,
-    formOfPayment: null,
-  });
+  const [initialValues, setInitialValues] = useState<any>(defaultInitialValues);
 
   const updateAdministrationFee = async (currentInstallmentSelected: any) => {
     const installment = await TenantService.Contract.Installment.get({
@@ -73,12 +87,13 @@ const TransferRent = () => {
       installment.transaction?.length > 0 ? installment.transaction[0] : null;
 
     const administrationFee =
-      (Number(receiveTransaction?.data?.rent ?? "0") +
-        Number(receiveTransaction?.data?.iptu ?? "0") +
-        Number(receiveTransaction?.data?.breachOfContractFine ?? "0")) /
-      10;
+      (Number(tenant?.property?.administrationTax ?? 0) / 100) *
+        Number(receiveTransaction?.data?.rent ?? 0) +
+      Number(receiveTransaction?.data?.iptu ?? 0) +
+      Number(receiveTransaction?.data?.breachOfContractFine ?? 0);
 
-    setInitialValues({ ...initialValues, administrationFee });
+    if (administrationFee !== 0)
+      setInitialValues({ ...initialValues, administrationFee });
   };
 
   useEffect(() => {
@@ -98,6 +113,7 @@ const TransferRent = () => {
   }, [initialValues, installmentSelected, tenant?.id]);
 
   const updateData = async (tenantId: string | number) => {
+    setInitialValues(defaultInitialValues);
     setTenant(null);
     setContract(null);
     setInstallments([]);
@@ -116,6 +132,36 @@ const TransferRent = () => {
     setTenant(tenant ?? null);
     setContract(contract ?? null);
     setInstallments(installments ?? null);
+  };
+
+  const saveDataTemplate = (values: any) => {
+    const data = values;
+
+    delete data["formOfPayment"];
+    delete data["total"];
+
+    CashierService.Transaction.DataTemplate.save({
+      tenantId: tenant?.id,
+      type: "credit",
+      data: values,
+    })
+      .then(() => {
+        saveTemplateDialogOnOpen();
+      })
+      .catch(() => {
+        setSaveTemplateDialogError(true);
+      });
+  };
+
+  const loadDataTemplate = async () => {
+    const dataTemplate = (
+      await CashierService.Transaction.DataTemplate.load({
+        tenantId: tenant?.id,
+        type: "credit",
+      })
+    )?.data?.data;
+
+    setInitialValues({ ...initialValues, ...dataTemplate });
   };
 
   const transferRent = (values: any) => {
@@ -256,6 +302,25 @@ const TransferRent = () => {
                       </Flex>
                     </Flex>
                   </Flex>
+                  <Flex
+                    gap="1.5"
+                    h="100%"
+                    justifyContent="end"
+                    w="100%"
+                    mt="-25px"
+                    mb="-5px"
+                  >
+                    <FiDownload
+                      size="24px"
+                      cursor="pointer"
+                      onClick={() => loadDataTemplate()}
+                    />
+                    <MdSave
+                      size="26px"
+                      cursor="pointer"
+                      onClick={() => saveDataTemplate(values)}
+                    />
+                  </Flex>
                   <Divider width="100%" />
                   <Flex w="100%" gap="20px">
                     <RentInputs
@@ -325,6 +390,17 @@ const TransferRent = () => {
           dialogError
             ? "Falha ao criar movimentação, verifique os campos e tente novamente."
             : "Movimentação adicionada com sucesso."
+        }
+      />
+
+      <Alert
+        onClose={saveTemplateDialogOnClose}
+        isOpen={saveTemplateDialogIsOpen}
+        title={saveTemplateDialogError ? "Falha!" : "Sucesso!"}
+        message={
+          saveTemplateDialogError
+            ? "Falha ao salvar modelo de dados."
+            : "Modelo de dados salvo com sucesso."
         }
       />
     </Page>

@@ -64,6 +64,28 @@ const CashierService = {
           return Promise.reject(error);
         });
     },
+    DataTemplate: {
+      save: async ({
+        tenantId,
+        type,
+        data,
+      }: {
+        tenantId: number;
+        type: "credit" | "debit";
+        data: object;
+      }) => {
+        return api.post(`cashier/transaction/dataTemplate`, {
+          tenantId,
+          type,
+          data,
+        });
+      },
+      load: async ({ tenantId, type }: { tenantId: number; type: string }) => {
+        return api.get(
+          `cashier/transaction/dataTemplate/${tenantId}?type=${type}`
+        );
+      },
+    },
   },
 };
 
