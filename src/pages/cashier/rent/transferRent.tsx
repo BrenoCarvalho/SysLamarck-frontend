@@ -106,7 +106,7 @@ const TransferRent = () => {
       const receiveTransaction =
         installment.transaction?.length > 0 ? installment.transaction[0] : null;
 
-      setBalance(receiveTransaction.amount ?? 0);
+      setBalance(receiveTransaction?.amount ?? 0);
     };
 
     updateBalance();
@@ -135,7 +135,7 @@ const TransferRent = () => {
   };
 
   const saveDataTemplate = (values: any) => {
-    const data = values;
+    const data = { ...values };
 
     delete data["formOfPayment"];
     delete data["total"];
@@ -143,7 +143,7 @@ const TransferRent = () => {
     CashierService.Transaction.DataTemplate.save({
       tenantId: tenant?.id,
       type: "credit",
-      data: values,
+      data: data,
     })
       .then(() => {
         saveTemplateDialogOnOpen();
