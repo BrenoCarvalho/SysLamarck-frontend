@@ -57,6 +57,7 @@ const Login = () => {
           value={password}
           onChange={(e) => [setPassword(e.target.value), setError("")]}
           type="password"
+          mt="-8px"
         />
         <Button
           w="100%"
