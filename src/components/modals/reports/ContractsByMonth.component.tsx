@@ -16,7 +16,6 @@ import {
 } from "@chakra-ui/react";
 import { useState } from "react";
 import ReportViewer from "./ReportViewer.component";
-import ContractsByPeriod from "../../documents/contracts/ContractsByPeriod.component";
 import ContractsByMonth from "../../documents/contracts/ContractsByMonth.component";
 
 interface ContractsByMonthParams {

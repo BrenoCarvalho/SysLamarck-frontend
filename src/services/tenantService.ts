@@ -142,6 +142,27 @@ const TenantService = {
             return Promise.reject(error);
           });
       },
+      receipt: async ({
+        tenantId,
+        installmentId,
+        mode,
+      }: {
+        tenantId: number;
+        installmentId: number;
+        mode: "tenant" | "locator";
+      }): Promise<any> => {
+        return api
+          .get(
+            `/tenant/${tenantId}/contract/installment/${installmentId}/receipt?mode=${mode}`,
+            { responseType: "blob" }
+          )
+          .then((response) => {
+            return Promise.resolve(response);
+          })
+          .catch((error) => {
+            return Promise.reject(error);
+          });
+      },
     },
   },
 };

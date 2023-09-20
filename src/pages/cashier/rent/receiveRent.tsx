@@ -5,6 +5,10 @@ import {
   Divider,
   Button,
   useDisclosure,
+  Modal,
+  ModalContent,
+  ModalOverlay,
+  Spinner,
 } from "@chakra-ui/react";
 import Page from "../../../components/Page.component";
 import { useContext, useState } from "react";
@@ -47,6 +51,8 @@ const ReceiveRent = () => {
   const [tenant, setTenant] = useState<any>();
   const [contract, setContract] = useState<any>();
   const [installments, setInstallments] = useState<[]>([]);
+  const [showPdfViewer, setShowPdfViewer] = useState(false);
+  const [blobPdfLink, setBlobPdfLink] = useState("");
 
   const [initialValues, setInitialValues] = useState<any>({
     water: null,
@@ -79,8 +85,6 @@ const ReceiveRent = () => {
       tenantId: tenant?.id,
     });
 
-    console.log(tenant);
-
     setTenant(tenant ?? null);
     setContract(contract ?? null);
     setInstallments(installments ?? null);
@@ -88,6 +92,17 @@ const ReceiveRent = () => {
       ...initialValues,
       rent: contract?.leaseAmount,
       iptu: contract?.iptu,
+    });
+  };
+
+  const showReceipt = (installmentId: number) => {
+    TenantService.Contract.Installment.receipt({
+      tenantId: +tenant?.id,
+      installmentId: installmentId,
+      mode: "tenant",
+    }).then((value) => {
+      const blob = new Blob([value.data], { type: "application/pdf" });
+      setBlobPdfLink(window.URL.createObjectURL(blob));
     });
   };
 
@@ -104,8 +119,9 @@ const ReceiveRent = () => {
       formOfPayment,
       values
     )
-      .then(() => {
+      .then((value) => {
         setDialogError(false);
+        showReceipt(value.data);
       })
       .catch(() => {
         setDialogError(true);
@@ -308,14 +324,49 @@ const ReceiveRent = () => {
         </Formik>
       )}
 
+      <Modal
+        onClose={() => {
+          setBlobPdfLink("");
+          setShowPdfViewer(false);
+        }}
+        isOpen={showPdfViewer}
+        isCentered
+        size="xl"
+        scrollBehavior="inside"
+      >
+        <ModalOverlay />
+        <ModalContent maxW="80%">
+          <Flex
+            width="100%"
+            height="90vh"
+            justifyContent="center"
+            alignItems="center"
+          >
+            {blobPdfLink?.length > 0 ? (
+              <iframe
+                title="receipt"
+                src={blobPdfLink}
+                width="100%"
+                height="100%"
+              />
+            ) : (
+              <Spinner size="lg" />
+            )}
+          </Flex>
+        </ModalContent>
+      </Modal>
+
       <Alert
-        onClose={dialogOnClose}
+        onClose={() => {
+          if (!dialogError) setShowPdfViewer(true);
+          dialogOnClose();
+        }}
         isOpen={dialogIsOpen}
         title={dialogError ? "Erro!" : "Sucesso!"}
         message={
           dialogError
             ? "Falha ao criar movimentação, verifique os campos e tente novamente."
-            : "Movimentação adicionada com sucesso."
+            : "Aluguel pago com sucesso, clique em fechar para imprimir o recibo do locatário."
         }
       />
     </Page>
