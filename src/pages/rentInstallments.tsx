@@ -1,5 +1,15 @@
 import Page from "../components/Page.component";
-import { Button, Flex, Switch, Text, useDisclosure } from "@chakra-ui/react";
+import {
+  Button,
+  Flex,
+  Modal,
+  ModalContent,
+  ModalOverlay,
+  Spinner,
+  Switch,
+  Text,
+  useDisclosure,
+} from "@chakra-ui/react";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
 import { useState } from "react";
@@ -19,6 +29,21 @@ const RentInstallments = () => {
   const [contract, setContract] = useState<any>();
   const [installments, setInstallments] = useState<[]>([]);
   const [selected, setSelected] = useState<any>();
+  const [showPdfViewer, setShowPdfViewer] = useState(false);
+  const [blobPdfLink, setBlobPdfLink] = useState("");
+
+  const showReceipt = () => {
+    setShowPdfViewer(true);
+
+    TenantService.Contract.Installment.receipt({
+      tenantId: +tenant?.id,
+      installmentId: +selected.id,
+      mode: "tenant",
+    }).then((value) => {
+      const blob = new Blob([value.data], { type: "application/pdf" });
+      setBlobPdfLink(window.URL.createObjectURL(blob));
+    });
+  };
 
   const updateData = async (tenantId: string | number) => {
     setTenant(null);
@@ -99,6 +124,7 @@ const RentInstallments = () => {
               bg="gray.800"
               color="#fff"
               disabled={!(selected?.status === "Pg")}
+              onClick={() => showReceipt()}
             >
               2º via Recibo
             </Button>
@@ -119,6 +145,38 @@ const RentInstallments = () => {
           </Flex>
         </Flex>
       </Flex>
+
+      <Modal
+        onClose={() => {
+          setBlobPdfLink("");
+          setShowPdfViewer(false);
+        }}
+        isOpen={showPdfViewer}
+        isCentered
+        size="xl"
+        scrollBehavior="inside"
+      >
+        <ModalOverlay />
+        <ModalContent maxW="80%">
+          <Flex
+            width="100%"
+            height="90vh"
+            justifyContent="center"
+            alignItems="center"
+          >
+            {blobPdfLink?.length > 0 ? (
+              <iframe
+                title="receipt"
+                src={blobPdfLink}
+                width="100%"
+                height="100%"
+              />
+            ) : (
+              <Spinner size="lg" />
+            )}
+          </Flex>
+        </ModalContent>
+      </Modal>
 
       <InstallmentVisualizationModal
         onClose={visualizationModalDialogOnClose}

@@ -163,7 +163,7 @@ const RentInputs = ({
       currencyInput
       inverted={inverted}
       values={values}
-      disabled={true}
+      disabled={disableComponents}
     />, // 6
     <Input
       title="Aluguel"
