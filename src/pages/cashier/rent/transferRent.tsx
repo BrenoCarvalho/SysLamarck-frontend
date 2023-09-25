@@ -74,8 +74,12 @@ const TransferRent = () => {
   const [installments, setInstallments] = useState<[]>([]);
   const [installmentSelected, setInstallmentSelected] = useState<any>();
   const [balance, setBalance] = useState<number>(0);
+  const [installmentSelectedTotalAmount, setInstallmentSelectedTotalAmount] =
+    useState<number>(0);
 
-  const [initialValues, setInitialValues] = useState<any>(defaultInitialValues);
+  const [initialValues, setInitialValues] = useState<any>({
+    ...defaultInitialValues,
+  });
 
   const updateAdministrationFee = async (currentInstallmentSelected: any) => {
     const installment = await TenantService.Contract.Installment.get({
@@ -106,6 +110,7 @@ const TransferRent = () => {
       const receiveTransaction =
         installment.transaction?.length > 0 ? installment.transaction[0] : null;
 
+      setInstallmentSelectedTotalAmount(receiveTransaction?.amount ?? 0);
       setBalance(receiveTransaction?.amount ?? 0);
     };
 
@@ -113,7 +118,7 @@ const TransferRent = () => {
   }, [initialValues, installmentSelected, tenant?.id]);
 
   const updateData = async (tenantId: string | number) => {
-    setInitialValues(defaultInitialValues);
+    setInitialValues({ ...defaultInitialValues });
     setTenant(null);
     setContract(null);
     setInstallments([]);
@@ -154,6 +159,8 @@ const TransferRent = () => {
   };
 
   const loadDataTemplate = async () => {
+    setInitialValues(defaultInitialValues);
+
     const dataTemplate = (
       await CashierService.Transaction.DataTemplate.load({
         tenantId: tenant?.id,
@@ -161,7 +168,7 @@ const TransferRent = () => {
       })
     )?.data?.data;
 
-    setInitialValues({ ...initialValues, ...dataTemplate });
+    setInitialValues({ ...dataTemplate });
   };
 
   const transferRent = (values: any) => {
@@ -330,6 +337,9 @@ const TransferRent = () => {
                       handleChange={handleChange}
                       values={values}
                       disableComponents={!installmentSelected}
+                      onUpdateTotalValue={(total: number) =>
+                        setBalance(installmentSelectedTotalAmount - total)
+                      }
                     />
                   </Flex>
                   <Divider />

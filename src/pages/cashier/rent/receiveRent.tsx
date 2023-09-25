@@ -284,6 +284,13 @@ const ReceiveRent = () => {
                       handleChange={handleChange}
                       values={values}
                       disableComponents={!tenant}
+                      onChangeSpecialDiscount={(value: number) => {
+                        if (contract?.leaseAmount) {
+                          handleChange("rent")(
+                            `${contract?.leaseAmount - value}`
+                          );
+                        }
+                      }}
                     />
                   </Flex>
                   <Flex w="100%" direction="column" gap="8px">

@@ -70,7 +70,9 @@ const RentInputs = ({
   values,
   inverted,
   title,
+  onUpdateTotalValue,
   disableComponents = false,
+  onChangeSpecialDiscount,
 }: {
   componentNames?: any;
   handleChange?: any;
@@ -79,6 +81,8 @@ const RentInputs = ({
   title: string;
   fieldList: number[];
   disableComponents?: boolean;
+  onUpdateTotalValue?: (value: number) => void;
+  onChangeSpecialDiscount?: (value: any) => void;
 }) => {
   useEffect(() => {
     const valuesToSum = [
@@ -89,6 +93,8 @@ const RentInputs = ({
       values?.condominium,
       values?.rent,
       values?.sundry,
+      values?.breachOfContractFine,
+      values?.leaseFee,
     ];
 
     const total = valuesToSum.reduce(
@@ -97,7 +103,17 @@ const RentInputs = ({
       0
     );
 
+    if (onUpdateTotalValue) {
+      onUpdateTotalValue(total);
+    }
+
     handleChange(componentNames?.total)(total.toString());
+
+    if (onChangeSpecialDiscount) {
+      onChangeSpecialDiscount(Number(values?.specialDiscount));
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     componentNames?.total,
     handleChange,
@@ -108,6 +124,9 @@ const RentInputs = ({
     values?.condominium,
     values?.rent,
     values?.sundry,
+    values?.specialDiscount,
+    values?.breachOfContractFine,
+    values?.leaseFee,
   ]);
 
   const fields = [
