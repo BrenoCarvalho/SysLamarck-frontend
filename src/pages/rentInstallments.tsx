@@ -17,12 +17,19 @@ import RentInstallmentsTable from "../components/tables/RentInstallmentsTable.co
 import TenantService from "../services/tenantService";
 import TenantSelect from "../components/TenantSelect.component";
 import InstallmentVisualizationModal from "../components/modals/visualization/InstallmentVisualizationModal.component";
+import SelectRentReceiptMode from "../components/modals/SelectRentReceiptMode.component";
 
 const RentInstallments = () => {
   const {
     isOpen: visualizationModalDialogIsOpen,
     onOpen: visualizationModalDialogOnOpen,
     onClose: visualizationModalDialogOnClose,
+  } = useDisclosure();
+
+  const {
+    isOpen: selectRentReceiptModeModalIsOpen,
+    onOpen: selectRentReceiptModeModalOnOpen,
+    onClose: selectRentReceiptModeModalOnClose,
   } = useDisclosure();
 
   const [tenant, setTenant] = useState<any>();
@@ -32,13 +39,13 @@ const RentInstallments = () => {
   const [showPdfViewer, setShowPdfViewer] = useState(false);
   const [blobPdfLink, setBlobPdfLink] = useState("");
 
-  const showReceipt = () => {
+  const showReceipt = (mode: "tenant" | "locator") => {
     setShowPdfViewer(true);
 
     TenantService.Contract.Installment.receipt({
       tenantId: +tenant?.id,
       installmentId: +selected.id,
-      mode: "tenant",
+      mode,
     }).then((value) => {
       const blob = new Blob([value.data], { type: "application/pdf" });
       setBlobPdfLink(window.URL.createObjectURL(blob));
@@ -124,7 +131,7 @@ const RentInstallments = () => {
               bg="gray.800"
               color="#fff"
               disabled={!(selected?.status === "Pg")}
-              onClick={() => showReceipt()}
+              onClick={selectRentReceiptModeModalOnOpen}
             >
               2º via Recibo
             </Button>
@@ -177,6 +184,15 @@ const RentInstallments = () => {
           </Flex>
         </ModalContent>
       </Modal>
+
+      <SelectRentReceiptMode
+        onClose={selectRentReceiptModeModalOnClose}
+        isOpen={selectRentReceiptModeModalIsOpen}
+        onConfirm={(mode: "tenant" | "locator") => {
+          selectRentReceiptModeModalOnClose();
+          showReceipt(mode);
+        }}
+      />
 
       <InstallmentVisualizationModal
         onClose={visualizationModalDialogOnClose}

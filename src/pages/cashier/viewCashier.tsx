@@ -24,6 +24,10 @@ const ViewCashier = () => {
   const [rentTransactionData, setRentTransactionData] = useState<any>([]);
   const [genericTransactionData, seGenericTransactionData] = useState<any>([]);
 
+  const handleChangeDate = ({ date }: { date: any }) => {
+    setDate(date);
+  };
+
   return (
     <Page
       menuGroup="Caixa"
@@ -48,7 +52,9 @@ const ViewCashier = () => {
               <InputLeftAddon>Data</InputLeftAddon>
               <Input
                 type="date"
-                onChange={(value: any) => setDate(value?.target?.value)}
+                onChange={(value: any) =>
+                  handleChangeDate({ date: value?.target?.value })
+                }
                 value={date}
               />
             </InputGroup>

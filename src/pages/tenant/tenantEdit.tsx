@@ -16,7 +16,7 @@ import { Form, Formik } from "formik";
 import Page from "../../components/Page.component";
 import TenantService from "../../services/tenantService";
 import Alert from "../../components/modals/Alert.component";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import PersonalInputs from "../../components/inputs/basics/PersonalInputs.component";
 import ContractInputs from "../../components/inputs/basics/ContractInputs.component";
@@ -280,12 +280,11 @@ const TenantEdit = () => {
   const [additionalRenter, setAdditionalRenter] = useState(false);
   const [residents, setResidents] = useState<any[]>([]);
 
-  const bailTypesName = [
-    "Fiador",
-    "Calção",
-    "Termo de garantia",
-    "Título de capitalização",
-  ];
+  const bailTypesName = useMemo(
+    () => ["Fiador", "Calção", "Termo de garantia", "Título de capitalização"],
+    []
+  );
+
   const [bailType, setBailType] = useState("1");
   const [additionalGuarantor, setAdditionalGuarantor] = useState(false);
 

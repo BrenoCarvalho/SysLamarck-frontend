@@ -30,6 +30,7 @@ const componentNames = {
   administrationFee: "administrationFee",
   leaseFee: "leaseFee",
   sundry: "sundry",
+  rent: "rent",
   sundryDescription: "sundryDescription",
   total: "total",
   formOfPayment: "formOfPayment",
@@ -39,6 +40,7 @@ const defaultInitialValues = {
   water: null,
   eletricity: null,
   iptu: null,
+  rent: null,
   incomeTax: null,
   condominium: null,
   administrationFee: null,
@@ -70,7 +72,6 @@ const TransferRent = () => {
     useState<boolean>(false);
 
   const [tenant, setTenant] = useState<any>();
-  const [contract, setContract] = useState<any>();
   const [installments, setInstallments] = useState<[]>([]);
   const [installmentSelected, setInstallmentSelected] = useState<any>();
   const [balance, setBalance] = useState<number>(0);
@@ -118,9 +119,7 @@ const TransferRent = () => {
   }, [initialValues, installmentSelected, tenant?.id]);
 
   const updateData = async (tenantId: string | number) => {
-    setInitialValues({ ...defaultInitialValues });
     setTenant(null);
-    setContract(null);
     setInstallments([]);
     setInstallmentSelected(null);
 
@@ -135,7 +134,10 @@ const TransferRent = () => {
     );
 
     setTenant(tenant ?? null);
-    setContract(contract ?? null);
+    setInitialValues({
+      ...defaultInitialValues,
+      rent: tenant?.contract?.leaseAmount,
+    });
     setInstallments(installments ?? null);
   };
 
@@ -332,7 +334,7 @@ const TransferRent = () => {
                   <Flex w="100%" gap="20px">
                     <RentInputs
                       title="Débito"
-                      fieldList={[1, 2, 3, 4, 5, 10, 11, 9]}
+                      fieldList={[1, 2, 3, 4, 5, 7, 10, 11, 9]}
                       componentNames={componentNames}
                       handleChange={handleChange}
                       values={values}
