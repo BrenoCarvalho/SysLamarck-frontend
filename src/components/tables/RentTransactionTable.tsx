@@ -1,6 +1,6 @@
 import { Flex } from "@chakra-ui/react";
 import { AgGridReact } from "ag-grid-react";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useRef } from "react";
 import {
   currencyFormatter,
   dateFormatter,
@@ -8,6 +8,7 @@ import {
   transactionTypeFormatter,
 } from "../../services/formatters";
 import CashierService from "../../services/cashierService";
+import { GridReadyEvent } from "ag-grid-community";
 
 const defaultColumnData = {
   flex: 1,
@@ -72,17 +73,16 @@ const RentTransactionTable = ({
   setSelected?: any;
   readyData?: any;
 }) => {
-  const [data, setData] = useState([]);
   const gridRef = useRef<any>(null);
 
-  const onGridReady = async () => {
-    setData(
-      await CashierService.Transaction.getAll({
-        category: "rent",
-        allRelations: true,
-      })
-    );
-  };
+  const onGridReady = useCallback((params: GridReadyEvent) => {
+    CashierService.Transaction.getAll({
+      category: "rent",
+      allRelations: true,
+    }).then((data) => {
+      params.api.setRowData(data);
+    });
+  }, []);
 
   const onSelectionChanged = useCallback(() => {
     const selectedRows = gridRef?.current?.api.getSelectedRows();
@@ -99,7 +99,7 @@ const RentTransactionTable = ({
           ref={gridRef}
           defaultColDef={defaultColumnData}
           columnDefs={columnDefs}
-          rowData={readyData ?? data}
+          rowData={readyData ?? null}
           onGridReady={onGridReady}
           rowSelection={"single"}
           onSelectionChanged={onSelectionChanged}

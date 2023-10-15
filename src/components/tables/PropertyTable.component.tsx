@@ -1,8 +1,9 @@
 import { Flex } from "@chakra-ui/react";
 import { AgGridReact } from "ag-grid-react";
 import PropertyService from "../../services/propertyService";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { propertyCodeFormatter } from "../../services/formatters";
+import { GridReadyEvent } from "ag-grid-community";
 
 const defaultColumnData = {
   flex: 1,
@@ -37,12 +38,13 @@ const PropertyTable = ({
   setSelected: any;
   deleteCallback?: any;
 }) => {
-  const [data, setData] = useState([]);
   const gridRef = useRef<any>(null);
 
-  const onGridReady = async () => {
-    setData(await PropertyService.getData());
-  };
+  const onGridReady = useCallback((params: GridReadyEvent) => {
+    PropertyService.getData().then((data) => {
+      params.api.setRowData(data);
+    });
+  }, []);
 
   const onSelectionChanged = useCallback(() => {
     const selectedRows = gridRef?.current?.api.getSelectedRows();
@@ -66,7 +68,6 @@ const PropertyTable = ({
           ref={gridRef}
           defaultColDef={defaultColumnData}
           columnDefs={columnDefs}
-          rowData={data}
           onGridReady={onGridReady}
           rowSelection={"single"}
           onSelectionChanged={onSelectionChanged}

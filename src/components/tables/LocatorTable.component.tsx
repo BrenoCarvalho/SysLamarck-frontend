@@ -1,8 +1,9 @@
 import { Flex } from "@chakra-ui/react";
 import { AgGridReact } from "ag-grid-react";
 import LocatorService from "../../services/locatorService";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { cpfFormatter, dateFormatter } from "../../services/formatters";
+import { GridReadyEvent } from "ag-grid-community";
 
 const defaultColumnData = {
   flex: 1,
@@ -44,12 +45,13 @@ const LocatorTable = ({
   setSelected: any;
   deleteCallback?: any;
 }) => {
-  const [data, setData] = useState([]);
   const gridRef = useRef<any>(null);
 
-  const onGridReady = async () => {
-    setData(await LocatorService.getData());
-  };
+  const onGridReady = useCallback((params: GridReadyEvent) => {
+    LocatorService.getData().then((data) => {
+      params.api.setRowData(data);
+    });
+  }, []);
 
   const onSelectionChanged = useCallback(() => {
     const selectedRows = gridRef?.current?.api.getSelectedRows();
@@ -73,7 +75,6 @@ const LocatorTable = ({
           ref={gridRef}
           defaultColDef={defaultColumnData}
           columnDefs={columnDefs}
-          rowData={data}
           onGridReady={onGridReady}
           rowSelection={"single"}
           onSelectionChanged={onSelectionChanged}
