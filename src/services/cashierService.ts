@@ -23,6 +23,16 @@ const CashierService = {
         Promise.resolve(response?.data).catch((error) => Promise.resolve(error))
       );
   },
+  getCashiersClosedByDate: async (date: any) => {
+    return api
+      .get(`cashier/cashiersClosedByDate/list?date=${date}`)
+      .then((response) => {
+        return Promise.resolve(response.data);
+      })
+      .catch((error) => {
+        return Promise.reject(error);
+      });
+  },
   Transaction: {
     create: async (data: any) => {
       return api

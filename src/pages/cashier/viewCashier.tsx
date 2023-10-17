@@ -15,17 +15,39 @@ import Page from "../../components/Page.component";
 import GenericTransactionTable from "../../components/tables/GenericTransactionTable.component";
 import RentTransactionTable from "../../components/tables/RentTransactionTable";
 import { useState } from "react";
+import CashierService from "../../services/cashierService";
 
 const ViewCashier = () => {
-  const [date, setDate] = useState<string>("");
-
   const [tabIndex, setTabIndex] = useState<number>(0);
 
   const [rentTransactionData, setRentTransactionData] = useState<any>([]);
-  const [genericTransactionData, seGenericTransactionData] = useState<any>([]);
+  const [genericTransactionData, setGenericTransactionData] = useState<any>([]);
 
-  const handleChangeDate = ({ date }: { date: any }) => {
-    setDate(date);
+  const [cashierSelectedIdToLoad, setCashierSelectedIdToLoad] =
+    useState<number>();
+  const [cashiers, setCashiers] = useState<any[]>([]);
+
+  const handleChangeDate = async ({ date }: { date: any }) => {
+    setCashierSelectedIdToLoad(0);
+    setCashiers(await CashierService.getCashiersClosedByDate(date));
+  };
+
+  const loadCashier = async () => {
+    setRentTransactionData(
+      await CashierService.Transaction.getAll({
+        category: "rent",
+        allRelations: true,
+        cashierId: cashierSelectedIdToLoad,
+      })
+    );
+
+    setGenericTransactionData(
+      await CashierService.Transaction.getAll({
+        category: "generic",
+        allRelations: true,
+        cashierId: cashierSelectedIdToLoad,
+      })
+    );
   };
 
   return (
@@ -55,12 +77,21 @@ const ViewCashier = () => {
                 onChange={(value: any) =>
                   handleChangeDate({ date: value?.target?.value })
                 }
-                value={date}
               />
             </InputGroup>
-            <Select w="190px" placeholder="Horários"></Select>
+            <Select
+              w="190px"
+              placeholder="Horários"
+              onChange={(e) => setCashierSelectedIdToLoad(+e?.target?.value)}
+            >
+              {cashiers.map((cashier) => (
+                <option value={cashier.id}>{cashier.name}</option>
+              ))}
+            </Select>
           </Flex>
-          <Button onClick={() => {}}>Carregar</Button>
+          <Button onClick={loadCashier} disabled={!cashierSelectedIdToLoad}>
+            Carregar
+          </Button>
         </Flex>
       </Flex>
       <Flex
@@ -90,7 +121,7 @@ const ViewCashier = () => {
               <GenericTransactionTable readyData={genericTransactionData} />
             </TabPanel>
             <TabPanel w="100%" h="94%" p="0" pt="2px">
-              <RentTransactionTable readyData={rentTransactionData} />
+              <RentTransactionTable data={rentTransactionData} />
             </TabPanel>
           </TabPanels>
         </Tabs>

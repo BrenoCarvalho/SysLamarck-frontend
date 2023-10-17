@@ -68,21 +68,29 @@ const columnDefs = [
 
 const RentTransactionTable = ({
   setSelected,
-  readyData,
+  cashierId,
+  data,
 }: {
   setSelected?: any;
-  readyData?: any;
+  cashierId?: number;
+  data?: any[];
 }) => {
   const gridRef = useRef<any>(null);
 
-  const onGridReady = useCallback((params: GridReadyEvent) => {
-    CashierService.Transaction.getAll({
-      category: "rent",
-      allRelations: true,
-    }).then((data) => {
-      params.api.setRowData(data);
-    });
-  }, []);
+  const onGridReady = useCallback(
+    (params: GridReadyEvent) => {
+      if (data) return;
+
+      CashierService.Transaction.getAll({
+        category: "rent",
+        cashierId,
+        allRelations: true,
+      }).then((data) => {
+        params.api.setRowData(data);
+      });
+    },
+    [cashierId, data]
+  );
 
   const onSelectionChanged = useCallback(() => {
     const selectedRows = gridRef?.current?.api.getSelectedRows();
@@ -99,7 +107,7 @@ const RentTransactionTable = ({
           ref={gridRef}
           defaultColDef={defaultColumnData}
           columnDefs={columnDefs}
-          rowData={readyData ?? null}
+          rowData={data}
           onGridReady={onGridReady}
           rowSelection={"single"}
           onSelectionChanged={onSelectionChanged}

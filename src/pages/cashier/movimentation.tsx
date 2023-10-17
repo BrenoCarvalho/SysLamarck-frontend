@@ -248,7 +248,7 @@ const Movimentation = () => {
               </TabPanel>
               <TabPanel w="100%" h="auto" p="0" pt="2px">
                 <Flex w="100%" h="75vh">
-                  <RentTransactionTable />
+                  <RentTransactionTable cashierId={openedCashier.id} />
                 </Flex>
                 <Flex w="100%" padding="3" justifyContent="flex-end" gap="2">
                   <Button
