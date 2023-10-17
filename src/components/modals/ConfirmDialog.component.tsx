@@ -10,12 +10,26 @@ import {
   Text,
 } from "@chakra-ui/react";
 
-const ConfirmDelete = ({ isOpen, onClose, onConfirm, message }: any) => {
+interface ConfirmDialogParams {
+  isOpen: boolean;
+  onClose: () => void;
+  onConfirm: () => void;
+  title: string;
+  message: string;
+}
+
+const ConfirmDialog = ({
+  isOpen,
+  onClose,
+  onConfirm,
+  title,
+  message,
+}: ConfirmDialogParams) => {
   return (
     <Modal isOpen={isOpen} onClose={onClose} isCentered>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>Confirmar exclusão</ModalHeader>
+        <ModalHeader>{title}</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
           <Text>{message}</Text>
@@ -48,4 +62,4 @@ const ConfirmDelete = ({ isOpen, onClose, onConfirm, message }: any) => {
   );
 };
 
-export default ConfirmDelete;
+export default ConfirmDialog;

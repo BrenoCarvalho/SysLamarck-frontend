@@ -12,7 +12,19 @@ import {
 } from "@chakra-ui/react";
 import { useState } from "react";
 
-const SelectRentReceiptMode = ({ onClose, isOpen, onConfirm }: any) => {
+interface SelectRentReceiptModeParams {
+  onClose: () => void;
+  isOpen: boolean;
+  onConfirm: (mode: "tenant" | "locator") => void;
+  showAllOptions: boolean;
+}
+
+const SelectRentReceiptMode = ({
+  onClose,
+  isOpen,
+  onConfirm,
+  showAllOptions,
+}: SelectRentReceiptModeParams) => {
   const [mode, setMode] = useState<"tenant" | "locator">("tenant");
 
   return (
@@ -31,7 +43,7 @@ const SelectRentReceiptMode = ({ onClose, isOpen, onConfirm }: any) => {
           <FormControl w="100%">
             <Select onChange={(v: any) => setMode(v.target.value)} value={mode}>
               <option value="tenant">Locatário</option>
-              <option value="locator">Locador</option>
+              {showAllOptions && <option value="locator">Locador</option>}
             </Select>
           </FormControl>
         </ModalBody>

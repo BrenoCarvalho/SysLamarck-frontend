@@ -1,15 +1,5 @@
 import Page from "../components/Page.component";
-import {
-  Button,
-  Flex,
-  Modal,
-  ModalContent,
-  ModalOverlay,
-  Spinner,
-  Switch,
-  Text,
-  useDisclosure,
-} from "@chakra-ui/react";
+import { Button, Flex, Switch, Text, useDisclosure } from "@chakra-ui/react";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
 import { useState } from "react";
@@ -18,6 +8,7 @@ import TenantService from "../services/tenantService";
 import TenantSelect from "../components/TenantSelect.component";
 import InstallmentVisualizationModal from "../components/modals/visualization/InstallmentVisualizationModal.component";
 import SelectRentReceiptMode from "../components/modals/SelectRentReceiptMode.component";
+import ReceiptViewer from "../components/modals/ReceiptViewer.component";
 
 const RentInstallments = () => {
   const {
@@ -153,37 +144,15 @@ const RentInstallments = () => {
         </Flex>
       </Flex>
 
-      <Modal
+      <ReceiptViewer
+        isOpen={showPdfViewer}
         onClose={() => {
           setBlobPdfLink("");
           setShowPdfViewer(false);
         }}
-        isOpen={showPdfViewer}
-        isCentered
-        size="xl"
-        scrollBehavior="inside"
-      >
-        <ModalOverlay />
-        <ModalContent maxW="80%">
-          <Flex
-            width="100%"
-            height="90vh"
-            justifyContent="center"
-            alignItems="center"
-          >
-            {blobPdfLink?.length > 0 ? (
-              <iframe
-                title="receipt"
-                src={blobPdfLink}
-                width="100%"
-                height="100%"
-              />
-            ) : (
-              <Spinner size="lg" />
-            )}
-          </Flex>
-        </ModalContent>
-      </Modal>
+        isLoading={!(blobPdfLink?.length > 0)}
+        content={blobPdfLink}
+      />
 
       <SelectRentReceiptMode
         onClose={selectRentReceiptModeModalOnClose}
@@ -192,6 +161,7 @@ const RentInstallments = () => {
           selectRentReceiptModeModalOnClose();
           showReceipt(mode);
         }}
+        showAllOptions={selected?.transaction.length > 1}
       />
 
       <InstallmentVisualizationModal

@@ -4,12 +4,12 @@ import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
 import PropertyService from "../../services/propertyService";
 import PropertyTable from "../../components/tables/PropertyTable.component";
-import ConfirmDelete from "../../components/modals/ConfirmDelete.component";
 import { useState } from "react";
 import Alert from "../../components/modals/Alert.component";
 import { useNavigate } from "react-router-dom";
 import PropertyVisualizationModal from "../../components/modals/visualization/PropertyVisualizationModal.component";
 import { propertyCodeFormatter } from "../../services/formatters";
+import ConfirmDialog from "../../components/modals/ConfirmDialog.component";
 
 const PropertySearch = () => {
   const navigate = useNavigate();
@@ -119,10 +119,11 @@ const PropertySearch = () => {
         </Flex>
       </Flex>
 
-      <ConfirmDelete
+      <ConfirmDialog
         isOpen={isOpenConfirmDelete}
         onClose={onCloseConfirmDelete}
         onConfirm={deleteProperty}
+        title="Confirmar exclusão"
         message={`Tem certeza que deseja excluir o imóvel ${propertyCodeFormatter(
           { value: selected?.propertyCode }
         )}?`}

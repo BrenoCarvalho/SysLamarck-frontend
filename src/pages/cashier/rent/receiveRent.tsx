@@ -5,10 +5,6 @@ import {
   Divider,
   Button,
   useDisclosure,
-  Modal,
-  ModalContent,
-  ModalOverlay,
-  Spinner,
 } from "@chakra-ui/react";
 import Page from "../../../components/Page.component";
 import { useContext, useState } from "react";
@@ -21,6 +17,7 @@ import Alert from "../../../components/modals/Alert.component";
 import TenantSelect from "../../../components/TenantSelect.component";
 import CashierControl from "../../../components/CashierControl.component";
 import { CashierContext } from "../../../context/CashierContext";
+import ReceiptViewer from "../../../components/modals/ReceiptViewer.component";
 
 const componentNames = {
   water: "water",
@@ -95,7 +92,7 @@ const ReceiveRent = () => {
     });
   };
 
-  const showReceipt = (installmentId: number) => {
+  const loadReceipt = (installmentId: number) => {
     TenantService.Contract.Installment.receipt({
       tenantId: +tenant?.id,
       installmentId: installmentId,
@@ -121,7 +118,7 @@ const ReceiveRent = () => {
     )
       .then((value) => {
         setDialogError(false);
-        showReceipt(value.data);
+        loadReceipt(value.data);
       })
       .catch(() => {
         setDialogError(true);
@@ -331,37 +328,15 @@ const ReceiveRent = () => {
         </Formik>
       )}
 
-      <Modal
+      <ReceiptViewer
+        isOpen={showPdfViewer}
         onClose={() => {
           setBlobPdfLink("");
           setShowPdfViewer(false);
         }}
-        isOpen={showPdfViewer}
-        isCentered
-        size="xl"
-        scrollBehavior="inside"
-      >
-        <ModalOverlay />
-        <ModalContent maxW="80%">
-          <Flex
-            width="100%"
-            height="90vh"
-            justifyContent="center"
-            alignItems="center"
-          >
-            {blobPdfLink?.length > 0 ? (
-              <iframe
-                title="receipt"
-                src={blobPdfLink}
-                width="100%"
-                height="100%"
-              />
-            ) : (
-              <Spinner size="lg" />
-            )}
-          </Flex>
-        </ModalContent>
-      </Modal>
+        isLoading={!(blobPdfLink?.length > 0)}
+        content={blobPdfLink}
+      />
 
       <Alert
         onClose={() => {

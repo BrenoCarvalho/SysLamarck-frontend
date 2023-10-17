@@ -3,12 +3,12 @@ import { Button, Flex, useDisclosure } from "@chakra-ui/react";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
 import TenantService from "../../services/tenantService";
-import ConfirmDelete from "../../components/modals/ConfirmDelete.component";
 import { useState } from "react";
 import Alert from "../../components/modals/Alert.component";
 import { useNavigate } from "react-router-dom";
 import TenantVisualizationModal from "../../components/modals/visualization/TenantVisualization.component.";
 import TenantTable from "../../components/tables/TenantTable.component";
+import ConfirmDialog from "../../components/modals/ConfirmDialog.component";
 
 const TenantSearch = () => {
   const navigate = useNavigate();
@@ -118,10 +118,11 @@ const TenantSearch = () => {
         </Flex>
       </Flex>
 
-      <ConfirmDelete
+      <ConfirmDialog
         isOpen={isOpenConfirmDelete}
         onClose={onCloseConfirmDelete}
         onConfirm={deleteTenant}
+        title="Confirmar exclusão"
         message={`Tem certeza que deseja excluir o locatário ${selected?.id}?`}
       />
 

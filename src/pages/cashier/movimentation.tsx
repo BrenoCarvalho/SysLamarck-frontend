@@ -18,11 +18,11 @@ import GenericTransactionTable from "../../components/tables/GenericTransactionT
 import { useContext, useEffect, useState } from "react";
 import InputMask from "react-input-mask";
 import Alert from "../../components/modals/Alert.component";
-import ConfirmDelete from "../../components/modals/ConfirmDelete.component";
 import CashierService from "../../services/cashierService";
 import RentTransactionTable from "../../components/tables/RentTransactionTable";
 import CashierControl from "../../components/CashierControl.component";
 import { CashierContext } from "../../context/CashierContext";
+import ConfirmDialog from "../../components/modals/ConfirmDialog.component";
 
 const Input = ({
   title,
@@ -271,10 +271,11 @@ const Movimentation = () => {
             </TabPanels>
           </Tabs>
 
-          <ConfirmDelete
+          <ConfirmDialog
             isOpen={isOpenConfirmDelete}
             onClose={onCloseConfirmDelete}
             onConfirm={deleteMovimentation}
+            title="Confirmar exclusão"
             message="Tem certeza que deseja deletar a movimentação?"
           />
 

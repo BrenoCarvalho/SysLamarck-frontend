@@ -20,6 +20,7 @@ import { CashierContext } from "../../../context/CashierContext";
 import { MdSave } from "react-icons/md";
 import { FiDownload } from "react-icons/fi";
 import CashierService from "../../../services/cashierService";
+import ReceiptViewer from "../../../components/modals/ReceiptViewer.component";
 
 const componentNames = {
   water: "water",
@@ -59,6 +60,14 @@ const TransferRent = () => {
     onOpen: dialogOnOpen,
     onClose: dialogOnClose,
   } = useDisclosure();
+
+  const {
+    isOpen: showReceiptIsOpen,
+    onOpen: showReceiptOnOpen,
+    onClose: showReceiptOnClose,
+  } = useDisclosure();
+
+  const [blobReceiptPdfLink, setBlobReceiptPdfLink] = useState("");
 
   const [dialogError, setDialogError] = useState<boolean>(false);
 
@@ -173,6 +182,17 @@ const TransferRent = () => {
     setInitialValues({ ...dataTemplate });
   };
 
+  const loadReceipt = (installmentId: number) => {
+    TenantService.Contract.Installment.receipt({
+      tenantId: +tenant?.id,
+      installmentId: installmentId,
+      mode: "locator",
+    }).then((value) => {
+      const blob = new Blob([value.data], { type: "application/pdf" });
+      setBlobReceiptPdfLink(window.URL.createObjectURL(blob));
+    });
+  };
+
   const transferRent = (values: any) => {
     const total = values[componentNames?.total];
     const formOfPayment = values[componentNames?.formOfPayment];
@@ -182,13 +202,14 @@ const TransferRent = () => {
 
     TenantService.Contract.Installment.transfer(
       tenant?.id,
-      installmentSelected?.id,
+      installmentSelected.id,
       total,
       formOfPayment,
       values
     )
-      .then(() => {
+      .then((value) => {
         setDialogError(false);
+        loadReceipt(installmentSelected.id);
       })
       .catch(() => {
         setDialogError(true);
@@ -394,14 +415,27 @@ const TransferRent = () => {
         </Formik>
       )}
 
+      <ReceiptViewer
+        isOpen={showReceiptIsOpen}
+        onClose={() => {
+          setBlobReceiptPdfLink("");
+          showReceiptOnClose();
+        }}
+        isLoading={!(blobReceiptPdfLink?.length > 0)}
+        content={blobReceiptPdfLink}
+      />
+
       <Alert
-        onClose={dialogOnClose}
+        onClose={() => {
+          if (!dialogError) showReceiptOnOpen();
+          dialogOnClose();
+        }}
         isOpen={dialogIsOpen}
         title={dialogError ? "Erro!" : "Sucesso!"}
         message={
           dialogError
             ? "Falha ao criar movimentação, verifique os campos e tente novamente."
-            : "Movimentação adicionada com sucesso."
+            : "Aluguel repassado com sucesso, clique em fechar para imprimir o recibo do locador."
         }
       />
 
