@@ -95,6 +95,7 @@ const RentInputs = ({
       values?.sundry,
       values?.breachOfContractFine,
       values?.leaseFee,
+      values?.administrationFee,
     ];
 
     const total = valuesToSum.reduce(
@@ -127,6 +128,7 @@ const RentInputs = ({
     values?.specialDiscount,
     values?.breachOfContractFine,
     values?.leaseFee,
+    values?.administrationFee,
   ]);
 
   const fields = [

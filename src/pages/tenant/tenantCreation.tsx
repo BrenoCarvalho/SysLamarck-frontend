@@ -70,6 +70,7 @@ const componentNames = {
     duration: "duration",
     payday: "payday",
     gracePeriod: "gracePeriod",
+    installmentsPaid: "installmentsPaid",
   },
   bail: {
     type: "type",
@@ -201,6 +202,7 @@ const TenantCreation = () => {
     duration: null,
     payday: null,
     gracePeriod: null,
+    installmentsPaid: null,
     type: "Fiador",
     escrowValue: null,
     warrantyTerm: null,

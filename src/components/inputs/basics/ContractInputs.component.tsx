@@ -74,7 +74,7 @@ const CustomSelect = ({
 };
 
 const ContractInputs = ({
-  fieldList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+  fieldList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
   showHeader = true,
   headerTitle = "Contrato",
   componentNames = {},
@@ -140,33 +140,50 @@ const ContractInputs = ({
     <Input
       title="Valor Integral"
       name={componentNames.integralValue}
-      onChange={handleChange}
+      onChange={(value: any) => {
+        handleChange(componentNames.integralValue)(value?.target?.value);
+        handleChange(componentNames.leaseAmount)(
+          `${values ? Number(value?.target?.value) * 0.9 : null}`
+        );
+      }}
       value={values ? values[componentNames?.integralValue] : null}
+      type="number"
     />, // 7
     <Input
       title="Valor Locação"
       name={componentNames.leaseAmount}
-      onChange={handleChange}
-      value={values ? values[componentNames?.leaseAmount] : null}
+      // onChange={handleChange}
+      value={values ? values[componentNames?.integralValue] * 0.9 : null}
+      type="number"
     />, // 8
     <Input
       title="Duração do contrato"
       name={componentNames.duration}
       onChange={handleChange}
       value={values ? values[componentNames?.duration] : null}
+      type="number"
     />, // 9
     <Input
       title="Dia de pagamento"
       name={componentNames.payday}
       onChange={handleChange}
       value={values ? values[componentNames?.payday] : null}
+      type="number"
     />, // 10
     <Input
       title="Meses de carência"
       name={componentNames.gracePeriod}
       onChange={handleChange}
       value={values ? values[componentNames?.gracePeriod] : null}
+      type="number"
     />, // 11
+    <Input
+      title="Parcelas pagas"
+      name={componentNames.installmentsPaid}
+      onChange={handleChange}
+      value={values ? values[componentNames?.installmentsPaid] : null}
+      type="number"
+    />, // 12
   ];
 
   return (

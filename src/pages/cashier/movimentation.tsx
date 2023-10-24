@@ -80,14 +80,16 @@ const Movimentation = () => {
   useEffect(() => {
     const loadGenericTransactionData = async () => {
       setGenericTransactionData(
-        (await CashierService.Transaction.getAll({
+        await CashierService.Transaction.getAll({
           category: "generic",
           cashierId: openedCashier?.id,
-        })) ?? []
+        })
       );
     };
 
-    if (genericTransactionData === null) loadGenericTransactionData();
+    if (genericTransactionData === null && openedCashier?.id) {
+      loadGenericTransactionData();
+    }
   }, [genericTransactionData, openedCashier?.id]);
 
   const createTransaction = async () => {
