@@ -17,7 +17,7 @@ import Alert from "../../../components/modals/Alert.component";
 import TenantSelect from "../../../components/TenantSelect.component";
 import CashierControl from "../../../components/CashierControl.component";
 import { CashierContext } from "../../../context/CashierContext";
-import ReceiptViewer from "../../../components/modals/ReceiptViewer.component";
+import PdfViewer from "../../../components/modals/ReceiptViewer.component";
 
 const componentNames = {
   water: "water",
@@ -328,7 +328,7 @@ const ReceiveRent = () => {
         </Formik>
       )}
 
-      <ReceiptViewer
+      <PdfViewer
         isOpen={showPdfViewer}
         onClose={() => {
           setBlobPdfLink("");

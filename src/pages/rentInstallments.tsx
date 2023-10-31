@@ -8,7 +8,7 @@ import TenantService from "../services/tenantService";
 import TenantSelect from "../components/TenantSelect.component";
 import InstallmentVisualizationModal from "../components/modals/visualization/InstallmentVisualizationModal.component";
 import SelectRentReceiptMode from "../components/modals/SelectRentReceiptMode.component";
-import ReceiptViewer from "../components/modals/ReceiptViewer.component";
+import PdfViewer from "../components/modals/ReceiptViewer.component";
 
 const RentInstallments = () => {
   const {
@@ -144,7 +144,7 @@ const RentInstallments = () => {
         </Flex>
       </Flex>
 
-      <ReceiptViewer
+      <PdfViewer
         isOpen={showPdfViewer}
         onClose={() => {
           setBlobPdfLink("");

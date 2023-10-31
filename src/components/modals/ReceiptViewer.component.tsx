@@ -6,19 +6,19 @@ import {
   Spinner,
 } from "@chakra-ui/react";
 
-interface ReceiptViewerParams {
+interface PdfViewerParams {
   isOpen: boolean;
   onClose: () => void;
   isLoading: boolean;
   content: string;
 }
 
-const ReceiptViewer = ({
+const PdfViewer = ({
   isOpen,
   onClose,
   isLoading,
   content,
-}: ReceiptViewerParams) => {
+}: PdfViewerParams) => {
   return (
     <Modal
       onClose={onClose}
@@ -46,4 +46,4 @@ const ReceiptViewer = ({
   );
 };
 
-export default ReceiptViewer;
+export default PdfViewer;

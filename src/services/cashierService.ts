@@ -23,6 +23,20 @@ const CashierService = {
         Promise.resolve(response?.data).catch((error) => Promise.resolve(error))
       );
   },
+  cashFlowReport: async ({
+    cashierId,
+  }: {
+    cashierId: number;
+  }): Promise<any> => {
+    return api
+      .get(`/cashier/${cashierId}/cashFlowReport`, { responseType: "blob" })
+      .then((response) => {
+        return Promise.resolve(response);
+      })
+      .catch((error) => {
+        return Promise.reject(error);
+      });
+  },
   getCashiersClosedByDate: async (date: any) => {
     return api
       .get(`cashier/cashiersClosedByDate/list?date=${date}`)

@@ -20,7 +20,7 @@ import { CashierContext } from "../../../context/CashierContext";
 import { MdSave } from "react-icons/md";
 import { FiDownload } from "react-icons/fi";
 import CashierService from "../../../services/cashierService";
-import ReceiptViewer from "../../../components/modals/ReceiptViewer.component";
+import PdfViewer from "../../../components/modals/ReceiptViewer.component";
 
 const componentNames = {
   water: "water",
@@ -101,10 +101,11 @@ const TransferRent = () => {
       installment.transaction?.length > 0 ? installment.transaction[0] : null;
 
     const administrationFee =
-      (Number(tenant?.property?.administrationTax ?? 0) / 100) *
-        Number(receiveTransaction?.data?.rent ?? 0) +
-      Number(receiveTransaction?.data?.iptu ?? 0) +
-      Number(receiveTransaction?.data?.breachOfContractFine ?? 0);
+      ((Number(receiveTransaction?.data?.rent ?? 0) +
+        Number(receiveTransaction?.data?.iptu ?? 0) +
+        Number(receiveTransaction?.data?.breachOfContractFine ?? 0)) *
+        Number(tenant?.property?.administrationTax ?? 0)) /
+      100;
 
     if (administrationFee !== 0)
       setInitialValues({ ...initialValues, administrationFee });
@@ -355,7 +356,7 @@ const TransferRent = () => {
                   <Flex w="100%" gap="20px">
                     <RentInputs
                       title="Débito"
-                      fieldList={[1, 2, 3, 4, 5, 7, 10, 11, 9]}
+                      fieldList={[1, 2, 3, 4, 5, 10, 11, 9]}
                       componentNames={componentNames}
                       handleChange={handleChange}
                       values={values}
@@ -415,7 +416,7 @@ const TransferRent = () => {
         </Formik>
       )}
 
-      <ReceiptViewer
+      <PdfViewer
         isOpen={showReceiptIsOpen}
         onClose={() => {
           setBlobReceiptPdfLink("");

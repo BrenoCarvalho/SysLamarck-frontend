@@ -50,8 +50,8 @@ const InstallmentVisualizationModal = ({
           installmentId: installmentSelected?.id,
         });
 
-        const receiveRentTransaction = installment?.transaction[0] ?? null;
-        const transferRentTransaction = installment?.transaction[1] ?? null;
+        const receiveRentTransaction = installment?.transaction[0] ?? {};
+        const transferRentTransaction = installment?.transaction[1] ?? {};
 
         const receiveRent =
           installment?.status === "Pg"
@@ -70,12 +70,15 @@ const InstallmentVisualizationModal = ({
                   }),
                 ],
                 ...Object.entries(receiveRentTransaction?.data ?? {})?.map(
-                  (data: any) => [
-                    names[data[0]],
-                    Number(data[1])
-                      ? currencyFormatter({ value: data[1] })
-                      : data[1],
-                  ]
+                  (data: any) => {
+                    console.log(data);
+                    return [
+                      names[data[0]],
+                      Number(data[1])
+                        ? currencyFormatter({ value: data[1] })
+                        : data[1],
+                    ];
+                  }
                 ),
                 ["Forma de pagamento", receiveRentTransaction?.formOfPayment],
               ]
