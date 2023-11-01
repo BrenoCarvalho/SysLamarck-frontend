@@ -64,7 +64,7 @@ const CustomSelect = ({
   return (
     <FormControl w={width}>
       <FormLabel fontSize="sm">{title}</FormLabel>
-      <Select placeholder="Selecionar" {...props}>
+      <Select {...props}>
         {options?.map((value: any) => {
           return <option>{value}</option>;
         })}
@@ -143,7 +143,7 @@ const ContractInputs = ({
       onChange={(value: any) => {
         handleChange(componentNames.integralValue)(value?.target?.value);
         handleChange(componentNames.leaseAmount)(
-          `${values ? Number(value?.target?.value) * 0.9 : null}`
+          `${values ? Math.round(Number(value?.target?.value) * 0.9) : null}`
         );
       }}
       value={values ? values[componentNames?.integralValue] : null}
@@ -153,7 +153,9 @@ const ContractInputs = ({
       title="Valor Locação"
       name={componentNames.leaseAmount}
       // onChange={handleChange}
-      value={values ? values[componentNames?.integralValue] * 0.9 : null}
+      value={
+        values ? Math.round(values[componentNames?.integralValue] * 0.9) : null
+      }
       type="number"
     />, // 8
     <Input

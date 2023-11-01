@@ -10,18 +10,72 @@ import {
   TabPanel,
   TabPanels,
   Tabs,
+  Text,
+  useDisclosure,
 } from "@chakra-ui/react";
 import Page from "../../components/Page.component";
 import GenericTransactionTable from "../../components/tables/GenericTransactionTable.component";
 import RentTransactionTable from "../../components/tables/RentTransactionTable";
 import { useState } from "react";
 import CashierService from "../../services/cashierService";
+import { currencyFormatter } from "../../services/formatters";
+import PdfViewer from "../../components/modals/ReceiptViewer.component";
+
+const BottomTab = ({
+  showCashFlowReport,
+  data,
+}: {
+  showCashFlowReport: () => void;
+  data: { credit: number; debit: number };
+}) => {
+  return (
+    <Flex justifyContent="space-between" padding="10px" align="center">
+      <Flex marginTop="10px" marginLeft="10px" gap="25px">
+        <Text>
+          Entradas:{" "}
+          <b>
+            {currencyFormatter({
+              value: data?.credit ?? 0,
+            })}
+          </b>
+        </Text>
+        <Text>
+          Saídas:{" "}
+          <b>
+            {currencyFormatter({
+              value: data?.debit ?? 0,
+            })}
+          </b>
+        </Text>
+      </Flex>
+      <Button onClick={showCashFlowReport}>Gerar relatório</Button>
+    </Flex>
+  );
+};
 
 const ViewCashier = () => {
   const [tabIndex, setTabIndex] = useState<number>(0);
 
+  const {
+    isOpen: showCashFlowReportIsOpen,
+    onOpen: showCashFlowReportOnOpen,
+    onClose: showCashFlowReportOnClose,
+  } = useDisclosure();
+
+  const [blobPdfLink, setBlobPdfLink] = useState("");
+
   const [rentTransactionData, setRentTransactionData] = useState<any>([]);
   const [genericTransactionData, setGenericTransactionData] = useState<any>([]);
+
+  const [totalGenericSum, setTotalGenericSum] = useState<{
+    credit: number;
+    debit: number;
+  }>({ credit: 0, debit: 0 });
+
+  const [totalRentSum, setTotalRentSum] = useState<{
+    credit: number;
+    debit: number;
+  }>({ credit: 0, debit: 0 });
 
   const [cashierSelectedIdToLoad, setCashierSelectedIdToLoad] =
     useState<number>();
@@ -33,21 +87,66 @@ const ViewCashier = () => {
   };
 
   const loadCashier = async () => {
-    setRentTransactionData(
-      await CashierService.Transaction.getAll({
-        category: "rent",
-        allRelations: true,
-        cashierId: cashierSelectedIdToLoad,
-      })
+    const rentTransactions = await CashierService.Transaction.getAll({
+      category: "rent",
+      allRelations: true,
+      cashierId: cashierSelectedIdToLoad,
+    });
+
+    setRentTransactionData(rentTransactions);
+    setTotalRentSum(
+      rentTransactions?.reduce(
+        (total, transaction) => {
+          return transaction["type"] === "credit"
+            ? {
+                ...total,
+                credit: transaction["amount"] + total.credit,
+              }
+            : {
+                ...total,
+                debit: transaction["amount"] + total.debit,
+              };
+        },
+        { credit: 0, debit: 0 }
+      )
     );
 
-    setGenericTransactionData(
-      await CashierService.Transaction.getAll({
-        category: "generic",
-        allRelations: true,
-        cashierId: cashierSelectedIdToLoad,
-      })
+    const genericTransactions = await CashierService.Transaction.getAll({
+      category: "generic",
+      allRelations: true,
+      cashierId: cashierSelectedIdToLoad,
+    });
+
+    setGenericTransactionData(genericTransactions);
+    setTotalGenericSum(
+      genericTransactions?.reduce(
+        (total, transaction) => {
+          return transaction["type"] === "credit"
+            ? {
+                ...total,
+                credit: transaction["amount"] + total.credit,
+              }
+            : {
+                ...total,
+                debit: transaction["amount"] + total.debit,
+              };
+        },
+        { credit: 0, debit: 0 }
+      )
     );
+  };
+
+  const showCashFlowReport = () => {
+    if (!cashierSelectedIdToLoad) return;
+
+    showCashFlowReportOnOpen();
+
+    CashierService.cashFlowReport({
+      cashierId: cashierSelectedIdToLoad,
+    }).then((value) => {
+      const blob = new Blob([value.data], { type: "application/pdf" });
+      setBlobPdfLink(window.URL.createObjectURL(blob));
+    });
   };
 
   return (
@@ -96,7 +195,7 @@ const ViewCashier = () => {
       </Flex>
       <Flex
         w="100%"
-        h="80vh"
+        h="auto"
         direction="column"
         bg="#fff"
         p="1"
@@ -117,15 +216,37 @@ const ViewCashier = () => {
           </TabList>
 
           <TabPanels w="100%" h="100%">
-            <TabPanel w="100%" h="94%" p="0" pt="2px">
-              <GenericTransactionTable readyData={genericTransactionData} />
+            <TabPanel w="100%" h="auto" p="0" pt="2px">
+              <Flex h="635px">
+                <GenericTransactionTable readyData={genericTransactionData} />
+              </Flex>
+              <BottomTab
+                data={totalGenericSum}
+                showCashFlowReport={showCashFlowReport}
+              />
             </TabPanel>
             <TabPanel w="100%" h="94%" p="0" pt="2px">
-              <RentTransactionTable data={rentTransactionData} />
+              <Flex h="635px">
+                <RentTransactionTable data={rentTransactionData} />
+              </Flex>
+              <BottomTab
+                data={totalRentSum}
+                showCashFlowReport={showCashFlowReport}
+              />
             </TabPanel>
           </TabPanels>
         </Tabs>
       </Flex>
+
+      <PdfViewer
+        isOpen={showCashFlowReportIsOpen}
+        onClose={() => {
+          setBlobPdfLink("");
+          showCashFlowReportOnClose();
+        }}
+        isLoading={!(blobPdfLink?.length > 0)}
+        content={blobPdfLink}
+      />
     </Page>
   );
 };

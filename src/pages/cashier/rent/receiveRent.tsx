@@ -110,11 +110,32 @@ const ReceiveRent = () => {
     delete values[componentNames?.total];
     delete values[componentNames?.formOfPayment];
 
+    const metadata = {
+      tenant: {
+        fullName: tenant?.fullName,
+        cpf: tenant?.cpf,
+        rg: tenant?.rg,
+        email: tenant?.email,
+        birthDate: tenant?.birthDate,
+        contact1: tenant?.contact1,
+        contact2: tenant?.contact2,
+        property: {
+          address: tenant?.property?.address,
+        },
+        contract: {
+          dueDate: contract?.currentInstallment?.dueDate,
+          referenceMonth: contract?.currentInstallment?.referenceMonth,
+          currentInstallment: contract?.currentInstallment?.currentInstallment,
+        },
+      },
+    };
+
     TenantService.Contract.Installment.pay(
       tenant?.id,
       total,
       formOfPayment,
-      values
+      values,
+      metadata
     )
       .then((value) => {
         setDialogError(false);

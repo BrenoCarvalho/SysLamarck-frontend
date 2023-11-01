@@ -104,13 +104,15 @@ const TenantService = {
         tenantId: number,
         amount: number,
         formOfPayment: string,
-        data: any
+        data: string | object,
+        metadata: string | object
       ) => {
         return api
           .post(`/tenant/${tenantId}/contract/installment/pay`, {
             amount,
             formOfPayment,
             data,
+            metadata,
           })
           .then((response) => {
             return Promise.resolve(response);
@@ -124,7 +126,7 @@ const TenantService = {
         installmentId: number,
         amount: number,
         formOfPayment: string,
-        data: any
+        data: string | object
       ) => {
         return api
           .post(
