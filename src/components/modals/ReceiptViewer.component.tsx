@@ -35,7 +35,7 @@ const PdfViewer = ({
           justifyContent="center"
           alignItems="center"
         >
-          {!isLoading ? (
+          {!isLoading || content !== "" ? (
             <iframe title="receipt" src={content} width="100%" height="100%" />
           ) : (
             <Spinner size="lg" />

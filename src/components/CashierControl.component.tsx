@@ -38,7 +38,6 @@ const CashierControl = () => {
 
   const handleOpenCashier = () => {
     openCashier();
-    window.location.reload();
   };
 
   return (
@@ -75,7 +74,6 @@ const CashierControl = () => {
         onClose={() => {
           setBlobPdfLink("");
           showCashFlowReportOnClose();
-          window.location.reload();
         }}
         isLoading={!(blobPdfLink?.length > 0)}
         content={blobPdfLink}

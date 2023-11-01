@@ -6,11 +6,11 @@ const CashierContext = createContext<any>(null);
 const CashierProvider = ({ children }: any) => {
   const [openedCashier, setOpenedCashier] = useState<any>();
 
-  const getOpenedCashier = async () =>
+  const loadOpenedCashier = async () =>
     setOpenedCashier(await CashierService.openedCashier());
 
   useEffect(() => {
-    getOpenedCashier();
+    loadOpenedCashier();
   }, []);
 
   const openCashier = async () => {
