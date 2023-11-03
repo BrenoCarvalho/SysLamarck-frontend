@@ -85,10 +85,14 @@ const Card = ({ property }: any) => {
           {propertyCodeFormatter({ value: property?.propertyCode })}
         </Text>
         <Text style={cardStyle.textProperty}>
-          {currencyFormatter({ value: property?.integralValue })}
+          {currencyFormatter({
+            value: property?.integralValue,
+          })}
         </Text>
         <Text style={cardStyle.textProperty}>
-          {currencyFormatter({ value: property?.leaseAmount })}
+          {currencyFormatter({
+            value: property?.leaseAmount,
+          })}
         </Text>
       </div>
     </div>

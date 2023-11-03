@@ -40,12 +40,15 @@ const TenantVisualizationModal = ({
         tenant?.residents?.map((resident: any) => {
           const tenantIndex = tenant?.residents?.indexOf(resident) + 1;
 
-          residents.push([`Nome - Morador ${tenantIndex}`, resident.fullName]);
-          residents.push([`RG - Morador ${tenantIndex}`, resident.rg]);
-          residents.push([`CPF / CNPJ - Morador ${tenantIndex}`, resident.cpf]);
+          residents.push([`Nome - Morador ${tenantIndex}`, resident?.fullName]);
+          residents.push([`RG - Morador ${tenantIndex}`, resident?.rg]);
+          residents.push([
+            `CPF / CNPJ - Morador ${tenantIndex}`,
+            resident?.cpf,
+          ]);
           residents.push([
             `Contato 1 - Morador ${tenantIndex}`,
-            resident.contact1,
+            resident?.contact1,
           ]);
         });
 
@@ -57,10 +60,7 @@ const TenantVisualizationModal = ({
           ],
           ["Endereço do imóvel", tenant?.property?.address],
           ["Nome do locatário", tenant?.fullName],
-          [
-            "Data de nascimento",
-            dateFormatter({ value: tenant?.contract.birthDate }),
-          ],
+          ["Data de nascimento", dateFormatter({ value: tenant?.birthDate })],
           ["RG", tenant?.rg],
           ["CPF", cpfFormatter({ value: tenant?.cpf })],
           ["Nacionalidade", tenant?.nationality],
@@ -75,7 +75,7 @@ const TenantVisualizationModal = ({
           tenant?.fullNameT2
             ? [
                 "Data de nascimento (Locador 2)",
-                dateFormatter({ value: tenant?.contract.birthDateT2 }),
+                dateFormatter({ value: tenant?.birthDateT2 }),
               ]
             : null,
           tenant?.fullNameT2 ? ["RG (Locador 2)", tenant?.rgT2] : null,
@@ -132,246 +132,252 @@ const TenantVisualizationModal = ({
             dateFormatter({ value: tenant?.contract?.firstPayment }),
           ],
           ["Fiança"],
-          ["Tipo de fiança", tenant?.contract.bail?.type],
-          tenant?.contract.bail?.type === "Calção"
+          ["Tipo de fiança", tenant?.contract?.bail?.type],
+          tenant?.contract?.bail?.type === "Calção"
             ? [
                 "Valor de caução",
                 currencyFormatter({
-                  value: tenant?.contract.bail?.escrowValue,
+                  value: tenant?.contract?.bail?.escrowValue,
                 }),
               ]
             : null,
-          tenant?.contract.bail?.type === "Termo de garantia"
-            ? ["Termo de garantia", tenant?.contract.bail?.warrantyTerm]
+          tenant?.contract?.bail?.type === "Termo de garantia"
+            ? ["Termo de garantia", tenant?.contract?.bail?.warrantyTerm]
             : null,
-          tenant?.contract.bail?.type === "Título de capitalização"
+          tenant?.contract?.bail?.type === "Título de capitalização"
             ? [
                 "Título de capitalização",
-                tenant?.contract.bail?.capitalizationTitle,
+                tenant?.contract?.bail?.capitalizationTitle,
               ]
             : null,
-          tenant?.contract.bail?.type === "Fiador"
-            ? ["Nome completo (Fiador)", tenant?.contract.bail?.fullNameG1]
+          tenant?.contract?.bail?.type === "Fiador"
+            ? ["Nome completo (Fiador)", tenant?.contract?.bail?.fullNameG1]
             : null,
-          tenant?.contract.bail?.type === "Fiador"
+          tenant?.contract?.bail?.type === "Fiador"
             ? [
                 "Data de nascimento (Fiador)",
-                dateFormatter({ value: tenant?.contract.bail?.birthDateG1 }),
+                dateFormatter({ value: tenant?.contract?.bail?.birthDateG1 }),
               ]
             : null,
-          tenant?.contract.bail?.type === "Fiador"
-            ? ["RG (Fiador)", tenant?.contract.bail?.rgG1]
+          tenant?.contract?.bail?.type === "Fiador"
+            ? ["RG (Fiador)", tenant?.contract?.bail?.rgG1]
             : null,
-          tenant?.contract.bail?.type === "Fiador"
-            ? ["CPF / CNPJ (Fiador)", tenant?.contract.bail?.cpfG1]
+          tenant?.contract?.bail?.type === "Fiador"
+            ? ["CPF / CNPJ (Fiador)", tenant?.contract?.bail?.cpfG1]
             : null,
-          tenant?.contract.bail?.type === "Fiador"
-            ? ["Nacionalidade (Fiador)", tenant?.contract.bail?.nationalityG1]
+          tenant?.contract?.bail?.type === "Fiador"
+            ? ["Nacionalidade (Fiador)", tenant?.contract?.bail?.nationalityG1]
             : null,
-          tenant?.contract.bail?.type === "Fiador"
-            ? ["Estado civil (Fiador)", tenant?.contract.bail?.maritalStatusG1]
+          tenant?.contract?.bail?.type === "Fiador"
+            ? ["Estado civil (Fiador)", tenant?.contract?.bail?.maritalStatusG1]
             : null,
-          tenant?.contract.bail?.type === "Fiador"
-            ? ["Profissão (Fiador)", tenant?.contract.bail?.professionG1]
+          tenant?.contract?.bail?.type === "Fiador"
+            ? ["Profissão (Fiador)", tenant?.contract?.bail?.professionG1]
             : null,
-          tenant?.contract.bail?.type === "Fiador"
-            ? ["E-mail (Fiador)", tenant?.contract.bail?.emailG1]
+          tenant?.contract?.bail?.type === "Fiador"
+            ? ["E-mail (Fiador)", tenant?.contract?.bail?.emailG1]
             : null,
-          tenant?.contract.bail?.type === "Fiador"
-            ? ["Contato 1 (Fiador)", tenant?.contract.bail?.contact1G1]
+          tenant?.contract?.bail?.type === "Fiador"
+            ? ["Contato 1 (Fiador)", tenant?.contract?.bail?.contact1G1]
             : null,
-          tenant?.contract.bail?.type === "Fiador"
-            ? ["Contato 2 (Fiador)", tenant?.contract.bail?.contact2G1]
+          tenant?.contract?.bail?.type === "Fiador"
+            ? ["Contato 2 (Fiador)", tenant?.contract?.bail?.contact2G1]
             : null,
-          tenant?.contract.bail?.type === "Fiador"
-            ? ["CEP (Fiador)", tenant?.contract.bail?.cepG1]
+          tenant?.contract?.bail?.type === "Fiador"
+            ? ["CEP (Fiador)", tenant?.contract?.bail?.cepG1]
             : null,
-          tenant?.contract.bail?.type === "Fiador"
-            ? ["Cidade (Fiador)", tenant?.contract.bail?.cityG1]
+          tenant?.contract?.bail?.type === "Fiador"
+            ? ["Cidade (Fiador)", tenant?.contract?.bail?.cityG1]
             : null,
-          tenant?.contract.bail?.type === "Fiador"
-            ? ["Estado (Fiador)", tenant?.contract.bail?.districtG1]
+          tenant?.contract?.bail?.type === "Fiador"
+            ? ["Estado (Fiador)", tenant?.contract?.bail?.districtG1]
             : null,
-          tenant?.contract.bail?.type === "Fiador"
-            ? ["Endereço (Fiador)", tenant?.contract.bail?.addressG1]
+          tenant?.contract?.bail?.type === "Fiador"
+            ? ["Endereço (Fiador)", tenant?.contract?.bail?.addressG1]
             : null,
-          tenant?.contract.bail?.spouseFullNameG1
+          tenant?.contract?.bail?.spouseFullNameG1
             ? [
                 "Nome completo (Cônjuge)",
-                tenant?.contract.bail?.spouseFullNameG1,
+                tenant?.contract?.bail?.spouseFullNameG1,
               ]
             : null,
-          tenant?.contract.bail?.spouseFullNameG1
+          tenant?.contract?.bail?.spouseFullNameG1
             ? [
                 "Data de nascimento (Cônjuge)",
                 dateFormatter({
                   value:
-                    tenant?.contract.bail?.tenant?.contract.bail
+                    tenant?.contract?.bail?.tenant?.contract?.bail
                       ?.spouseBirthDateG1,
                 }),
               ]
             : null,
-          tenant?.contract.bail?.spouseFullNameG1
-            ? ["RG (Cônjuge)", tenant?.contract.bail?.spouseRgG1]
+          tenant?.contract?.bail?.spouseFullNameG1
+            ? ["RG (Cônjuge)", tenant?.contract?.bail?.spouseRgG1]
             : null,
-          tenant?.contract.bail?.spouseFullNameG1
-            ? ["CPF (Cônjuge)", tenant?.contract.bail?.spouseCpfG1]
+          tenant?.contract?.bail?.spouseFullNameG1
+            ? ["CPF (Cônjuge)", tenant?.contract?.bail?.spouseCpfG1]
             : null,
-          tenant?.contract.bail?.spouseFullNameG1
+          tenant?.contract?.bail?.spouseFullNameG1
             ? [
                 "Nacionalidade (Cônjuge)",
-                tenant?.contract.bail?.spouseNationalityG1,
+                tenant?.contract?.bail?.spouseNationalityG1,
               ]
             : null,
-          tenant?.contract.bail?.spouseFullNameG1
-            ? ["Profissão (Cônjuge)", tenant?.contract.bail?.spouseProfessionG1]
+          tenant?.contract?.bail?.spouseFullNameG1
+            ? [
+                "Profissão (Cônjuge)",
+                tenant?.contract?.bail?.spouseProfessionG1,
+              ]
             : null,
-          tenant?.contract.bail?.spouseFullNameG1
-            ? ["Contato1 (Cônjuge)", tenant?.contract.bail?.spouseContact1G1]
+          tenant?.contract?.bail?.spouseFullNameG1
+            ? ["Contato1 (Cônjuge)", tenant?.contract?.bail?.spouseContact1G1]
             : null,
-          tenant?.contract.bail?.bailPropertyCepG1
+          tenant?.contract?.bail?.bailPropertyCepG1
             ? [
                 "CEP (Imóvel de fiança)",
-                tenant?.contract.bail?.bailPropertyCepG1,
+                tenant?.contract?.bail?.bailPropertyCepG1,
               ]
             : null,
-          tenant?.contract.bail?.bailPropertyCepG1
+          tenant?.contract?.bail?.bailPropertyCepG1
             ? [
                 "Cidade (Imóvel de fiança)",
-                tenant?.contract.bail?.bailPropertyCityG1,
+                tenant?.contract?.bail?.bailPropertyCityG1,
               ]
             : null,
-          tenant?.contract.bail?.bailPropertyCepG1
+          tenant?.contract?.bail?.bailPropertyCepG1
             ? [
                 "Estado (Imóvel de fiança)",
-                tenant?.contract.bail?.bailPropertyDistrictG1,
+                tenant?.contract?.bail?.bailPropertyDistrictG1,
               ]
             : null,
-          tenant?.contract.bail?.bailPropertyCepG1
+          tenant?.contract?.bail?.bailPropertyCepG1
             ? [
                 "Endereço (Imóvel de fiança)",
-                tenant?.contract.bail?.bailPropertyAddressG1,
+                tenant?.contract?.bail?.bailPropertyAddressG1,
               ]
             : null,
-          tenant?.contract.bail?.bailPropertyCepG1
+          tenant?.contract?.bail?.bailPropertyCepG1
             ? [
                 "Nº de matricula (Imóvel de fiança)",
-                tenant?.contract.bail?.bailPropertyRegistrationNumberG1,
+                tenant?.contract?.bail?.bailPropertyRegistrationNumberG1,
               ]
             : null,
-          tenant?.contract.bail?.fullNameG2
-            ? ["Nome completo (Fiador 2)", tenant?.contract.bail?.fullNameG2]
+          tenant?.contract?.bail?.fullNameG2
+            ? ["Nome completo (Fiador 2)", tenant?.contract?.bail?.fullNameG2]
             : null,
-          tenant?.contract.bail?.fullNameG2
+          tenant?.contract?.bail?.fullNameG2
             ? [
                 "Data de nascimento (Fiador 2)",
                 dateFormatter({
-                  value: tenant?.contract.bail?.birthDateG2,
+                  value: tenant?.contract?.bail?.birthDateG2,
                 }),
               ]
             : null,
-          tenant?.contract.bail?.fullNameG2
-            ? ["RG (Fiador 2)", tenant?.contract.bail?.rgG2]
+          tenant?.contract?.bail?.fullNameG2
+            ? ["RG (Fiador 2)", tenant?.contract?.bail?.rgG2]
             : null,
-          tenant?.contract.bail?.fullNameG2
-            ? ["CPF / CNPJ (Fiador 2)", tenant?.contract.bail?.cpfG2]
+          tenant?.contract?.bail?.fullNameG2
+            ? ["CPF / CNPJ (Fiador 2)", tenant?.contract?.bail?.cpfG2]
             : null,
-          tenant?.contract.bail?.fullNameG2
-            ? ["Nacionalidade (Fiador 2)", tenant?.contract.bail?.nationalityG2]
+          tenant?.contract?.bail?.fullNameG2
+            ? [
+                "Nacionalidade (Fiador 2)",
+                tenant?.contract?.bail?.nationalityG2,
+              ]
             : null,
-          tenant?.contract.bail?.fullNameG2
+          tenant?.contract?.bail?.fullNameG2
             ? [
                 "Estado civil (Fiador 2)",
-                tenant?.contract.bail?.maritalStatusG2,
+                tenant?.contract?.bail?.maritalStatusG2,
               ]
             : null,
-          tenant?.contract.bail?.fullNameG2
-            ? ["Profissão (Fiador 2)", tenant?.contract.bail?.professionG2]
+          tenant?.contract?.bail?.fullNameG2
+            ? ["Profissão (Fiador 2)", tenant?.contract?.bail?.professionG2]
             : null,
-          tenant?.contract.bail?.fullNameG2
-            ? ["E-mail (Fiador 2)", tenant?.contract.bail?.emailG2]
+          tenant?.contract?.bail?.fullNameG2
+            ? ["E-mail (Fiador 2)", tenant?.contract?.bail?.emailG2]
             : null,
-          tenant?.contract.bail?.fullNameG2
-            ? ["Contato 1 (Fiador 2)", tenant?.contract.bail?.contact1G2]
+          tenant?.contract?.bail?.fullNameG2
+            ? ["Contato 1 (Fiador 2)", tenant?.contract?.bail?.contact1G2]
             : null,
-          tenant?.contract.bail?.fullNameG2
-            ? ["Contato 2 (Fiador 2)", tenant?.contract.bail?.contact2G2]
+          tenant?.contract?.bail?.fullNameG2
+            ? ["Contato 2 (Fiador 2)", tenant?.contract?.bail?.contact2G2]
             : null,
-          tenant?.contract.bail?.fullNameG2
-            ? ["CEP (Fiador 2)", tenant?.contract.bail?.cepG2]
+          tenant?.contract?.bail?.fullNameG2
+            ? ["CEP (Fiador 2)", tenant?.contract?.bail?.cepG2]
             : null,
-          tenant?.contract.bail?.fullNameG2
-            ? ["Cidade (Fiador 2)", tenant?.contract.bail?.cityG2]
+          tenant?.contract?.bail?.fullNameG2
+            ? ["Cidade (Fiador 2)", tenant?.contract?.bail?.cityG2]
             : null,
-          tenant?.contract.bail?.fullNameG2
-            ? ["Estado (Fiador 2)", tenant?.contract.bail?.districtG2]
+          tenant?.contract?.bail?.fullNameG2
+            ? ["Estado (Fiador 2)", tenant?.contract?.bail?.districtG2]
             : null,
-          tenant?.contract.bail?.fullNameG2
-            ? ["Endereço (Fiador 2)", tenant?.contract.bail?.addressG2]
+          tenant?.contract?.bail?.fullNameG2
+            ? ["Endereço (Fiador 2)", tenant?.contract?.bail?.addressG2]
             : null,
-          tenant?.contract.bail?.spouseFullNameG2
+          tenant?.contract?.bail?.spouseFullNameG2
             ? [
                 "Nome completo (Cônjuge 2)",
-                tenant?.contract.bail?.spouseFullNameG2,
+                tenant?.contract?.bail?.spouseFullNameG2,
               ]
             : null,
-          tenant?.contract.bail?.spouseFullNameG2
+          tenant?.contract?.bail?.spouseFullNameG2
             ? [
                 "Data de nascimento (Cônjuge 2)",
                 dateFormatter({
-                  value: tenant?.contract.bail?.spouseBirthDateG2,
+                  value: tenant?.contract?.bail?.spouseBirthDateG2,
                 }),
               ]
             : null,
-          tenant?.contract.bail?.spouseFullNameG2
-            ? ["RG (Cônjuge 2)", tenant?.contract.bail?.spouseRgG2]
+          tenant?.contract?.bail?.spouseFullNameG2
+            ? ["RG (Cônjuge 2)", tenant?.contract?.bail?.spouseRgG2]
             : null,
-          tenant?.contract.bail?.spouseFullNameG2
-            ? ["CPF (Cônjuge 2)", tenant?.contract.bail?.spouseCpfG2]
+          tenant?.contract?.bail?.spouseFullNameG2
+            ? ["CPF (Cônjuge 2)", tenant?.contract?.bail?.spouseCpfG2]
             : null,
-          tenant?.contract.bail?.spouseFullNameG2
+          tenant?.contract?.bail?.spouseFullNameG2
             ? [
                 "Nacionalidade (Cônjuge 2)",
-                tenant?.contract.bail?.spouseNationalityG2,
+                tenant?.contract?.bail?.spouseNationalityG2,
               ]
             : null,
-          tenant?.contract.bail?.spouseFullNameG2
+          tenant?.contract?.bail?.spouseFullNameG2
             ? [
                 "Profissão (Cônjuge 2)",
-                tenant?.contract.bail?.spouseProfessionG2,
+                tenant?.contract?.bail?.spouseProfessionG2,
               ]
             : null,
-          tenant?.contract.bail?.spouseFullNameG2
-            ? ["Contato1 (Cônjuge 2)", tenant?.contract.bail?.spouseContact1G2]
+          tenant?.contract?.bail?.spouseFullNameG2
+            ? ["Contato1 (Cônjuge 2)", tenant?.contract?.bail?.spouseContact1G2]
             : null,
-          tenant?.contract.bail?.bailPropertyCepG2
+          tenant?.contract?.bail?.bailPropertyCepG2
             ? [
                 "CEP (Imóvel de fiança 2)",
-                tenant?.contract.bail?.bailPropertyCepG2,
+                tenant?.contract?.bail?.bailPropertyCepG2,
               ]
             : null,
-          tenant?.contract.bail?.bailPropertyCepG2
+          tenant?.contract?.bail?.bailPropertyCepG2
             ? [
                 "Cidade (Imóvel de fiança 2)",
-                tenant?.contract.bail?.bailPropertyCityG2,
+                tenant?.contract?.bail?.bailPropertyCityG2,
               ]
             : null,
-          tenant?.contract.bail?.bailPropertyCepG2
+          tenant?.contract?.bail?.bailPropertyCepG2
             ? [
                 "Estado (Imóvel de fiança 2)",
-                tenant?.contract.bail?.bailPropertyDistrictG2,
+                tenant?.contract?.bail?.bailPropertyDistrictG2,
               ]
             : null,
-          tenant?.contract.bail?.bailPropertyCepG2
+          tenant?.contract?.bail?.bailPropertyCepG2
             ? [
                 "Endereço (Imóvel de fiança 2)",
-                tenant?.contract.bail?.bailPropertyAddressG2,
+                tenant?.contract?.bail?.bailPropertyAddressG2,
               ]
             : null,
-          tenant?.contract.bail?.bailPropertyCepG2
+          tenant?.contract?.bail?.bailPropertyCepG2
             ? [
                 "Nº de matricula (Imóvel de fiança 2)",
-                tenant?.contract.bail?.bailPropertyRegistrationNumberG2,
+                tenant?.contract?.bail?.bailPropertyRegistrationNumberG2,
               ]
             : null,
         ]);
