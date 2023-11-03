@@ -31,6 +31,20 @@ const TenantService = {
         return Promise.reject(error);
       });
   },
+  registrationForm: async ({
+    tenantId,
+  }: {
+    tenantId: number;
+  }): Promise<any> => {
+    return api
+      .get(`/tenant/${tenantId}/registrationForm`, { responseType: "blob" })
+      .then((response) => {
+        return Promise.resolve(response);
+      })
+      .catch((error) => {
+        return Promise.reject(error);
+      });
+  },
   get: async (id: number): Promise<any> => {
     return api
       .get(`/tenant/${id}`)

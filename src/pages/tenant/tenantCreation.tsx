@@ -26,6 +26,7 @@ import Residents from "../../components/Residents.component";
 import ReportViewer from "../../components/modals/reports/ReportViewer.component";
 import RegistrationForm from "../../components/documents/RegistrationForm.component";
 import { useNavigate } from "react-router-dom";
+import PdfViewer from "../../components/modals/ReceiptViewer.component";
 
 const componentNames = {
   property: {
@@ -273,12 +274,6 @@ const TenantCreation = () => {
     onClose: errorDialogOnClose,
   } = useDisclosure();
 
-  const {
-    isOpen: isOpenRegistrationForm,
-    onOpen: onOpenRegistrationForm,
-    onClose: onCloseRegistrationForm,
-  } = useDisclosure();
-
   const [tenantId, setTenantId] = useState<number>(1);
 
   const [additionalRenter, setAdditionalRenter] = useState(false);
@@ -294,6 +289,14 @@ const TenantCreation = () => {
   const [additionalGuarantor, setAdditionalGuarantor] = useState(false);
 
   const [propertyAddress, setPropertyAddress] = useState("Não identificado");
+
+  const {
+    isOpen: showRegistrationFormIsOpen,
+    onOpen: showRegistrationFormOnOpen,
+    onClose: showRegistrationFormOnClose,
+  } = useDisclosure();
+
+  const [blobPdfLink, setBlobPdfLink] = useState("");
 
   const getProperty = async (propertyCode: string | null) => {
     const property = await PropertyService.getByPropertyCode(propertyCode);
@@ -325,6 +328,17 @@ const TenantCreation = () => {
 
     updatePropertyAddress();
   }, [initialValues?.propertyCode, propertyAddress]);
+
+  const showRegistrationForm = () => {
+    showRegistrationFormOnOpen();
+
+    TenantService.registrationForm({
+      tenantId,
+    }).then((value) => {
+      const blob = new Blob([value.data], { type: "application/pdf" });
+      setBlobPdfLink(window.URL.createObjectURL(blob));
+    });
+  };
 
   return (
     <Page menuGroup="Cadastro" title="Locatário" direction="column">
@@ -564,12 +578,14 @@ const TenantCreation = () => {
       <Alert
         onClose={() => {
           sucessDialogOnClose();
-          // onOpenRegistrationForm();
+          showRegistrationForm();
           navigate("/consulta/locatario");
         }}
         isOpen={sucessDialogIsOpen}
         title="Sucesso!"
-        message={"Locatário adicionado com sucesso."}
+        message={
+          "Locatário adicionado com sucesso! Clique em fechar para imprimir a ficha de cadastro."
+        }
       />
 
       <Alert
@@ -579,10 +595,14 @@ const TenantCreation = () => {
         message="Falha ao adicionar locatário, verifique os campos e tente novamente."
       />
 
-      <ReportViewer
-        isOpen={isOpenRegistrationForm}
-        onClose={onCloseRegistrationForm}
-        report={<RegistrationForm tenantId={tenantId} />}
+      <PdfViewer
+        isOpen={showRegistrationFormIsOpen}
+        onClose={() => {
+          setBlobPdfLink("");
+          showRegistrationFormOnClose();
+        }}
+        isLoading={!(blobPdfLink?.length > 0)}
+        content={blobPdfLink}
       />
     </Page>
   );
