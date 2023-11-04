@@ -15,7 +15,7 @@ import {
 } from "@chakra-ui/react";
 import Page from "../../components/Page.component";
 import GenericTransactionTable from "../../components/tables/GenericTransactionTable.component";
-import { useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import InputMask from "react-input-mask";
 import Alert from "../../components/modals/Alert.component";
 import CashierService from "../../services/cashierService";
@@ -24,6 +24,7 @@ import CashierControl from "../../components/CashierControl.component";
 import { CashierContext } from "../../context/CashierContext";
 import ConfirmDialog from "../../components/modals/ConfirmDialog.component";
 import TenantService from "../../services/tenantService";
+import { currencyFormatter } from "../../services/formatters";
 
 const Input = ({
   title,
@@ -76,8 +77,19 @@ const Movimentation = () => {
   const [type, setType] = useState<any>("");
   const [amount, setAmount] = useState<number>(0);
 
+  const [rentTransactionData, setRentTransactionData] = useState<any>(null);
   const [genericTransactionData, setGenericTransactionData] =
     useState<any>(null);
+
+  const [totalGenericSum, setTotalGenericSum] = useState<{
+    credit: number;
+    debit: number;
+  }>({ credit: 0, debit: 0 });
+
+  const [totalRentSum, setTotalRentSum] = useState<{
+    credit: number;
+    debit: number;
+  }>({ credit: 0, debit: 0 });
 
   const handleDeleteTransaction = async () => {
     if (tabIndex === 0) {
@@ -104,20 +116,76 @@ const Movimentation = () => {
     }
   };
 
+  const loadRentData = useCallback(async () => {
+    const rentTransactions = await CashierService.Transaction.getAll({
+      category: "rent",
+      cashierId: openedCashier.id,
+      allRelations: true,
+    });
+
+    setRentTransactionData(rentTransactions);
+    setTotalRentSum(
+      rentTransactions?.reduce(
+        (total, transaction) => {
+          return transaction["type"] === "credit"
+            ? {
+                ...total,
+                credit: transaction["amount"] + total.credit,
+              }
+            : {
+                ...total,
+                debit: transaction["amount"] + total.debit,
+              };
+        },
+        { credit: 0, debit: 0 }
+      )
+    );
+  }, [openedCashier.id]);
+
+  const loadGenericData = useCallback(async () => {
+    const genericTransactions = await CashierService.Transaction.getAll({
+      category: "generic",
+      cashierId: openedCashier?.id,
+    });
+
+    setGenericTransactionData(genericTransactions);
+    setTotalGenericSum(
+      genericTransactions?.reduce(
+        (total, transaction) => {
+          return transaction["type"] === "credit"
+            ? {
+                ...total,
+                credit: transaction["amount"] + total.credit,
+              }
+            : {
+                ...total,
+                debit: transaction["amount"] + total.debit,
+              };
+        },
+        { credit: 0, debit: 0 }
+      )
+    );
+  }, [openedCashier?.id]);
+
   useEffect(() => {
-    const loadGenericTransactionData = async () => {
-      setGenericTransactionData(
-        await CashierService.Transaction.getAll({
-          category: "generic",
-          cashierId: openedCashier?.id,
-        })
-      );
+    const loadData = async () => {
+      loadRentData();
+      loadGenericData();
     };
 
-    if (genericTransactionData === null && openedCashier?.id) {
-      loadGenericTransactionData();
-    }
-  }, [genericTransactionData, openedCashier?.id]);
+    if (
+      genericTransactionData === null &&
+      rentTransactionData === null &&
+      openedCashier?.id
+    )
+      loadData();
+  }, [
+    genericTransactionData,
+    loadGenericData,
+    loadRentData,
+    openedCashier?.id,
+    rentTransactionData,
+  ]);
 
   const createTransaction = async () => {
     if (!description.length || !type.length || !amount) {
@@ -126,7 +194,7 @@ const Movimentation = () => {
       return;
     }
 
-    await CashierService.Transaction.create({
+    CashierService.Transaction.create({
       description,
       type,
       amount,
@@ -138,15 +206,53 @@ const Movimentation = () => {
       .catch(() => {
         setDialogError(true);
       })
-      .finally(() => {
+      .finally(async () => {
+        await loadGenericData();
         dialogOnOpen();
       });
+  };
 
-    setGenericTransactionData(
-      await CashierService.Transaction.getAll({
-        category: "generic",
-        cashierId: openedCashier?.id,
-      })
+  const BottomTab = ({
+    selected,
+    data,
+  }: {
+    selected: any;
+    data: { credit: number; debit: number };
+  }) => {
+    return (
+      <Flex justifyContent="space-between" padding="10px" align="center">
+        <Flex marginTop="10px" marginLeft="10px" gap="25px">
+          <Text>
+            Entradas:{" "}
+            <b>
+              {currencyFormatter({
+                value: data?.credit ?? 0,
+              })}
+            </b>
+          </Text>
+          <Text>
+            Saídas:{" "}
+            <b>
+              {currencyFormatter({
+                value: data?.debit ?? 0,
+              })}
+            </b>
+          </Text>
+        </Flex>
+        <Button
+          w={205}
+          _hover={{ color: "red.700" }}
+          variant="unstyled"
+          shadow="md"
+          onClick={
+            selected
+              ? onOpenConfirmDelete
+              : () => alertToSelectItemDialogOnOpen()
+          }
+        >
+          Remover transação
+        </Button>
+      </Flex>
     );
   };
 
@@ -256,50 +362,28 @@ const Movimentation = () => {
                     deleteCallback={
                       tabIndex === 0 && successDeletedDialogIsOpen
                     }
-                    readyData={genericTransactionData}
+                    readyData={genericTransactionData ?? []}
                   />
                 </Flex>
-                <Flex w="100%" padding="3" justifyContent="flex-end" gap="2">
-                  <Button
-                    w={150}
-                    _hover={{ color: "red.700" }}
-                    variant="unstyled"
-                    shadow="md"
-                    onClick={
-                      selectedGenericTransaction
-                        ? onOpenConfirmDelete
-                        : () => alertToSelectItemDialogOnOpen()
-                    }
-                  >
-                    Remover
-                  </Button>
-                </Flex>
+                <BottomTab
+                  selected={selectedGenericTransaction}
+                  data={totalGenericSum}
+                />
               </TabPanel>
               <TabPanel w="100%" h="auto" p="0" pt="2px">
                 <Flex w="100%" h="75vh">
                   <RentTransactionTable
-                    cashierId={openedCashier.id}
                     setSelected={setSelectedRentTransaction}
                     deleteCallback={
                       tabIndex === 1 && successDeletedDialogIsOpen
                     }
+                    data={rentTransactionData ?? []}
                   />
                 </Flex>
-                <Flex w="100%" padding="3" justifyContent="flex-end" gap="2">
-                  <Button
-                    w={150}
-                    _hover={{ color: "red.700" }}
-                    variant="unstyled"
-                    shadow="md"
-                    onClick={
-                      selectedRentTransaction
-                        ? onOpenConfirmDelete
-                        : () => alertToSelectItemDialogOnOpen()
-                    }
-                  >
-                    Remover
-                  </Button>
-                </Flex>
+                <BottomTab
+                  selected={selectedRentTransaction}
+                  data={totalRentSum}
+                />
               </TabPanel>
             </TabPanels>
           </Tabs>
@@ -313,7 +397,12 @@ const Movimentation = () => {
           />
 
           <Alert
-            onClose={successDeletedDialogOnClose}
+            onClose={async () => {
+              successDeletedDialogOnClose();
+
+              if (tabIndex === 0) await loadGenericData();
+              else await loadRentData();
+            }}
             isOpen={successDeletedDialogIsOpen}
             title="Sucesso!"
             message="Movimentação deletada com sucesso."

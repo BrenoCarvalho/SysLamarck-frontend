@@ -295,12 +295,6 @@ const TenantEdit = () => {
     return property?.address;
   };
 
-  const updateProperty = async (propertyCode: string) => {
-    const propertyAddress = await getPropertyAddress(propertyCode);
-
-    setPropertyAddress(propertyAddress ? propertyAddress : "Não identificado");
-  };
-
   useEffect(() => {
     if (!initialValues) {
       TenantService.get(Number(params.id)).then((result) => {
@@ -426,6 +420,7 @@ const TenantEdit = () => {
                   componentNames={componentNames.contract}
                   handleChange={handleChange}
                   values={values}
+                  fieldList={[1, 2, 3, 4, 5, 6, 7, 8]}
                 />
               </Flex>
 
