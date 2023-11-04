@@ -3,15 +3,19 @@ import {
   Flex,
   FormControl,
   FormLabel,
-  NumberDecrementStepper,
-  NumberIncrementStepper,
-  NumberInput,
-  NumberInputField,
-  NumberInputStepper,
   Select,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import LocatorService from "../../../services/locatorService";
+import { Select as SelectSearchable } from "chakra-react-select";
+
+interface PropertyInputsProps {
+  showHeader?: boolean;
+  headerTitle?: string;
+  componentNames?: any;
+  handleChange?: any;
+  values?: any;
+}
 
 const PropertyInputs = ({
   showHeader = true,
@@ -19,37 +23,43 @@ const PropertyInputs = ({
   componentNames = {},
   handleChange,
   values,
-}: {
-  showHeader?: boolean;
-  headerTitle?: string;
-  componentNames?: any;
-  handleChange?: any;
-  values?: any;
-}) => {
-  const [locatorName, setLocatorName] = useState("Não identificado");
+}: PropertyInputsProps) => {
+  const [locators, setLocators] = useState<
+    { value: string; label: string }[] | null
+  >();
 
-  const getLocatorName = async (locatorId: string | number) => {
-    const locator = await LocatorService?.get(Number(locatorId));
-    return locator?.fullName;
-  };
+  const [locator, setLocator] = useState<{
+    value: string;
+    label: string;
+  } | null>(null);
 
   const updateLocator = async (locatorId: string | number) => {
-    const locatorName = await getLocatorName(locatorId);
-
-    setLocatorName(locatorName ? locatorName : "Não identificado");
-    handleChange(componentNames?.locatorId)(locatorId);
+    if (!locatorId) return;
+    handleChange(componentNames?.locatorId)(`${locatorId}`);
   };
 
   useEffect(() => {
-    const updateLocatorName = async () => {
-      const newLocatorName = await getLocatorName(values?.locatorId);
-      if (newLocatorName && newLocatorName !== locatorName) {
-        setLocatorName(newLocatorName);
-      }
+    const loadData = async () => {
+      const data = (await LocatorService.getData())?.map((locator: any) => ({
+        value: locator.id,
+        label: locator.fullName,
+      }));
+
+      setLocators(data);
     };
 
-    updateLocatorName();
-  }, [locatorName, values?.locatorId]);
+    if (!locators) loadData();
+  }, [locators]);
+
+  useEffect(() => {
+    if (!locator && values) {
+      const oldLocator = locators?.find(
+        (item) => `${item.value}` === `${values?.locatorId}`
+      );
+
+      if (oldLocator) setLocator(oldLocator);
+    }
+  }, [locator, locators, values]);
 
   return (
     <FormControl>
@@ -62,26 +72,18 @@ const PropertyInputs = ({
 
       <Flex gap="6">
         <FormControl w="100%">
-          <FormLabel fontSize="sm">
-            Locador:{" "}
-            {locatorName.length >= 39
-              ? `${locatorName.substring(0, 36)}...`
-              : locatorName}
-          </FormLabel>
-          <NumberInput
-            onChange={(value) => {
-              updateLocator(value);
+          <FormLabel fontSize="sm">Locador</FormLabel>
+          <SelectSearchable
+            name="locator"
+            placeholder="Selecione o locador"
+            variant="outline"
+            options={locators ?? []}
+            value={locator}
+            onChange={(selected: any) => {
+              setLocator(selected);
+              updateLocator(selected.value);
             }}
-            name={componentNames?.locatorId}
-            value={values?.locatorId}
-            min={0}
-          >
-            <NumberInputField />
-            <NumberInputStepper>
-              <NumberIncrementStepper />
-              <NumberDecrementStepper />
-            </NumberInputStepper>
-          </NumberInput>
+          />
         </FormControl>
         <FormControl w="100%">
           <FormLabel fontSize="sm">Tipo do Imóvel</FormLabel>

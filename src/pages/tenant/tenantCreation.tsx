@@ -19,12 +19,12 @@ import Page from "../../components/Page.component";
 import ContractInputs from "../../components/inputs/basics/ContractInputs.component";
 import { Form, Formik } from "formik";
 import PropertyService from "../../services/propertyService";
-import InputMask from "react-input-mask";
 import TenantService from "../../services/tenantService";
 import Alert from "../../components/modals/Alert.component";
 import Residents from "../../components/Residents.component";
 import { useNavigate } from "react-router-dom";
 import PdfViewer from "../../components/modals/ReceiptViewer.component";
+import PropertySelect from "../../components/PropertySelect.component";
 
 const componentNames = {
   property: {
@@ -286,7 +286,7 @@ const TenantCreation = () => {
   const [bailType, setBailType] = useState("1");
   const [additionalGuarantor, setAdditionalGuarantor] = useState(false);
 
-  const [propertyAddress, setPropertyAddress] = useState("Não identificado");
+  const [propertyStatus, setPropertyStatus] = useState("Não identificado");
 
   const {
     isOpen: showRegistrationFormIsOpen,
@@ -309,16 +309,15 @@ const TenantCreation = () => {
 
   const updateProperty = async (propertyCode: string) => {
     const property = await getProperty(propertyCode);
-    const propertyAddress = property?.address;
 
     if (property) {
-      setPropertyAddress(
-        property.vacant ? propertyAddress : "Imóvel indisponível"
+      setPropertyStatus(
+        property.vacant ? "Imóvel disponível" : "Imóvel indisponível"
       );
 
       updateIntegralValue(property);
     } else {
-      setPropertyAddress("Não identificado");
+      setPropertyStatus("Não identificado");
     }
   };
 
@@ -341,8 +340,8 @@ const TenantCreation = () => {
         enableReinitialize
         onSubmit={async (values) => {
           if (
-            propertyAddress !== "Não identificado" &&
-            propertyAddress !== "Imóvel indisponível"
+            propertyStatus !== "Não identificado" &&
+            propertyStatus !== "Imóvel indisponível"
           ) {
             TenantService.create({ ...values, residents })
               .then((result) => {
@@ -381,21 +380,13 @@ const TenantCreation = () => {
                 gap="7"
               >
                 <FormControl w="100%">
-                  <FormLabel fontSize="sm">Imóvel: {propertyAddress}</FormLabel>
-                  <Input
-                    as={InputMask}
-                    value={values?.propertyCode ? values.propertyCode : ""}
-                    onChange={(value) => {
-                      const propertyCode = value?.target?.value.replace(
-                        "/",
-                        ""
-                      );
-                      handleChange("propertyCode")(propertyCode);
+                  <FormLabel fontSize="sm">Status: {propertyStatus}</FormLabel>
+                  <PropertySelect
+                    variant="outline"
+                    onUpdatePropertyCode={(propertyCode: string) => {
                       updateProperty(propertyCode);
+                      handleChange("propertyCode")(propertyCode);
                     }}
-                    name="propertyCode"
-                    mask="***/***"
-                    maskChar={null}
                   />
                 </FormControl>
                 <PersonalInputs

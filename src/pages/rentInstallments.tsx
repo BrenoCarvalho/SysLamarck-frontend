@@ -81,11 +81,8 @@ const RentInstallments = () => {
         gap="1"
       >
         <Flex w="100%" flexDirection="column" gap="10px" padding={4} mb="-5px">
-          <TenantSelect
-            tenantName={tenant?.fullName || "Não identificado"}
-            updateTenant={updateData}
-          />
-          <Flex w="100%" direction="column" gap="4px">
+          <TenantSelect variant="outline" onUpdateTenantId={updateData} />
+          <Flex w="100%" direction="column" gap="4px" marginTop="5px">
             <Flex
               paddingLeft="1"
               paddingRight="1"

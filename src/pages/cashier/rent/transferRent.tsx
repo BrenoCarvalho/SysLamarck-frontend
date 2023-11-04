@@ -280,11 +280,13 @@ const TransferRent = () => {
                   gap="4"
                 >
                   <Flex w="100%" flexDirection="column" gap="10px">
-                    <TenantSelect
-                      tenantName={tenant?.fullName || "Não identificado"}
-                      updateTenant={updateData}
-                    />
-                    <Flex w="100%" direction="column" gap="4px">
+                    <TenantSelect onUpdateTenantId={updateData} />
+                    <Flex
+                      w="100%"
+                      direction="column"
+                      gap="4px"
+                      marginTop="10px"
+                    >
                       <Flex
                         paddingLeft="1"
                         paddingRight="1"

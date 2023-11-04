@@ -392,15 +392,8 @@ const TenantEdit = () => {
                   <Input
                     as={InputMask}
                     value={values?.propertyCode ? values.propertyCode : ""}
-                    onChange={(value) => {
-                      const propertyCode = value?.target?.value.replace(
-                        "/",
-                        ""
-                      );
-                      handleChange("propertyCode")(propertyCode);
-                      updateProperty(propertyCode);
-                    }}
                     name="propertyCode"
+                    disabled
                     mask="***/***"
                     maskChar={null}
                   />

@@ -1,13 +1,13 @@
 import { FormControl } from "@chakra-ui/react";
 import { Select } from "chakra-react-select";
 import { useEffect, useState } from "react";
-import TenantService from "../services/tenantService";
+import PropertyService from "../services/propertyService";
 
-const TenantSelect = ({
-  onUpdateTenantId,
+const PropertySelect = ({
+  onUpdatePropertyCode,
   variant,
 }: {
-  onUpdateTenantId: (id: number) => void;
+  onUpdatePropertyCode: (propertyCode: string) => void;
   variant?: "filled" | "flushed" | "outline" | "unstayled";
 }) => {
   const [data, setData] = useState<{ value: string; label: string }[] | null>(
@@ -16,9 +16,9 @@ const TenantSelect = ({
 
   useEffect(() => {
     const loadData = async () => {
-      const data = (await TenantService.getData())?.map((tenant: any) => ({
-        value: tenant.id,
-        label: tenant.fullName,
+      const data = (await PropertyService.getData())?.map((peropety: any) => ({
+        value: peropety.propertyCode,
+        label: peropety.address,
       }));
 
       setData(data);
@@ -30,14 +30,14 @@ const TenantSelect = ({
   return (
     <FormControl w="100%">
       <Select
-        name="tenant"
-        placeholder="Locatário"
+        name="property"
+        placeholder="Imóvel"
         variant={variant ?? "flushed"}
         options={data ?? []}
-        onChange={(selected: any) => onUpdateTenantId(selected.value)}
+        onChange={(selected: any) => onUpdatePropertyCode(selected.value)}
       />
     </FormControl>
   );
 };
 
-export default TenantSelect;
+export default PropertySelect;
