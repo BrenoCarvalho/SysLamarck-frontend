@@ -12,7 +12,7 @@ import {
   Text,
   useDisclosure,
 } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import PersonalInputs from "../../components/inputs/basics/PersonalInputs.component";
 import GuarantorInputs from "../../components/inputs/GuarantorInputs.component";
 import Page from "../../components/Page.component";
@@ -23,8 +23,6 @@ import InputMask from "react-input-mask";
 import TenantService from "../../services/tenantService";
 import Alert from "../../components/modals/Alert.component";
 import Residents from "../../components/Residents.component";
-import ReportViewer from "../../components/modals/reports/ReportViewer.component";
-import RegistrationForm from "../../components/documents/RegistrationForm.component";
 import { useNavigate } from "react-router-dom";
 import PdfViewer from "../../components/modals/ReceiptViewer.component";
 
@@ -168,7 +166,7 @@ const componentNames = {
 const TenantCreation = () => {
   const navigate = useNavigate();
 
-  const initialValues = {
+  const [initialValues, setInitialValues] = useState({
     propertyId: null,
     propertyCode: null,
     fullName: null,
@@ -260,7 +258,7 @@ const TenantCreation = () => {
     bailPropertyDistrictG2: null,
     bailPropertyAddressG2: null,
     bailPropertyRegistrationNumberG2: null,
-  };
+  });
 
   const {
     isOpen: sucessDialogIsOpen,
@@ -303,6 +301,12 @@ const TenantCreation = () => {
     return property;
   };
 
+  const updateIntegralValue = (property: any) =>
+    setInitialValues((old) => ({
+      ...old,
+      integralValue: property?.integralValue,
+    }));
+
   const updateProperty = async (propertyCode: string) => {
     const property = await getProperty(propertyCode);
     const propertyAddress = property?.address;
@@ -311,23 +315,12 @@ const TenantCreation = () => {
       setPropertyAddress(
         property.vacant ? propertyAddress : "Imóvel indisponível"
       );
+
+      updateIntegralValue(property);
     } else {
       setPropertyAddress("Não identificado");
     }
   };
-
-  useEffect(() => {
-    const updatePropertyAddress = async () => {
-      const newPropertyAddress = (
-        await getProperty(initialValues?.propertyCode)
-      )?.address;
-      if (newPropertyAddress && newPropertyAddress !== propertyAddress) {
-        setPropertyAddress(newPropertyAddress);
-      }
-    };
-
-    updatePropertyAddress();
-  }, [initialValues?.propertyCode, propertyAddress]);
 
   const showRegistrationForm = () => {
     showRegistrationFormOnOpen();
@@ -345,6 +338,7 @@ const TenantCreation = () => {
       {/* Container */}
       <Formik
         initialValues={initialValues}
+        enableReinitialize
         onSubmit={async (values) => {
           if (
             propertyAddress !== "Não identificado" &&

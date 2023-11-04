@@ -63,14 +63,21 @@ const RentOrSaleInputs = ({
     <Input
       title="Valor Integral"
       name={componentNames?.integralValue}
-      onChange={handleChange}
+      onChange={(value: any) => {
+        handleChange(componentNames.integralValue)(value?.target?.value);
+        handleChange(componentNames.leaseAmount)(
+          `${values ? Math.round(Number(value?.target?.value) * 0.9) : null}`
+        );
+      }}
       value={values?.integralValue}
     />, // 3
     <Input
       title="Valor locação"
       name={componentNames?.leaseAmount}
       onChange={handleChange}
-      value={values?.leaseAmount}
+      value={
+        values ? Math.round(values[componentNames?.integralValue] * 0.9) : null
+      }
     />, // 4
     <Input
       title="Valor de venda"
