@@ -140,7 +140,7 @@ const Movimentation = () => {
         { credit: 0, debit: 0 }
       )
     );
-  }, [openedCashier.id]);
+  }, [openedCashier?.id]);
 
   const loadGenericData = useCallback(async () => {
     const genericTransactions = await CashierService.Transaction.getAll({
