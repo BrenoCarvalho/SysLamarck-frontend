@@ -114,6 +114,21 @@ const TenantService = {
             return Promise.reject(error);
           });
       },
+      rollbackPayment: async (tenantId: number, installmentId: number) => {
+        return api
+          .post(
+            `/tenant/${tenantId}/contract/installment/rollbackPayment/${installmentId}`,
+            {
+              installmentId,
+            }
+          )
+          .then((response) => {
+            return Promise.resolve(response);
+          })
+          .catch((error) => {
+            return Promise.reject(error);
+          });
+      },
       pay: async (
         tenantId: number,
         amount: number,
@@ -128,6 +143,24 @@ const TenantService = {
             data,
             metadata,
           })
+          .then((response) => {
+            return Promise.resolve(response);
+          })
+          .catch((error) => {
+            return Promise.reject(error);
+          });
+      },
+      rollbackPaymentTransfer: async (
+        tenantId: number,
+        installmentId: number
+      ) => {
+        return api
+          .post(
+            `/tenant/${tenantId}/contract/installment/rollbackPaymentTransfer/${installmentId}`,
+            {
+              installmentId,
+            }
+          )
           .then((response) => {
             return Promise.resolve(response);
           })

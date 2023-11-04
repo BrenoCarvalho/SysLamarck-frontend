@@ -1,6 +1,6 @@
 import { Flex } from "@chakra-ui/react";
 import { AgGridReact } from "ag-grid-react";
-import { useCallback, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import {
   currencyFormatter,
   dateFormatter,
@@ -68,10 +68,12 @@ const columnDefs = [
 
 const RentTransactionTable = ({
   setSelected,
+  deleteCallback,
   cashierId,
   data,
 }: {
   setSelected?: any;
+  deleteCallback?: any;
   cashierId?: number;
   data?: any[];
 }) => {
@@ -96,6 +98,13 @@ const RentTransactionTable = ({
     const selectedRows = gridRef?.current?.api.getSelectedRows();
     setSelected(selectedRows.length === 1 ? selectedRows[0] : {});
   }, [setSelected]);
+
+  useEffect(() => {
+    const selectedData = gridRef?.current?.api?.getSelectedRows();
+    gridRef?.current?.api?.applyTransaction({
+      remove: selectedData,
+    });
+  }, [deleteCallback]);
 
   return (
     <Flex w="100%" h="100%">

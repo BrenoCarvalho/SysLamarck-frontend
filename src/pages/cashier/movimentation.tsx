@@ -23,6 +23,7 @@ import RentTransactionTable from "../../components/tables/RentTransactionTable";
 import CashierControl from "../../components/CashierControl.component";
 import { CashierContext } from "../../context/CashierContext";
 import ConfirmDialog from "../../components/modals/ConfirmDialog.component";
+import TenantService from "../../services/tenantService";
 
 const Input = ({
   title,
@@ -58,10 +59,18 @@ const Movimentation = () => {
     onClose: successDeletedDialogOnClose,
   } = useDisclosure();
 
+  const {
+    isOpen: alertToSelectItemDialogIsOpen,
+    onOpen: alertToSelectItemDialogOnOpen,
+    onClose: alertToSelectItemDialogOnClose,
+  } = useDisclosure();
+
   const [tabIndex, setTabIndex] = useState<number>(0);
 
   const [dialogError, setDialogError] = useState<boolean>(false);
-  const [selected, setSelected] = useState<any>();
+  const [selectedGenericTransaction, setSelectedGenericTransaction] =
+    useState<any>();
+  const [selectedRentTransaction, setSelectedRentTransaction] = useState<any>();
 
   const [description, setDescription] = useState<string>("");
   const [type, setType] = useState<any>("");
@@ -70,10 +79,28 @@ const Movimentation = () => {
   const [genericTransactionData, setGenericTransactionData] =
     useState<any>(null);
 
-  const deleteMovimentation = async () => {
-    const response = await CashierService.Transaction.delete(selected.id);
-    if (response === 1) {
-      successDeletedDialogOnOpen();
+  const handleDeleteTransaction = async () => {
+    if (tabIndex === 0) {
+      const response = await CashierService.Transaction.delete(
+        selectedGenericTransaction.id
+      );
+      if (response === 1) {
+        successDeletedDialogOnOpen();
+      }
+    } else {
+      if (!selectedRentTransaction) return;
+
+      if (selectedRentTransaction.type === "credit") {
+        TenantService.Contract.Installment.rollbackPayment(
+          selectedRentTransaction.installment.contract.tenant.id,
+          selectedRentTransaction.installment.id
+        ).then(() => successDeletedDialogOnOpen());
+      } else {
+        TenantService.Contract.Installment.rollbackPaymentTransfer(
+          selectedRentTransaction.installment.contract.tenant.id,
+          selectedRentTransaction.installment.id
+        ).then(() => successDeletedDialogOnOpen());
+      }
     }
   };
 
@@ -225,8 +252,10 @@ const Movimentation = () => {
                 </Flex>
                 <Flex w="100%" h="58vh">
                   <GenericTransactionTable
-                    setSelected={setSelected}
-                    deleteCallback={successDeletedDialogIsOpen}
+                    setSelected={setSelectedGenericTransaction}
+                    deleteCallback={
+                      tabIndex === 0 && successDeletedDialogIsOpen
+                    }
                     readyData={genericTransactionData}
                   />
                 </Flex>
@@ -237,11 +266,9 @@ const Movimentation = () => {
                     variant="unstyled"
                     shadow="md"
                     onClick={
-                      selected
+                      selectedGenericTransaction
                         ? onOpenConfirmDelete
-                        : () => {
-                            console.log("Selecione algum locatário");
-                          }
+                        : () => alertToSelectItemDialogOnOpen()
                     }
                   >
                     Remover
@@ -250,7 +277,13 @@ const Movimentation = () => {
               </TabPanel>
               <TabPanel w="100%" h="auto" p="0" pt="2px">
                 <Flex w="100%" h="75vh">
-                  <RentTransactionTable cashierId={openedCashier.id} />
+                  <RentTransactionTable
+                    cashierId={openedCashier.id}
+                    setSelected={setSelectedRentTransaction}
+                    deleteCallback={
+                      tabIndex === 1 && successDeletedDialogIsOpen
+                    }
+                  />
                 </Flex>
                 <Flex w="100%" padding="3" justifyContent="flex-end" gap="2">
                   <Button
@@ -259,11 +292,9 @@ const Movimentation = () => {
                     variant="unstyled"
                     shadow="md"
                     onClick={
-                      selected
+                      selectedRentTransaction
                         ? onOpenConfirmDelete
-                        : () => {
-                            console.log("Selecione algum locatário");
-                          }
+                        : () => alertToSelectItemDialogOnOpen()
                     }
                   >
                     Remover
@@ -276,9 +307,9 @@ const Movimentation = () => {
           <ConfirmDialog
             isOpen={isOpenConfirmDelete}
             onClose={onCloseConfirmDelete}
-            onConfirm={deleteMovimentation}
+            onConfirm={handleDeleteTransaction}
             title="Confirmar exclusão"
-            message="Tem certeza que deseja deletar a movimentação?"
+            message="Essa será uma ação irreversível. Tem certeza que deseja deletar a movimentação?"
           />
 
           <Alert
@@ -286,6 +317,14 @@ const Movimentation = () => {
             isOpen={successDeletedDialogIsOpen}
             title="Sucesso!"
             message="Movimentação deletada com sucesso."
+          />
+
+          <Alert
+            onClose={alertToSelectItemDialogOnClose}
+            isOpen={alertToSelectItemDialogIsOpen}
+            title="Aviso!"
+            message="Nenhuma movimentação selecionada. "
+            size="sm"
           />
 
           <Alert
