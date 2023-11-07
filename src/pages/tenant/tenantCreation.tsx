@@ -286,7 +286,9 @@ const TenantCreation = () => {
   const [bailType, setBailType] = useState("1");
   const [additionalGuarantor, setAdditionalGuarantor] = useState(false);
 
-  const [propertyStatus, setPropertyStatus] = useState("Não identificado");
+  const [propertyStatus, setPropertyStatus] = useState<
+    "Imóvel disponível" | "Imóvel indisponível" | "Não identificado"
+  >("Não identificado");
 
   const {
     isOpen: showRegistrationFormIsOpen,
@@ -301,13 +303,10 @@ const TenantCreation = () => {
     return property;
   };
 
-  const updateIntegralValue = (property: any) =>
-    setInitialValues((old) => ({
-      ...old,
-      integralValue: property?.integralValue,
-    }));
+  const updateIntegralValue = (property: any, handleChange: any) =>
+    handleChange("integralValue")(property?.integralValue);
 
-  const updateProperty = async (propertyCode: string) => {
+  const updateProperty = async (propertyCode: string, handleChange: any) => {
     const property = await getProperty(propertyCode);
 
     if (property) {
@@ -315,7 +314,7 @@ const TenantCreation = () => {
         property.vacant ? "Imóvel disponível" : "Imóvel indisponível"
       );
 
-      updateIntegralValue(property);
+      updateIntegralValue(property, handleChange);
     } else {
       setPropertyStatus("Não identificado");
     }
@@ -347,12 +346,10 @@ const TenantCreation = () => {
               .then((result) => {
                 sucessDialogOnOpen();
                 setTenantId(result?.data?.id);
+                setPropertyStatus("Imóvel indisponível");
               })
               .catch(() => {
                 errorDialogOnOpen();
-              })
-              .finally(() => {
-                updateProperty(values?.propertyCode || "0");
               });
           } else {
             errorDialogOnOpen();
@@ -384,8 +381,8 @@ const TenantCreation = () => {
                   <PropertySelect
                     variant="outline"
                     onUpdatePropertyCode={(propertyCode: string) => {
-                      updateProperty(propertyCode);
                       handleChange("propertyCode")(propertyCode);
+                      updateProperty(propertyCode, handleChange);
                     }}
                   />
                 </FormControl>

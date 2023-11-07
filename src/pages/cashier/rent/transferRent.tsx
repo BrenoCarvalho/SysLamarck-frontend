@@ -201,12 +201,42 @@ const TransferRent = () => {
     delete values[componentNames?.total];
     delete values[componentNames?.formOfPayment];
 
+    const metadata = {
+      tenant: {
+        fullName: tenant?.fullName,
+        cpf: tenant?.cpf,
+        rg: tenant?.rg,
+        email: tenant?.email,
+        birthDate: tenant?.birthDate,
+        contact1: tenant?.contact1,
+        contact2: tenant?.contact2,
+      },
+      property: {
+        address: tenant?.property?.address,
+      },
+      locator: {
+        fullName: tenant?.property?.locator?.fullName,
+        cpf: tenant?.property?.locator?.cpf,
+        rg: tenant?.property?.locator?.rg,
+        email: tenant?.property?.locator?.email,
+        birthDate: tenant?.property?.locator?.birthDate,
+        contact1: tenant?.property?.locator?.contact1,
+        contact2: tenant?.property?.locator?.contact2,
+      },
+      installment: {
+        dueDate: installmentSelected?.dueDate,
+        referenceMonth: installmentSelected?.referenceMonth,
+        currentInstallment: installmentSelected?.currentInstallment,
+      },
+    };
+
     TenantService.Contract.Installment.transfer(
       tenant?.id,
       installmentSelected.id,
       total,
       formOfPayment,
-      values
+      values,
+      metadata
     )
       .then((value) => {
         setDialogError(false);

@@ -119,14 +119,23 @@ const ReceiveRent = () => {
         birthDate: tenant?.birthDate,
         contact1: tenant?.contact1,
         contact2: tenant?.contact2,
-        property: {
-          address: tenant?.property?.address,
-        },
-        contract: {
-          dueDate: contract?.currentInstallment?.dueDate,
-          referenceMonth: contract?.currentInstallment?.referenceMonth,
-          currentInstallment: contract?.currentInstallment?.currentInstallment,
-        },
+      },
+      property: {
+        address: tenant?.property?.address,
+      },
+      locator: {
+        fullName: tenant?.property?.locator?.fullName,
+        cpf: tenant?.property?.locator?.cpf,
+        rg: tenant?.property?.locator?.rg,
+        email: tenant?.property?.locator?.email,
+        birthDate: tenant?.property?.locator?.birthDate,
+        contact1: tenant?.property?.locator?.contact1,
+        contact2: tenant?.property?.locator?.contact2,
+      },
+      installment: {
+        dueDate: contract?.currentInstallment?.dueDate,
+        referenceMonth: contract?.currentInstallment?.referenceMonth,
+        currentInstallment: contract?.currentInstallment?.currentInstallment,
       },
     };
 

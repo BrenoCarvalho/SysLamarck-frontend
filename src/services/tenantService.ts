@@ -173,7 +173,8 @@ const TenantService = {
         installmentId: number,
         amount: number,
         formOfPayment: string,
-        data: string | object
+        data: string | object,
+        metadata: string | object
       ) => {
         return api
           .post(
@@ -182,6 +183,7 @@ const TenantService = {
               amount,
               formOfPayment,
               data,
+              metadata,
             }
           )
           .then((response) => {
