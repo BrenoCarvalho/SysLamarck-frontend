@@ -303,8 +303,15 @@ const TenantCreation = () => {
     return property;
   };
 
-  const updateIntegralValue = (property: any, handleChange: any) =>
+  const updateIntegralValueAndLeaseAmount = (
+    property: any,
+    handleChange: any
+  ) => {
     handleChange("integralValue")(property?.integralValue);
+    handleChange("leaseAmount")(
+      `${Math.round(Number(property?.integralValue) * 0.9)}`
+    );
+  };
 
   const updateProperty = async (propertyCode: string, handleChange: any) => {
     const property = await getProperty(propertyCode);
@@ -314,7 +321,7 @@ const TenantCreation = () => {
         property.vacant ? "Imóvel disponível" : "Imóvel indisponível"
       );
 
-      updateIntegralValue(property, handleChange);
+      updateIntegralValueAndLeaseAmount(property, handleChange);
     } else {
       setPropertyStatus("Não identificado");
     }
