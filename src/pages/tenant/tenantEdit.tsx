@@ -420,7 +420,7 @@ const TenantEdit = () => {
                   componentNames={componentNames.contract}
                   handleChange={handleChange}
                   values={values}
-                  fieldList={[1, 2, 3, 4, 5, 6, 7, 8]}
+                  fieldList={[1, 2, 3, 4, 5, 6, 7, 8, 10]}
                 />
               </Flex>
 
