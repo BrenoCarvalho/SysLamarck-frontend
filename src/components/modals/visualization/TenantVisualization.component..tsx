@@ -37,7 +37,7 @@ const TenantVisualizationModal = ({
 
         const residents: any = tenant?.residents?.length ? [["Moradores"]] : [];
 
-        tenant?.residents?.map((resident: any) => {
+        tenant?.residents?.forEach((resident: any) => {
           const tenantIndex = tenant?.residents?.indexOf(resident) + 1;
 
           residents.push([`Nome - Morador ${tenantIndex}`, resident?.fullName]);

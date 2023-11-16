@@ -66,6 +66,7 @@ const componentNames = {
     reajust: "reajust",
     integralValue: "integralValue",
     leaseAmount: "leaseAmount",
+    start: "start",
     duration: "duration",
     payday: "payday",
     gracePeriod: "gracePeriod",
@@ -166,7 +167,7 @@ const componentNames = {
 const TenantCreation = () => {
   const navigate = useNavigate();
 
-  const [initialValues, setInitialValues] = useState({
+  const [initialValues] = useState({
     propertyId: null,
     propertyCode: null,
     fullName: null,
@@ -198,6 +199,7 @@ const TenantCreation = () => {
     reajust: null,
     integralValue: null,
     leaseAmount: null,
+    start: null,
     duration: null,
     payday: null,
     gracePeriod: null,
@@ -395,6 +397,7 @@ const TenantCreation = () => {
                 </FormControl>
                 <PersonalInputs
                   componentNames={componentNames.tenant.personalData}
+                  requiredFields={[1]}
                   handleChange={handleChange}
                   values={values}
                 />
@@ -416,6 +419,7 @@ const TenantCreation = () => {
                 ) : null}
 
                 <ContractInputs
+                  requiredFields={[7, 9, 10, 11]}
                   componentNames={componentNames.contract}
                   handleChange={handleChange}
                   values={values}

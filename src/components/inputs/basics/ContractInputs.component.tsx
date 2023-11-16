@@ -15,10 +15,11 @@ const Input = ({
   title,
   width = "100%",
   placeholder = title,
+  isRequired = false,
   ...props
 }: any) => {
   return (
-    <FormControl w={width}>
+    <FormControl w={width} isRequired={isRequired}>
       <FormLabel
         fontSize="sm"
         textOverflow="ellipsis"
@@ -73,21 +74,25 @@ const CustomSelect = ({
   );
 };
 
-const ContractInputs = ({
-  fieldList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
-  showHeader = true,
-  headerTitle = "Contrato",
-  componentNames = {},
-  handleChange,
-  values,
-}: {
+interface ContractInputsProps {
   fieldList?: number[];
+  requiredFields?: number[];
   showHeader?: boolean;
   headerTitle?: string;
   componentNames?: any;
   handleChange?: any;
   values?: any;
-}) => {
+}
+
+const ContractInputs = ({
+  fieldList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
+  requiredFields = [],
+  showHeader = true,
+  headerTitle = "Contrato",
+  componentNames = {},
+  handleChange,
+  values,
+}: ContractInputsProps) => {
   const fields = [
     <SwitchButton
       title="Aplicar desconto"
@@ -95,6 +100,7 @@ const ContractInputs = ({
       onChange={handleChange}
       value={values ? values[componentNames?.applyDiscount] : null}
       isChecked={values ? values[componentNames?.applyDiscount] : null}
+      isRequired={requiredFields.includes(1) ?? false}
     />, // 1
     <SwitchButton
       title="Imposto recolhido na fonte"
@@ -102,12 +108,14 @@ const ContractInputs = ({
       onChange={handleChange}
       value={values ? values[componentNames?.withholdingTax] : null}
       isChecked={values ? values[componentNames?.withholdingTax] : null}
+      isRequired={requiredFields.includes(2) ?? false}
     />, // 2
     <RadioButton
       title="Finalidade"
       name={componentNames?.goal}
       onChange={(value: any) => handleChange(componentNames?.goal)(value)}
       value={values ? values[componentNames?.goal] : null}
+      isRequired={requiredFields.includes(3) ?? false}
     >
       <Radio value="Residencial">Residencial</Radio>
       <Radio value="Comercial">Comercial</Radio>
@@ -119,6 +127,7 @@ const ContractInputs = ({
         handleChange(componentNames?.IPTUPayment)(value)
       }
       value={values ? values[componentNames?.IPTUPayment] : null}
+      isRequired={requiredFields.includes(4) ?? false}
     >
       <Radio value="Integral">Integral</Radio>
       <Radio value="Parcelado">Parcelado</Radio>
@@ -129,6 +138,7 @@ const ContractInputs = ({
       name={componentNames?.index}
       onChange={handleChange}
       value={values ? values[componentNames?.index] : null}
+      isRequired={requiredFields.includes(5) ?? false}
     />, // 5
     <CustomSelect
       title="Reajuste"
@@ -136,6 +146,7 @@ const ContractInputs = ({
       name={componentNames?.reajust}
       onChange={handleChange}
       value={values ? values[componentNames?.reajust] : null}
+      isRequired={requiredFields.includes(6) ?? false}
     />, // 6
     <Input
       title="Valor Integral"
@@ -148,6 +159,7 @@ const ContractInputs = ({
       }}
       value={values ? values[componentNames?.integralValue] : null}
       type="number"
+      isRequired={requiredFields.includes(7) ?? false}
     />, // 7
     <Input
       title="Valor Locação"
@@ -157,35 +169,48 @@ const ContractInputs = ({
         values ? Math.round(values[componentNames?.integralValue] * 0.9) : null
       }
       type="number"
+      isRequired={requiredFields.includes(8) ?? false}
     />, // 8
+    <Input
+      title="Data de início"
+      type="date"
+      name={componentNames.start}
+      value={values ? values[componentNames?.start] : null}
+      onChange={handleChange}
+      isRequired={requiredFields.includes(9) ?? false}
+    />, // 9
     <Input
       title="Duração do contrato"
       name={componentNames.duration}
       onChange={handleChange}
       value={values ? values[componentNames?.duration] : null}
       type="number"
-    />, // 9
+      isRequired={requiredFields.includes(10) ?? false}
+    />, // 10
     <Input
       title="Dia de pagamento"
       name={componentNames.payday}
       onChange={handleChange}
       value={values ? values[componentNames?.payday] : null}
       type="number"
-    />, // 10
+      isRequired={requiredFields.includes(11) ?? false}
+    />, // 11
     <Input
       title="Meses de carência"
       name={componentNames.gracePeriod}
       onChange={handleChange}
       value={values ? values[componentNames?.gracePeriod] : null}
       type="number"
-    />, // 11
+      isRequired={requiredFields.includes(12) ?? false}
+    />, // 12
     <Input
       title="Parcelas pagas"
       name={componentNames.installmentsPaid}
       onChange={handleChange}
       value={values ? values[componentNames?.installmentsPaid] : null}
       type="number"
-    />, // 12
+      isRequired={requiredFields.includes(13) ?? false}
+    />, // 13
   ];
 
   return (

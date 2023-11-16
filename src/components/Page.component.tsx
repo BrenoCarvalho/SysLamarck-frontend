@@ -1,4 +1,4 @@
-import { Button, Divider, Flex, IconButton, Text } from "@chakra-ui/react";
+import { Divider, Flex, IconButton, Text } from "@chakra-ui/react";
 import SideNavBar from "./SideNavBar.component";
 import { useState } from "react";
 import { HiMenu } from "react-icons/hi";
