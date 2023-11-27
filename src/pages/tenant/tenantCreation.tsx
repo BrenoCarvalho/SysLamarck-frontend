@@ -280,6 +280,7 @@ const TenantCreation = () => {
   const [residents, setResidents] = useState<any[]>([]);
 
   const bailTypesName = [
+    "Sem fiança",
     "Fiador",
     "Calção",
     "Termo de garantia",
@@ -424,8 +425,6 @@ const TenantCreation = () => {
                   handleChange={handleChange}
                   values={values}
                 />
-
-                <Residents residents={residents} setResidents={setResidents} />
               </Flex>
 
               {/* Right Side */}
@@ -437,6 +436,8 @@ const TenantCreation = () => {
                 direction="column"
                 gap="7"
               >
+                <Residents residents={residents} setResidents={setResidents} />
+
                 <FormControl>
                   <Text>Fiança</Text>
                   <Divider mb="6" mt="4" />
@@ -451,15 +452,16 @@ const TenantCreation = () => {
                     value={bailType}
                   >
                     <Stack direction="row" gap="6">
-                      <Radio value="1">Fiador</Radio>
-                      <Radio value="2">Calção</Radio>
-                      <Radio value="3">Termo de garantia</Radio>
-                      <Radio value="4">Título de capitalização</Radio>
+                      <Radio value="1">Sem fiança</Radio>
+                      <Radio value="2">Fiador</Radio>
+                      <Radio value="3">Calção</Radio>
+                      <Radio value="4">Termo de garantia</Radio>
+                      <Radio value="5">Título de capitalização</Radio>
                     </Stack>
                   </RadioGroup>
                 </FormControl>
 
-                {bailType === "1" ? (
+                {bailType === "2" ? (
                   <>
                     <GuarantorInputs
                       componentNames={componentNames.bail.guarantor}
@@ -487,7 +489,7 @@ const TenantCreation = () => {
                   </>
                 ) : null}
 
-                {bailType === "2" ? (
+                {bailType === "3" ? (
                   <>
                     <Flex w="100%">
                       <FormControl w="100%">
@@ -510,7 +512,7 @@ const TenantCreation = () => {
                   </>
                 ) : null}
 
-                {bailType === "3" ? (
+                {bailType === "4" ? (
                   <>
                     <Flex w="100%">
                       <FormControl w="100%">
@@ -531,7 +533,7 @@ const TenantCreation = () => {
                   </>
                 ) : null}
 
-                {bailType === "4" ? (
+                {bailType === "5" ? (
                   <>
                     <Flex w="100%">
                       <FormControl w="100%">

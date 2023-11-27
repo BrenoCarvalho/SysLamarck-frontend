@@ -281,7 +281,13 @@ const TenantEdit = () => {
   const [residents, setResidents] = useState<any[]>([]);
 
   const bailTypesName = useMemo(
-    () => ["Fiador", "Calção", "Termo de garantia", "Título de capitalização"],
+    () => [
+      "Sem fiança",
+      "Fiador",
+      "Calção",
+      "Termo de garantia",
+      "Título de capitalização",
+    ],
     []
   );
 
@@ -447,15 +453,16 @@ const TenantEdit = () => {
                     value={bailType}
                   >
                     <Stack direction="row" gap="6">
-                      <Radio value="1">Fiador</Radio>
-                      <Radio value="2">Calção</Radio>
-                      <Radio value="3">Termo de garantia</Radio>
-                      <Radio value="4">Título de Capitalização</Radio>
+                      <Radio value="1">Sem fiança</Radio>
+                      <Radio value="2">Fiador</Radio>
+                      <Radio value="3">Calção</Radio>
+                      <Radio value="4">Termo de garantia</Radio>
+                      <Radio value="5">Título de Capitalização</Radio>
                     </Stack>
                   </RadioGroup>
                 </FormControl>
 
-                {bailType === "1" ? (
+                {bailType === "2" ? (
                   <>
                     <GuarantorInputs
                       componentNames={componentNames.bail.guarantor}
@@ -483,7 +490,7 @@ const TenantEdit = () => {
                   </>
                 ) : null}
 
-                {bailType === "2" ? (
+                {bailType === "3" ? (
                   <>
                     <Flex w="100%">
                       <FormControl w="100%">
@@ -506,7 +513,7 @@ const TenantEdit = () => {
                   </>
                 ) : null}
 
-                {bailType === "3" ? (
+                {bailType === "4" ? (
                   <>
                     <Flex w="100%">
                       <FormControl w="100%">
@@ -527,7 +534,7 @@ const TenantEdit = () => {
                   </>
                 ) : null}
 
-                {bailType === "4" ? (
+                {bailType === "5" ? (
                   <>
                     <Flex w="100%">
                       <FormControl w="100%">
