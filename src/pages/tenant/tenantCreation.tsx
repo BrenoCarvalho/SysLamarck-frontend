@@ -71,6 +71,7 @@ const componentNames = {
     payday: "payday",
     gracePeriod: "gracePeriod",
     installmentsPaid: "installmentsPaid",
+    additionalInstallment: "additionalInstallment",
   },
   bail: {
     type: "type",
@@ -204,6 +205,7 @@ const TenantCreation = () => {
     payday: null,
     gracePeriod: null,
     installmentsPaid: null,
+    additionalInstallment: null,
     type: "Fiador",
     escrowValue: null,
     warrantyTerm: null,
@@ -574,7 +576,6 @@ const TenantCreation = () => {
         onClose={() => {
           sucessDialogOnClose();
           showRegistrationForm();
-          navigate("/consulta/locatario");
         }}
         isOpen={sucessDialogIsOpen}
         title="Sucesso!"
@@ -595,6 +596,7 @@ const TenantCreation = () => {
         onClose={() => {
           setBlobPdfLink("");
           showRegistrationFormOnClose();
+          navigate("/consulta/locatario");
         }}
         isLoading={!(blobPdfLink?.length > 0)}
         content={blobPdfLink}

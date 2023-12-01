@@ -85,7 +85,7 @@ interface ContractInputsProps {
 }
 
 const ContractInputs = ({
-  fieldList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
+  fieldList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
   requiredFields = [],
   showHeader = true,
   headerTitle = "Contrato",
@@ -211,6 +211,15 @@ const ContractInputs = ({
       type="number"
       isRequired={requiredFields.includes(13) ?? false}
     />, // 13
+    <></>,
+    <SwitchButton
+      title="Parcela adicional"
+      name={componentNames?.additionalInstallment}
+      onChange={handleChange}
+      value={values ? values[componentNames?.additionalInstallment] : null}
+      isChecked={values ? values[componentNames?.additionalInstallment] : null}
+      isRequired={requiredFields.includes(14) ?? false}
+    />, // 15
   ];
 
   return (
