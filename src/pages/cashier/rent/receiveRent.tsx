@@ -27,6 +27,7 @@ const componentNames = {
   condominium: "condominium",
   specialDiscount: "specialDiscount",
   rent: "rent",
+  rentWithoutDiscount: "rentWithoutDiscount",
   breachOfContractFine: "breachOfContractFine",
   sundry: "sundry",
   sundryDescription: "sundryDescription",
@@ -59,6 +60,7 @@ const ReceiveRent = () => {
     condominium: null,
     specialDiscount: null,
     rent: null,
+    rentWithoutDiscount: null,
     breachOfContractFine: null,
     sundry: null,
     sundryDescription: null,
@@ -87,7 +89,7 @@ const ReceiveRent = () => {
     setInstallments(installments ?? null);
     setInitialValues({
       ...initialValues,
-      rent: contract?.leaseAmount,
+      rentWithoutDiscount: contract?.leaseAmount,
       iptu: contract?.iptu,
     });
   };
@@ -313,13 +315,6 @@ const ReceiveRent = () => {
                       handleChange={handleChange}
                       values={values}
                       disableComponents={!tenant}
-                      onChangeSpecialDiscount={(value: number) => {
-                        if (contract?.leaseAmount) {
-                          handleChange("rent")(
-                            `${contract?.leaseAmount - value}`
-                          );
-                        }
-                      }}
                     />
                   </Flex>
                   <Flex w="100%" direction="column" gap="8px">

@@ -6,6 +6,8 @@ import {
   Text,
   Divider,
   Textarea,
+  InputGroup,
+  InputRightAddon,
 } from "@chakra-ui/react";
 import { useEffect } from "react";
 import InputMask from "react-input-mask";
@@ -15,6 +17,7 @@ import CurrencyInput from "react-currency-input-field";
 const Input = ({
   currencyInput = false,
   handleChange,
+  inputRightAddon,
   title,
   name,
   placeholder = title,
@@ -37,28 +40,26 @@ const Input = ({
       >
         {title}
       </FormLabel>
-      <ChakraInput
-        as={currencyInput ? CurrencyInput : InputMask}
-        size="sm"
-        minW="100px"
-        w="40%"
-        placeholder={currencyInput ? "R$ 0,00" : placeholder}
-        onChange={currencyInput ? null : handleChange}
-        name={name}
-        intlConfig={{ locale: "pt-BR", currency: "BRL" }}
-        decimalSeparator=","
-        groupSeparator="."
-        value={values[name]?.toString()?.replaceAll(".", ",") ?? ""}
-        onValueChange={
-          currencyInput
-            ? (value: string | undefined) =>
-                handleChange(name)(
-                  value?.replaceAll(".", "").replaceAll(",", ".") ?? ""
-                )
-            : null
-        }
-        {...props}
-      />
+      <InputGroup size="sm" minW="100px" w="40%">
+        <ChakraInput
+          as={currencyInput ? CurrencyInput : InputMask}
+          placeholder={currencyInput ? "R$ 0,00" : placeholder}
+          onChange={currencyInput ? null : handleChange}
+          name={name}
+          intlConfig={{ locale: "pt-BR", currency: "BRL" }}
+          decimalSeparator=","
+          groupSeparator="."
+          value={values[name]?.toString()?.replaceAll(".", ",") ?? ""}
+          onValueChange={(value: string) => {
+            if (currencyInput)
+              handleChange(name)(
+                value?.replaceAll(".", "").replaceAll(",", ".") ?? ""
+              );
+          }}
+          {...props}
+        />
+        {inputRightAddon ? inputRightAddon : null}
+      </InputGroup>
     </FormControl>
   );
 };
@@ -72,7 +73,6 @@ const RentInputs = ({
   title,
   onUpdateTotalValue,
   disableComponents = false,
-  onChangeSpecialDiscount,
 }: {
   componentNames?: any;
   handleChange?: any;
@@ -82,7 +82,6 @@ const RentInputs = ({
   fieldList: number[];
   disableComponents?: boolean;
   onUpdateTotalValue?: (value: number) => void;
-  onChangeSpecialDiscount?: (value: any) => void;
 }) => {
   useEffect(() => {
     const valuesToSum = [
@@ -110,10 +109,6 @@ const RentInputs = ({
 
     handleChange(componentNames?.total)(total.toString());
 
-    if (onChangeSpecialDiscount) {
-      onChangeSpecialDiscount(Number(values?.specialDiscount));
-    }
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     componentNames?.total,
@@ -130,6 +125,13 @@ const RentInputs = ({
     values?.leaseFee,
     values?.administrationFee,
   ]);
+
+  useEffect(() => {
+    handleChange("rent")(
+      `${+values.rentWithoutDiscount - +values?.specialDiscount}`
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [values.rentWithoutDiscount, values?.specialDiscount]);
 
   const fields = [
     <Input
@@ -188,9 +190,17 @@ const RentInputs = ({
     />, // 6
     <Input
       title="Aluguel"
-      name={componentNames?.rent}
+      name={componentNames?.rentWithoutDiscount}
       handleChange={handleChange}
       currencyInput
+      inputRightAddon={
+        +values?.rent && (
+          <InputRightAddon
+            children={currencyFormatter({ value: values?.rent })}
+            backgroundColor="#f0fff3"
+          />
+        )
+      }
       inverted={inverted}
       values={values}
       disabled={disableComponents}
