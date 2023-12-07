@@ -71,7 +71,6 @@ const InstallmentVisualizationModal = ({
                 ],
                 ...Object.entries(receiveRentTransaction?.data ?? {})?.map(
                   (data: any) => {
-                    console.log(data);
                     return [
                       names[data[0]],
                       Number(data[1])

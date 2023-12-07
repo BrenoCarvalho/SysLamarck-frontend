@@ -109,6 +109,7 @@ const ReceiveRent = () => {
     const total = values[componentNames?.total];
     const formOfPayment = values[componentNames?.formOfPayment];
 
+    delete values[componentNames?.rentWithoutDiscount];
     delete values[componentNames?.total];
     delete values[componentNames?.formOfPayment];
 

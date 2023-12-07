@@ -100,6 +100,11 @@ const TransferRent = () => {
     const receiveTransaction =
       installment.transaction?.length > 0 ? installment.transaction[0] : null;
 
+    setInitialValues({
+      ...initialValues,
+      rent: receiveTransaction.data?.rent,
+    });
+
     const administrationFee =
       ((Number(receiveTransaction?.data?.rent ?? 0) +
         Number(receiveTransaction?.data?.iptu ?? 0) +
@@ -146,7 +151,6 @@ const TransferRent = () => {
     setTenant(tenant ?? null);
     setInitialValues({
       ...defaultInitialValues,
-      rent: tenant?.contract?.leaseAmount,
     });
     setInstallments(installments ?? null);
   };
