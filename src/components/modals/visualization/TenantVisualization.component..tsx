@@ -70,37 +70,37 @@ const TenantVisualizationModal = ({
           ["Contato 1", phoneFormatter({ value: tenant?.contact1 })],
           ["Contato 2", phoneFormatter({ value: tenant?.contact2 })],
           tenant?.fullNameT2
-            ? ["Nome do locador (Locador 2)", tenant?.fullNameT2]
+            ? ["Nome do locatário (Locatário 2)", tenant?.fullNameT2]
             : null,
           tenant?.fullNameT2
             ? [
-                "Data de nascimento (Locador 2)",
+                "Data de nascimento (Locatário 2)",
                 dateFormatter({ value: tenant?.birthDateT2 }),
               ]
             : null,
-          tenant?.fullNameT2 ? ["RG (Locador 2)", tenant?.rgT2] : null,
+          tenant?.fullNameT2 ? ["RG (Locatário 2)", tenant?.rgT2] : null,
           tenant?.fullNameT2
-            ? ["CPF (Locador 2)", cpfFormatter({ value: tenant?.cpfT2 })]
+            ? ["CPF (Locatário 2)", cpfFormatter({ value: tenant?.cpfT2 })]
             : null,
           tenant?.fullNameT2
-            ? ["Nacionalidade (Locador 2)", tenant?.nationalityT2]
+            ? ["Nacionalidade (Locatário 2)", tenant?.nationalityT2]
             : null,
           tenant?.fullNameT2
-            ? ["Estado civil (Locador 2)", tenant?.maritalStatusT2]
+            ? ["Estado civil (Locatário 2)", tenant?.maritalStatusT2]
             : null,
           tenant?.fullNameT2
-            ? ["Profissão (Locador 2)", tenant?.professionT2]
+            ? ["Profissão (Locatário 2)", tenant?.professionT2]
             : null,
-          tenant?.fullNameT2 ? ["E-mail (Locador 2)", tenant?.emailT2] : null,
+          tenant?.fullNameT2 ? ["E-mail (Locatário 2)", tenant?.emailT2] : null,
           tenant?.fullNameT2
             ? [
-                "Contato 1 (Locador 2)",
+                "Contato 1 (Locatário 2)",
                 phoneFormatter({ value: tenant?.contact1T2 }),
               ]
             : null,
           tenant?.fullNameT2
             ? [
-                "Contato 2 (Locador 2)",
+                "Contato 2 (Locatário 2)",
                 phoneFormatter({ value: tenant?.contact2T2 }),
               ]
             : null,
