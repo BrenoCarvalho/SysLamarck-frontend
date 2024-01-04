@@ -88,7 +88,7 @@ const EditRentPaymentDetails = ({
         <ModalBody>
           <Formik
             initialValues={
-              installment?.transaction[mode === "credit" ? 0 : 1].data ??
+              installment?.transaction[mode === "credit" ? 0 : 1]?.data ??
               initialValues
             }
             enableReinitialize={true}
