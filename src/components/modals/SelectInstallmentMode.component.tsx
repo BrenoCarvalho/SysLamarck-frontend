@@ -15,17 +15,19 @@ import { useState } from "react";
 interface SelectRentReceiptModeParams {
   onClose: () => void;
   isOpen: boolean;
-  onConfirm: (mode: "tenant" | "locator") => void;
+  onConfirm: (mode: string) => void;
   showAllOptions: boolean;
+  isEdit: boolean;
 }
 
-const SelectRentReceiptMode = ({
+const SelectInstallmentMode = ({
   onClose,
   isOpen,
   onConfirm,
   showAllOptions,
+  isEdit,
 }: SelectRentReceiptModeParams) => {
-  const [mode, setMode] = useState<"tenant" | "locator">("tenant");
+  const [mode, setMode] = useState();
 
   return (
     <Modal
@@ -37,13 +39,24 @@ const SelectRentReceiptMode = ({
     >
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>Selecione o modo do recibo</ModalHeader>
+        <ModalHeader>
+          {isEdit ? "Editar" : "Selecione o modo do recibo"}
+        </ModalHeader>
         <ModalCloseButton />
         <ModalBody>
           <FormControl w="100%">
             <Select onChange={(v: any) => setMode(v.target.value)} value={mode}>
-              <option value="tenant">Locatário</option>
-              {showAllOptions && <option value="locator">Locador</option>}
+              {isEdit ? (
+                <>
+                  <option value="credit">Recebimento</option>
+                  {showAllOptions && <option value="debit">Repasse</option>}
+                </>
+              ) : (
+                <>
+                  <option value="tenant">Locatário</option>
+                  {showAllOptions && <option value="locator">Locador</option>}
+                </>
+              )}
             </Select>
           </FormControl>
         </ModalBody>
@@ -62,10 +75,10 @@ const SelectRentReceiptMode = ({
             _hover={{ bg: "gray.900" }}
             color="#fff"
             onClick={() => {
-              onConfirm(mode);
+              onConfirm(mode ? mode : isEdit ? "credit" : "tenant");
             }}
           >
-            Imprimir
+            {isEdit ? "Confirmar" : "Imprimir"}
           </Button>
         </ModalFooter>
       </ModalContent>
@@ -73,4 +86,4 @@ const SelectRentReceiptMode = ({
   );
 };
 
-export default SelectRentReceiptMode;
+export default SelectInstallmentMode;

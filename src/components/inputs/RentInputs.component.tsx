@@ -78,7 +78,7 @@ const RentInputs = ({
   handleChange?: any;
   values?: any;
   inverted?: boolean;
-  title: string;
+  title?: string;
   fieldList: number[];
   disableComponents?: boolean;
   onUpdateTotalValue?: (value: number) => void;
@@ -128,10 +128,10 @@ const RentInputs = ({
 
   useEffect(() => {
     handleChange("rent")(
-      `${+values.rentWithoutDiscount - +values?.specialDiscount}`
+      `${+values?.rentWithoutDiscount - +values?.specialDiscount}`
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [values.rentWithoutDiscount, values?.specialDiscount]);
+  }, [values?.rentWithoutDiscount, values?.specialDiscount]);
 
   const fields = [
     <Input
@@ -251,9 +251,16 @@ const RentInputs = ({
       gap="8px"
     >
       <Flex flexDirection="column">
-        <Text w="100%" fontWeight="semibold" align="center" marginBottom="12px">
-          {title}
-        </Text>
+        {title && (
+          <Text
+            w="100%"
+            fontWeight="semibold"
+            align="center"
+            marginBottom="12px"
+          >
+            {title}
+          </Text>
+        )}
         <Divider marginBottom="20px" width="100%" />
         <Flex width="auto" flexDirection="column" gap="8px">
           {fieldList.map((value: number, index: number) => fields[value - 1])}

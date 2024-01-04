@@ -7,8 +7,9 @@ import RentInstallmentsTable from "../components/tables/RentInstallmentsTable.co
 import TenantService from "../services/tenantService";
 import TenantSelect from "../components/TenantSelect.component";
 import InstallmentVisualizationModal from "../components/modals/visualization/InstallmentVisualizationModal.component";
-import SelectRentReceiptMode from "../components/modals/SelectRentReceiptMode.component";
 import PdfViewer from "../components/modals/ReceiptViewer.component";
+import SelectInstallmentMode from "../components/modals/SelectInstallmentMode.component";
+import EditRentPaymentDetails from "../components/modals/EditRentPaymentDetails.component";
 
 const RentInstallments = () => {
   const {
@@ -23,12 +24,26 @@ const RentInstallments = () => {
     onClose: selectRentReceiptModeModalOnClose,
   } = useDisclosure();
 
+  const {
+    isOpen: editPaymentDetailsModalIsOpen,
+    onOpen: editPaymentDetailsModalOnOpen,
+    onClose: editPaymentDetailsModalOnClose,
+  } = useDisclosure();
+
   const [tenant, setTenant] = useState<any>();
   const [contract, setContract] = useState<any>();
   const [installments, setInstallments] = useState<[]>([]);
   const [selected, setSelected] = useState<any>();
   const [showPdfViewer, setShowPdfViewer] = useState(false);
   const [blobPdfLink, setBlobPdfLink] = useState("");
+  const [editTrigger, setEditTrigger] = useState(false);
+  const [editPaymentDetailsMode, setEditPaymentDetailsMode] = useState<
+    "credit" | "debit"
+  >("credit");
+  const [
+    installmentSelectedWithTransactions,
+    setInstallmentSelectedWithTransactions,
+  ] = useState<any>();
 
   const showReceipt = (mode: "tenant" | "locator") => {
     setShowPdfViewer(true);
@@ -40,6 +55,18 @@ const RentInstallments = () => {
     }).then((value) => {
       const blob = new Blob([value.data], { type: "application/pdf" });
       setBlobPdfLink(window.URL.createObjectURL(blob));
+    });
+  };
+
+  const editPaymentDetails = (mode: "credit" | "debit") => {
+    setEditPaymentDetailsMode(mode);
+
+    TenantService.Contract.Installment.get({
+      tenantId: +tenant?.id,
+      installmentId: +selected.id,
+    }).then((value) => {
+      setInstallmentSelectedWithTransactions(value);
+      editPaymentDetailsModalOnOpen();
     });
   };
 
@@ -119,7 +146,10 @@ const RentInstallments = () => {
               bg="gray.800"
               color="#fff"
               disabled={!(selected?.status === "Pg")}
-              onClick={selectRentReceiptModeModalOnOpen}
+              onClick={() => {
+                setEditTrigger(false);
+                selectRentReceiptModeModalOnOpen();
+              }}
             >
               2º via Recibo
             </Button>
@@ -127,6 +157,19 @@ const RentInstallments = () => {
               w={150}
               bg="gray.800"
               color="#fff"
+              disabled={!(selected?.status === "Pg")}
+              onClick={() => {
+                setEditTrigger(true);
+                selectRentReceiptModeModalOnOpen();
+              }}
+            >
+              Editar
+            </Button>
+            <Button
+              w={150}
+              bg="gray.800"
+              color="#fff"
+              disabled={!selected}
               onClick={
                 selected
                   ? () => visualizationModalDialogOnOpen()
@@ -151,14 +194,24 @@ const RentInstallments = () => {
         content={blobPdfLink}
       />
 
-      <SelectRentReceiptMode
+      <SelectInstallmentMode
         onClose={selectRentReceiptModeModalOnClose}
         isOpen={selectRentReceiptModeModalIsOpen}
-        onConfirm={(mode: "tenant" | "locator") => {
+        onConfirm={(mode) => {
+          if (editTrigger) editPaymentDetails(mode as "credit" | "debit");
+          else showReceipt(mode as "tenant" | "locator");
+
           selectRentReceiptModeModalOnClose();
-          showReceipt(mode);
         }}
         showAllOptions={selected?.transaction.length > 1}
+        isEdit={editTrigger}
+      />
+
+      <EditRentPaymentDetails
+        isOpen={editPaymentDetailsModalIsOpen}
+        onClose={editPaymentDetailsModalOnClose}
+        mode={editPaymentDetailsMode}
+        installment={installmentSelectedWithTransactions}
       />
 
       <InstallmentVisualizationModal
