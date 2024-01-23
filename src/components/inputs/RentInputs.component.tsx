@@ -130,6 +130,7 @@ const RentInputs = ({
     handleChange("rent")(
       `${+values?.rentWithoutDiscount - +values?.specialDiscount}`
     );
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [values?.rentWithoutDiscount, values?.specialDiscount]);
 

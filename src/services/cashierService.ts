@@ -58,6 +58,16 @@ const CashierService = {
           return Promise.reject(error);
         });
     },
+    update: async (id: number, data: any) => {
+      return api
+        .put(`/cashier/transaction/${id}`, data)
+        .then((response) => {
+          return Promise.resolve(response);
+        })
+        .catch((error) => {
+          return Promise.reject(error);
+        });
+    },
     getAll: async ({
       category,
       cashierId,

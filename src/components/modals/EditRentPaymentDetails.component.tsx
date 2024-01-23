@@ -10,7 +10,7 @@ import {
 } from "@chakra-ui/react";
 import RentInputs from "../inputs/RentInputs.component";
 import { Form, Formik } from "formik";
-import { useState } from "react";
+import CashierService from "../../services/cashierService";
 
 interface EditRentPaymentDetailsParams {
   isOpen: boolean;
@@ -57,7 +57,7 @@ const EditRentPaymentDetails = ({
           formOfPayment: "formOfPayment",
         };
 
-  const [initialValues, setInitialValues] = useState({
+  const initialValues = {
     water: null,
     eletricity: null,
     iptu: null,
@@ -71,7 +71,7 @@ const EditRentPaymentDetails = ({
     sundryDescription: null,
     total: null,
     formOfPayment: null,
-  });
+  };
 
   return (
     <Modal
@@ -83,21 +83,34 @@ const EditRentPaymentDetails = ({
     >
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>Editar detalhes de pagamento</ModalHeader>
-        <ModalCloseButton />
-        <ModalBody>
-          <Formik
-            initialValues={
-              installment?.transaction[mode === "credit" ? 0 : 1]?.data ??
-              initialValues
-            }
-            enableReinitialize={true}
-            onSubmit={(values, { resetForm }) => {
-              resetForm();
-            }}
-          >
-            {({ handleChange, values }) => (
-              <Form>
+        <Formik
+          initialValues={
+            installment?.transaction[mode === "credit" ? 0 : 1]?.data ??
+            initialValues
+          }
+          enableReinitialize={true}
+          onSubmit={(values) => {
+            const total = values[componentNames?.total];
+
+            delete values[componentNames?.rentWithoutDiscount ?? ""];
+            delete values[componentNames?.total];
+            delete values[componentNames?.formOfPayment];
+
+            CashierService.Transaction.update(
+              installment?.transaction[mode === "credit" ? 0 : 1]?.id,
+              { data: JSON.stringify(values), amount: total }
+            )
+              .then((result) => {
+                onClose();
+              })
+              .catch((error) => console.log(error));
+          }}
+        >
+          {({ handleChange, values }) => (
+            <Form>
+              <ModalHeader>Editar detalhes de pagamento</ModalHeader>
+              <ModalCloseButton />
+              <ModalBody>
                 <RentInputs
                   componentNames={componentNames}
                   handleChange={handleChange}
@@ -108,29 +121,29 @@ const EditRentPaymentDetails = ({
                       : [1, 2, 3, 4, 5, 10, 11, 9]
                   }
                 />
-              </Form>
-            )}
-          </Formik>
-        </ModalBody>
-        <ModalFooter>
-          <Button
-            mr={3}
-            onClick={onClose}
-            variant="unstyled"
-            w="80px"
-            _hover={{ color: "gray.900" }}
-          >
-            Fechar
-          </Button>
-          <Button
-            bg="gray.800"
-            _hover={{ bg: "gray.900" }}
-            color="#fff"
-            onClick={() => null}
-          >
-            Salvar
-          </Button>
-        </ModalFooter>
+              </ModalBody>
+              <ModalFooter>
+                <Button
+                  mr={3}
+                  onClick={onClose}
+                  variant="unstyled"
+                  w="80px"
+                  _hover={{ color: "gray.900" }}
+                >
+                  Fechar
+                </Button>
+                <Button
+                  bg="gray.800"
+                  _hover={{ bg: "gray.900" }}
+                  color="#fff"
+                  type="submit"
+                >
+                  Salvar
+                </Button>
+              </ModalFooter>
+            </Form>
+          )}
+        </Formik>
       </ModalContent>
     </Modal>
   );
