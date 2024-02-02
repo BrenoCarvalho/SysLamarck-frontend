@@ -87,6 +87,18 @@ const TenantService = {
           return Promise.reject(error);
         });
     },
+    renewal: async (tenantId: number) => {
+      return api
+        .post(`/tenant/${tenantId}/contract/renewal`, {
+          tenantId,
+        })
+        .then((response) => {
+          return Promise.resolve(response);
+        })
+        .catch((error) => {
+          return Promise.reject(error);
+        });
+    },
     Installment: {
       get: async ({
         tenantId,

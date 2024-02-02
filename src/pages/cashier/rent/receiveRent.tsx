@@ -44,6 +44,12 @@ const ReceiveRent = () => {
     onClose: dialogOnClose,
   } = useDisclosure();
 
+  const {
+    isOpen: contractEndIsOpen,
+    onOpen: contractEndOnOpen,
+    onClose: contractEndOnClose,
+  } = useDisclosure();
+
   const [dialogError, setDialogError] = useState<boolean>(false);
 
   const [tenant, setTenant] = useState<any>();
@@ -197,7 +203,9 @@ const ReceiveRent = () => {
           initialValues={initialValues}
           enableReinitialize={true}
           onSubmit={(values, { resetForm }) => {
-            payInstallment(values);
+            if (contract?.activated) payInstallment(values);
+            else contractEndOnOpen();
+
             resetForm();
           }}
         >
@@ -377,6 +385,15 @@ const ReceiveRent = () => {
           dialogError
             ? "Falha ao criar movimentação, verifique os campos e tente novamente."
             : "Aluguel pago com sucesso, clique em fechar para imprimir o recibo do locatário."
+        }
+      />
+
+      <Alert
+        onClose={contractEndOnClose}
+        isOpen={contractEndIsOpen}
+        title={"Contrato Finalizado"}
+        message={
+          "Todas as parcelas desse contrato foram pagas. Para gerar novas parcelas, renove o contrato."
         }
       />
     </Page>

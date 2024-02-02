@@ -38,6 +38,12 @@ const TenantSearch = () => {
     onClose: showRegistrationFormOnClose,
   } = useDisclosure();
 
+  const {
+    isOpen: successRenewalIsOpen,
+    onOpen: successRenewalOnOpen,
+    onClose: successRenewalOnClose,
+  } = useDisclosure();
+
   const [blobPdfLink, setBlobPdfLink] = useState("");
 
   const [selected, setSelected] = useState<any>();
@@ -60,6 +66,14 @@ const TenantSearch = () => {
       const blob = new Blob([value.data], { type: "application/pdf" });
       setBlobPdfLink(window.URL.createObjectURL(blob));
     });
+  };
+
+  const renewalContract = () => {
+    if (!selected) return;
+
+    TenantService.Contract.renewal(selected.id).then((result) =>
+      successRenewalOnOpen()
+    );
   };
 
   return (
@@ -93,6 +107,7 @@ const TenantSearch = () => {
               w={150}
               _hover={{ color: "red.700" }}
               variant="unstyled"
+              disabled={!selected}
               shadow="md"
               onClick={
                 selected
@@ -108,6 +123,7 @@ const TenantSearch = () => {
               mt={2}
               w={150}
               bg="gray.800"
+              disabled={!selected}
               color="#fff"
               _hover={{ backgroundColor: "gray.900" }}
               onClick={
@@ -124,9 +140,27 @@ const TenantSearch = () => {
           <Flex gap="10px">
             <Button
               mt={2}
+              disabled={selected?.contract?.activated || !selected}
               w={180}
               bg="gray.800"
               color="#fff"
+              _hover={{ backgroundColor: "gray.900" }}
+              onClick={
+                selected
+                  ? () => renewalContract()
+                  : () => {
+                      console.log("Selecione algum locatário");
+                    }
+              }
+            >
+              Renovar contrato
+            </Button>
+            <Button
+              mt={2}
+              w={180}
+              bg="gray.800"
+              color="#fff"
+              disabled={!selected}
               _hover={{ backgroundColor: "gray.900" }}
               onClick={
                 selected
@@ -143,6 +177,7 @@ const TenantSearch = () => {
               w={150}
               bg="gray.800"
               color="#fff"
+              disabled={!selected}
               _hover={{ backgroundColor: "gray.900" }}
               onClick={
                 selected
@@ -171,6 +206,13 @@ const TenantSearch = () => {
         isOpen={successDeletedDialogIsOpen}
         title="Sucesso!"
         message="Locatário deletado com sucesso."
+      />
+
+      <Alert
+        onClose={successRenewalOnClose}
+        isOpen={successRenewalIsOpen}
+        title="Sucesso!"
+        message="Contrato do locatário renovado com sucesso."
       />
 
       <PdfViewer
